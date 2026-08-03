@@ -329,18 +329,22 @@
   }
 
   .phone {
+    position: relative;
     border: 1px solid var(--line-2);
     border-radius: 1.75rem;
     padding: 0.5rem;
     background: #000;
   }
 
-  .phone img {
+  .phone img,
+  .phone video {
     display: block;
     width: 100%;
     height: auto;
     border-radius: 1.3rem;
   }
+
+  .phone .vid-toggle { bottom: 1rem; right: 1rem; }
 
   .device-cap {
     font-family: var(--mono);
@@ -893,8 +897,14 @@
       <div>
         <div class="devices">
           <div>
-            <div class="phone"><img src="assets/media/mv-resumen.jpg" alt="Resumen de ventas en el celular"></div>
-            <div class="device-cap">Resumen del mes</div>
+            <div class="phone">
+              <video id="vid-app" src="assets/media/app-recorrido.mp4" poster="assets/media/app-poster.jpg"
+                     loop muted playsinline preload="none"
+                     aria-label="Recorrido por la aplicación en el teléfono"></video>
+              <button type="button" class="vid-toggle" data-target="vid-app"
+                      aria-label="Pausar o reanudar el recorrido">Pausar</button>
+            </div>
+            <div class="device-cap">Recorrido por la app</div>
           </div>
           <div>
             <div class="phone"><img src="assets/media/mv-gastos.jpg" alt="Registro de gastos en el celular"></div>
