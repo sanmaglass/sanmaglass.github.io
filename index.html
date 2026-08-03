@@ -321,8 +321,16 @@
   .case:nth-of-type(2) .det-box.tall { justify-content: flex-start; }
   .case:nth-of-type(2) .det-box.tall img { max-height: 44rem; }
 
-  /* 03 — el escritorio sangra a la derecha y los telefonos se le montan */
-  .case:nth-of-type(3) .shots { grid-column: wide-start / full-end; gap: 0; }
+  /* 03 — la app se presenta centrada y con aire, como pagina de producto */
+  .case:nth-of-type(3) .shots {
+    grid-column: wide;
+    gap: 5rem;
+    align-items: center;
+    margin-top: 5.5rem;
+  }
+
+  .case:nth-of-type(3) .shots > figure { width: 100%; }
+  .case:nth-of-type(3) figcaption { text-align: center; max-width: 46ch; margin-left: auto; margin-right: auto; }
 
   .det-box { position: relative; border: 1px solid var(--line-2); background: #000; }
 
@@ -379,14 +387,11 @@
   /* --- galeria de dispositivos: la app es una PWA, se usa en el celular --- */
   .devices {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(12rem, 15rem));
-    justify-content: start;
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 16rem));
+    justify-content: center;
+    gap: 3.5rem;
     align-items: start;
-    margin-top: -4rem;
-    margin-left: -2rem;
-    position: relative;
-    z-index: 2;
+    margin: 0;
   }
 
   .phone {
@@ -876,14 +881,9 @@
         <h3>La solución</h3>
         <div class="body">
           <p>
-            Desarrollé un sistema multicámara para <b>3 estaciones de empaque</b>. El sistema cuenta
-            los paquetes que cruzan una línea configurable, los clasifica por formato con contadores
-            separados de 1 kg y 500 g, y registra los estancamientos de la cinta.
-          </p>
-          <p>
-            El despliegue en planta exigió tolerancia a condiciones variables. El modelo opera con
-            cambios de iluminación durante el turno, movimiento de las cámaras, velocidad de cinta
-            irregular y superficies mojadas.
+            Sistema multicámara para <b>3 estaciones</b>: cuenta los paquetes que cruzan la línea, los
+            clasifica por formato y registra los estancamientos de la cinta. Opera con iluminación
+            cambiante, cámaras que se mueven y superficies mojadas.
           </p>
         </div>
       </div>
@@ -892,8 +892,7 @@
         <h3>Resultado</h3>
         <div class="body">
           <p>
-            Las 3 estaciones operaron en producción durante toda la temporada, entregando conteo por
-            formato y registro de detenciones sin intervención manual.
+            Las 3 estaciones operaron en producción toda la temporada, sin intervención manual.
           </p>
         </div>
       </div>
@@ -971,13 +970,9 @@
         <h3>La solución</h3>
         <div class="body">
           <p>
-            Entrené un modelo de detección que localiza y numera cada larva de la muestra en una sola
-            pasada. El dataset se construyó con imágenes capturadas en la propia planta, no con bancos
-            públicos.
-          </p>
-          <p>
-            La dificultad está en la densidad: en una muestra hay cientos de individuos superpuestos,
-            translúcidos y de tamaño similar al ruido del fondo.
+            Modelo de detección que localiza y numera cada larva en una sola pasada, entrenado con un
+            dataset capturado en la propia planta. La dificultad es la densidad: cientos de individuos
+            superpuestos, translúcidos y del tamaño del ruido de fondo.
           </p>
         </div>
       </div>
@@ -1027,14 +1022,8 @@
       <div>
         <div class="devices">
           <div>
-            <div class="phone">
-              <video id="vid-app" src="assets/media/app-recorrido.mp4" poster="assets/media/app-poster.jpg"
-                     loop muted playsinline preload="none"
-                     aria-label="Recorrido por la aplicación en el teléfono"></video>
-              <button type="button" class="vid-toggle" data-target="vid-app"
-                      aria-label="Pausar o reanudar el recorrido">Pausar</button>
-            </div>
-            <div class="device-cap">Recorrido por la app</div>
+            <div class="phone"><img src="assets/media/mv-resumen.jpg" alt="Resumen del mes en el celular"></div>
+            <div class="device-cap">Resumen del mes</div>
           </div>
           <div>
             <div class="phone"><img src="assets/media/mv-gastos.jpg" alt="Registro de gastos en el celular"></div>
@@ -1104,19 +1093,14 @@
         <h3>La solución</h3>
         <div class="body">
           <p>
-            Mapeé el esquema del punto de venta y construí la sincronización hacia una base PostgreSQL
-            en la nube. Sincroniza ventas, líneas de detalle y formas de pago, incluidos los pagos
-            divididos entre efectivo y tarjeta que el sistema guarda en una tabla aparte.
+            Mapeé el esquema del punto de venta y construí la sincronización hacia PostgreSQL en la
+            nube: ventas, líneas de detalle y formas de pago.
           </p>
           <p>
-            Sobre esa base desarrollé un <b>ETL desatendido</b> que se autentica en el portal del SII,
-            extrae los documentos tributarios del período y calcula los indicadores mensuales de
-            impuestos. Corre en un servidor según el calendario de vencimientos.
-          </p>
-          <p>
-            El módulo de <b>control de calidad</b> cruza tres fuentes independientes: documentos
-            tributarios, pagos electrónicos y ventas del punto de venta. Cuando no calzan, emite una
-            alerta. Por diseño <b>no corrige ningún dato</b> del cliente.
+            Encima, un <b>ETL desatendido</b> que se autentica en el SII y calcula los indicadores
+            mensuales de impuestos. Y un <b>control de calidad</b> que cruza tres fuentes —documentos
+            tributarios, pagos electrónicos y ventas— y emite alertas cuando no calzan. Por diseño
+            <b>no corrige ningún dato</b> del cliente.
           </p>
         </div>
       </div>
@@ -1125,14 +1109,13 @@
         <h3>Resultado</h3>
         <div class="body">
           <p>
-            El cliente cuenta hoy con dashboard de ventas en tiempo real, informe ejecutivo mensual y
-            Excel de gastos categorizado por proveedor y rubro, generados sin intervención. La
-            reportería tributaria se convirtió en un producto aparte y opera para más de un cliente.
+            Dashboard en tiempo real, informe mensual y Excel de gastos categorizado, generados sin
+            intervención. La reportería tributaria se volvió un producto aparte y opera para más de un
+            cliente.
           </p>
           <p>
-            También opero el sistema. Diagnostiqué y corregí incidentes de integridad en producción:
-            pérdida de registros por una regla de limpieza mal acotada y desfase de relojes entre el
-            local y la nube. Los datos afectados se recuperaron.
+            También lo opero: diagnostiqué y corregí incidentes de integridad en producción y recuperé
+            los datos afectados.
           </p>
         </div>
       </div>
@@ -1213,14 +1196,10 @@
             historial sin pérdida de registros.
           </p>
           <p>
-            Diseñé el modelo de datos en <b>PostgreSQL</b>, con esquema multi-sede, control de acceso
-            por fila y migraciones versionadas. Sobre eso construí el panel de administración y su
-            reportería: asistencia, ocupación por sede y horario, ingresos y liquidación de
-            comisiones.
-          </p>
-          <p>
-            Las reglas de planes, reservas y comisiones se levantaron en reuniones con los dueños y
-            los profesores antes de modelarlas.
+            Diseñé el modelo de datos en <b>PostgreSQL</b> —multi-sede, con control de acceso por fila
+            y migraciones versionadas— y construí el panel de administración: asistencia, ocupación,
+            ingresos y liquidación de comisiones. Las reglas se levantaron con los dueños y los
+            profesores antes de modelarlas.
           </p>
         </div>
       </div>
@@ -1229,12 +1208,9 @@
         <h3>Resultado</h3>
         <div class="body">
           <p>
-            Sistema propio operando en <b>2 sedes</b>, con la liquidación de <b>14 profesionales</b>
-            sobre una agenda de 768 sesiones calculada automáticamente.
-          </p>
-          <p>
-            La migración desde la plataforma anterior continúa, sede por sede, sin interrumpir la
-            operación.
+            Sistema propio en <b>2 sedes</b>, con la liquidación de <b>14 profesionales</b> sobre 768
+            sesiones calculada automáticamente. La migración continúa sede por sede, sin interrumpir
+            la operación.
           </p>
         </div>
       </div>
