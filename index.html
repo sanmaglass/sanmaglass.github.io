@@ -1,0 +1,1149 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Portafolio de Luis San Martín — visión computacional y sistemas de datos en producción para clientes de acuicultura, distribución y salud. Gran Concepción, Chile.">
+<meta name="author" content="Luis San Martín">
+<meta name="theme-color" content="#000407">
+<link rel="canonical" href="https://sanmaglass.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Luis San Martín — Portafolio">
+<meta property="og:description" content="Visión computacional y sistemas de datos en producción. Conteo en línea de empaque, integración de punto de venta y reportería automatizada.">
+<meta property="og:url" content="https://sanmaglass.github.io/">
+<meta property="og:image" content="https://sanmaglass.github.io/assets/media/empaque-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<title>Luis San Martín — Portafolio</title>
+
+<style>
+  @font-face {
+    font-family: 'Anton';
+    src: url('assets/fonts/Anton-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Geist';
+    src: url('assets/fonts/geist.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Geist Mono';
+    src: url('assets/fonts/geist-mono.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  :root {
+    color-scheme: dark;
+
+    /* muestreados de it-jim: sin color de acento en la interfaz */
+    --bg:     #000407;
+    --panel:  #15171a;
+    --fg:     #fdfeff;
+    --fg-2:   #b0b3b8;
+    --fg-3:   #7a7f85;
+    --line:   rgba(253, 254, 255, 0.14);
+    --line-2: rgba(253, 254, 255, 0.28);
+
+    --display: 'Anton', 'Arial Narrow', 'Segoe UI', sans-serif;
+    --sans: 'Geist', 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    --mono: 'Geist Mono', Consolas, 'SF Mono', ui-monospace, 'Courier New', monospace;
+
+    /* escala real: solo dos tamaños de texto, no cuatro casi iguales */
+    --t-body: 1.0625rem;
+    --t-meta: 0.8125rem;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; }
+  :focus-visible { outline: 1px solid var(--fg); outline-offset: 4px; }
+
+  .wrap { max-width: 74rem; margin: 0 auto; padding: 0 2rem; }
+
+  /* ===================== NAV ===================== */
+
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    background: rgba(0, 4, 7, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav .mark {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .nav .links {
+    display: flex;
+    gap: 0.4rem 1.6rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--fg-2);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .nav .links a { text-decoration: none; }
+  .nav .links a:hover { color: var(--fg); }
+
+  .nav .links a.nav-cta {
+    border: 1px solid var(--line-2);
+    padding: 0.35rem 0.9rem;
+    margin: -0.35rem 0;
+    color: var(--fg);
+  }
+
+  .nav .links a.nav-cta:hover { background: rgba(253, 254, 255, 0.08); border-color: var(--fg); }
+
+  /* ===================== HERO ===================== */
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 7rem 0 0;
+  }
+
+  /* diagonales finas. NO el piso en perspectiva: ese fondo es el cliche
+     de landing de IA y es lo primero que delata la plantilla. */
+  .hero .grid-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      115deg,
+      rgba(253, 254, 255, 0.032) 0 1px,
+      transparent 1px 190px
+    );
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 88%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 88%);
+  }
+
+  .hero-inner { position: relative; z-index: 1; }
+
+  .hero .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--fg-3);
+    margin-bottom: 2rem;
+  }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(2.8rem, 9.5vw, 7.5rem);
+    line-height: 0.92;
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    max-width: 15ch;
+  }
+
+  .hero .lede {
+    font-family: var(--mono);
+    font-size: var(--t-body);
+    color: var(--fg-2);
+    margin-top: 1.8rem;
+    max-width: 52ch;
+    letter-spacing: -0.01em;
+  }
+
+  .btns { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.75rem; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid var(--line-2);
+    padding: 0.9rem 1.6rem;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.18s ease, border-color 0.18s ease;
+  }
+
+  .btn:hover { background: rgba(253, 254, 255, 0.07); border-color: var(--fg); }
+
+  /* cinta de credenciales, como su marquesina */
+  .ticker {
+    position: relative;
+    z-index: 1;
+    margin-top: 5rem;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    padding: 1.15rem 0;
+  }
+
+  .ticker .run {
+    display: flex;
+    gap: 3.5rem;
+    white-space: nowrap;
+    font-family: var(--mono);
+    font-size: clamp(0.95rem, 2vw, 1.35rem);
+    color: var(--fg-2);
+    letter-spacing: -0.01em;
+    width: max-content;
+    animation: slide 42s linear infinite;
+  }
+
+  .ticker .run span { display: inline-flex; align-items: center; gap: 3.5rem; }
+  .ticker .run span::after { content: "•"; color: var(--fg-3); }
+
+  @keyframes slide {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker .run { animation: none; }
+  }
+
+  /* ===================== CASOS ===================== */
+
+  /* el aire separa las secciones, no las lineas. y el ritmo varia. */
+  .case { padding: 10rem 0 0; }
+  .case:first-of-type { padding-top: 7rem; }
+
+  .case-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 1.4rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--fg-3);
+    margin-bottom: 1.4rem;
+  }
+
+  .case-head .num { color: var(--fg); }
+
+  .case h2 {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5.2vw, 3.9rem);
+    line-height: 0.98;
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    max-width: 21ch;
+    text-wrap: balance;
+  }
+
+  .context {
+    max-width: 58ch;
+    color: var(--fg-2);
+    font-size: var(--t-body);
+    margin-top: 1.6rem;
+  }
+
+  .context b { color: var(--fg); font-weight: 500; }
+
+  /* --- media: el color lo pone la imagen, no la interfaz --- */
+  .shots { display: flex; flex-direction: column; gap: 2rem; margin: 3rem 0; }
+
+  .det-box { position: relative; border: 1px solid var(--line-2); background: #000; }
+
+  .det-box > .det-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: var(--fg);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 0.3rem 0.7rem;
+    z-index: 2;
+  }
+
+  .det-box video, .det-box img { display: block; width: 100%; height: auto; }
+
+  /* control de pausa: contenido en movimiento debe poder detenerse (WCAG 2.2.2) */
+  .vid-toggle {
+    position: absolute;
+    bottom: 0.55rem;
+    right: 0.55rem;
+    z-index: 3;
+    background: rgba(0, 4, 7, 0.72);
+    color: var(--fg);
+    border: 1px solid var(--line-2);
+    padding: 0.35rem 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+  }
+
+  .vid-toggle:hover { border-color: var(--fg); }
+
+  .det-box.tall { display: flex; justify-content: center; }
+  .det-box.tall img { width: auto; max-width: 100%; max-height: 36rem; }
+
+  figure { margin: 0; }
+
+  figcaption {
+    font-family: var(--mono);
+    font-size: 0.73rem;
+    line-height: 1.6;
+    color: var(--fg-3);
+    margin-top: 0.9rem;
+    max-width: 76ch;
+  }
+
+  /* --- tabla antes / ahora: los numeros como evidencia, no como adorno --- */
+  .ba { width: 100%; margin: 3rem 0 3.5rem; overflow-x: auto; }
+
+  .ba table { width: 100%; border-collapse: collapse; min-width: 40rem; }
+
+  .ba th, .ba td {
+    text-align: left;
+    vertical-align: top;
+    padding: 1.1rem 1.5rem 1.1rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ba thead th {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--line-2);
+  }
+
+  .ba tbody th {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--fg-2);
+    width: 22%;
+  }
+
+  .ba td { font-size: var(--t-body); color: var(--fg-3); width: 39%; }
+
+  .ba td.now { color: var(--fg); }
+
+  .ba td.now b {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--fg);
+  }
+
+  /* --- narrativa --- */
+  .movements { display: flex; flex-direction: column; gap: 3rem; }
+
+  .movement {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .movement h3 {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    padding-top: 0.35rem;
+  }
+
+  .movement .body { max-width: 62ch; }
+  .movement p { color: var(--fg-2); font-size: var(--t-body); }
+  .movement p + p { margin-top: 1rem; }
+  .movement b { color: var(--fg); font-weight: 500; }
+
+  .tools {
+    font-family: var(--mono);
+    font-size: 0.73rem;
+    color: var(--fg-3);
+    margin-top: 3rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--line);
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 0.35rem;
+  }
+
+  /* ===================== EN CURSO ===================== */
+
+  .ongoing { padding: 13rem 0 0; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: var(--fg-3);
+    margin-bottom: 2.5rem;
+  }
+
+  .ongoing .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 3rem;
+  }
+
+  .ongoing .item { display: flex; flex-direction: column; gap: 0.7rem; }
+
+  .ongoing .when {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--fg-3);
+  }
+
+  .ongoing h3 {
+    font-family: var(--mono);
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    text-transform: uppercase;
+  }
+
+  .ongoing p { font-size: var(--t-body); color: var(--fg-2); }
+  .ongoing .item .tools { margin-top: 0.5rem; padding-top: 0.9rem; }
+
+  /* ===================== SOBRE MI ===================== */
+
+  .about {
+    padding: 13rem 0 0;
+    display: grid;
+    grid-template-columns: 20rem 1fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  .about .portrait { border: 1px solid var(--line-2); background: #000; }
+  .about .portrait img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.05); }
+
+  .about h2 {
+    font-family: var(--display);
+    font-size: clamp(2rem, 4.4vw, 3.2rem);
+    line-height: 0.98;
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .about p { color: var(--fg-2); font-size: var(--t-body); max-width: 60ch; }
+  .about p + p { margin-top: 1rem; }
+  .about b { color: var(--fg); font-weight: 500; }
+
+  /* ===================== CIERRE ===================== */
+
+  .end { padding: 14rem 0 9rem; }
+
+  .end h2 {
+    font-family: var(--display);
+    font-size: clamp(2.4rem, 7vw, 5.4rem);
+    line-height: 0.94;
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    max-width: 18ch;
+  }
+
+  .end p { color: var(--fg-2); max-width: 62ch; margin-top: 1.5rem; font-size: var(--t-body); }
+
+  .end .links {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 2.5rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .end .links a { text-decoration: none; color: var(--fg-2); }
+  .end .links a:hover { color: var(--fg); }
+
+  .end .avail {
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    color: var(--fg-3);
+    margin-top: 1.8rem;
+    max-width: none;
+  }
+
+  /* ===== APARICION POR SCROLL =====
+     Mismo patron que usan ellos: opacity + translateY, ~0.55s, disparado
+     por un observador cuando el bloque entra en pantalla. */
+  .rv {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+
+  .rv.in { opacity: 1; transform: none; }
+
+  /* ===== CURSOR PROPIO =====
+     Punto de 8px + anillo que lo sigue con retardo. Solo en equipos con
+     mouse: en tactil no existe puntero y estorbaria. */
+  .cur-dot, .cur-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .cur-dot {
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+    border-radius: 50%;
+    background: var(--fg);
+  }
+
+  .cur-ring {
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border-radius: 50%;
+    border: 1px solid rgba(253, 254, 255, 0.45);
+    transition: opacity 0.3s ease, width 0.22s ease, height 0.22s ease,
+                margin 0.22s ease, border-color 0.22s ease;
+  }
+
+  .cur-ring.big {
+    width: 56px;
+    height: 56px;
+    margin: -28px 0 0 -28px;
+    border-color: var(--fg);
+  }
+
+  @media (pointer: coarse), (prefers-reduced-motion: reduce) {
+    .cur-dot, .cur-ring { display: none; }
+    .rv { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* impreso: sin esto sale texto casi blanco sobre papel blanco,
+     porque el navegador desactiva los fondos pero no el color del texto */
+  @media print {
+    body { background: #fff; color: #000; }
+    .cur-dot, .cur-ring, .grid-bg, .ticker, .nav, .vid-toggle { display: none !important; }
+    .context, .movement p, .about p, .end p, .ba td { color: #222; }
+    .case-head, figcaption, .movement h3, .section-label, .ba thead th { color: #555; }
+    .ba td.now, .movement b, .context b { color: #000; }
+    .det-box { border-color: #999; }
+    .case, .ongoing, .about, .end { padding: 1.5rem 0; page-break-inside: avoid; }
+  }
+
+  @media (max-width: 56rem) {
+    .wrap { padding: 0 1.25rem; }
+    .nav { padding: 0.85rem 1.25rem; }
+    .hero { padding-top: 4rem; }
+    .case { padding: 4rem 0; }
+    .ongoing, .about, .end { padding-top: 4rem; }
+    .end { padding-bottom: 5rem; margin-top: 4rem; }
+    .movement { grid-template-columns: 1fr; gap: 0.9rem; }
+    .about { grid-template-columns: 1fr; gap: 2rem; }
+    .about .portrait { max-width: 15rem; }
+    .readout .fig { padding-right: 1rem; }
+    .ticker { margin-top: 3rem; }
+  }
+</style>
+
+</head>
+<body>
+<nav class="nav">
+  <div class="mark">LUIS SAN MARTÍN</div>
+  <div class="links">
+    <a href="#casos">CASOS</a>
+    <a href="#curso">EN CURSO</a>
+    <a href="#sobremi">SOBRE MÍ</a>
+    <a class="nav-cta" href="#contacto">CONTACTO</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="grid-bg"></div>
+  <div class="glow"></div>
+  <div class="wrap hero-inner">
+    <div class="eyebrow">PORTAFOLIO · 2026</div>
+    <h1>Visión computacional y datos en producción</h1>
+    <p class="lede">
+      Software en producción desde 2023 para clientes de acuicultura, distribución y salud.
+    </p>
+    <div class="btns">
+      <a class="btn" href="#casos">Ver los casos</a>
+      <a class="btn" href="#contacto">Contacto</a>
+    </div>
+  </div>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="run">
+      <span>Mayor productor de mejillones del mundo</span>
+      <span>13.000 kg diarios en línea</span>
+      <span>696 larvas en 2,93 s</span>
+      <span>11.900 ventas integradas</span>
+      <span>305 facturas del SII</span>
+      <span>2 sedes en operación</span>
+      <span>Mayor productor de mejillones del mundo</span>
+      <span>13.000 kg diarios en línea</span>
+      <span>696 larvas en 2,93 s</span>
+      <span>11.900 ventas integradas</span>
+      <span>305 facturas del SII</span>
+      <span>2 sedes en operación</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap" id="casos">
+
+  <!-- ============ 01 ============ -->
+  <article class="case">
+    <div class="case-head">
+      <span class="num">01</span>
+      <span>St. Andrews · Mussels Chiloé</span>
+      <span>Acuicultura · Chiloé</span>
+      <span>Jun 2024 — Jul 2025</span>
+    </div>
+
+    <h2>Conteo y clasificación automática en línea de empaque</h2>
+
+    <p class="context">
+      St. Andrews es el <b>mayor productor de mejillones del mundo</b>. Cultiva más de 1.500 hectáreas
+      en Chiloé y procesa sobre 70.000 toneladas al año en dos plantas.
+    </p>
+
+    <div class="shots">
+      <figure>
+        <div class="det-box">
+          <span class="det-label">Estación de empaque · en operación</span>
+          <video id="vid-empaque" src="assets/media/empaque.mp4" poster="assets/media/empaque-poster.jpg"
+                 loop muted playsinline preload="metadata"
+                 aria-label="Conteo y clasificación de paquetes sobre la cinta de empaque"></video>
+          <button type="button" class="vid-toggle" data-target="vid-empaque"
+                  aria-label="Pausar o reanudar el video">Pausar</button>
+        </div>
+        <figcaption>
+          Octubre 2024. Contadores separados por formato y registro de estancamientos de la línea.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <div class="det-box tall">
+          <span class="det-label">Muestra de laboratorio · 696 objetos · 2,93 s</span>
+          <img src="assets/media/conteo-larvas.jpg" alt="Conteo automático de 696 larvas en una muestra de laboratorio">
+        </div>
+        <figcaption>
+          696 larvas detectadas y numeradas una por una en 2,93 segundos. El mismo recuento a mano,
+          bajo lupa, tomaba 45 minutos.
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="ba">
+      <table>
+        <thead>
+          <tr><th scope="col">Operación</th><th scope="col">Antes</th><th scope="col">Hoy</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Conteo en empaque</th>
+            <td>A la vista de un operario, sobre <b>13.000 kg</b> diarios</td>
+            <td class="now">Automático en <b>3</b> estaciones, con la línea en marcha</td>
+          </tr>
+          <tr>
+            <th scope="row">Formato del paquete</th>
+            <td>Sin registro por tipo</td>
+            <td class="now">Contadores separados de <b>1 kg</b> y <b>500 g</b></td>
+          </tr>
+          <tr>
+            <th scope="row">Detenciones de la cinta</th>
+            <td>Nadie las anotaba</td>
+            <td class="now">Estancamientos detectados y registrados</td>
+          </tr>
+          <tr>
+            <th scope="row">Conteo de larvas</th>
+            <td>Bajo lupa, <b>45 minutos</b> por muestra</td>
+            <td class="now"><b>696</b> individuos en <b>2,93 s</b>, 85% de acierto</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="movements">
+      <div class="movement">
+        <h3>Desafío y objetivos</h3>
+        <div class="body">
+          <p>
+            St. Andrews necesitaba saber cuántos paquetes de cada formato salían de sus estaciones de
+            empaque y cuánto tiempo se detenía la línea. El conteo lo hacía un operario a la vista,
+            sobre una línea de <b>13.000 kg diarios</b>.
+          </p>
+          <p>
+            En el laboratorio, contar las larvas de una muestra bajo lupa tomaba <b>45 minutos</b>. De
+            ese número dependían las decisiones de siembra.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>La solución</h3>
+        <div class="body">
+          <p>
+            Desarrollé un sistema multicámara para <b>3 estaciones de empaque</b>. El sistema cuenta
+            los paquetes que cruzan una línea configurable, los clasifica por formato con contadores
+            separados de 1 kg y 500 g, y registra los estancamientos de la cinta.
+          </p>
+          <p>
+            El despliegue en planta exigió tolerancia a condiciones variables. El modelo opera con
+            cambios de iluminación durante el turno, movimiento de las cámaras, velocidad de cinta
+            irregular y superficies mojadas.
+          </p>
+          <p>
+            Para el laboratorio entrené un modelo aparte que detecta y numera cada larva de la
+            muestra. El dataset se construyó con imágenes capturadas en la propia planta.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Resultado</h3>
+        <div class="body">
+          <p>
+            El conteo de larvas pasó de 45 minutos a <b>2,93 segundos</b> sobre 696 individuos, con
+            85% de acierto contra el conteo manual.
+          </p>
+          <p>
+            Las 3 estaciones operaron en producción durante toda la temporada, entregando conteo por
+            formato y registro de detenciones sin intervención manual.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools">Python · OpenCV · YOLOv8 · PyTorch · cámaras IP · seguimiento multiobjeto</div>
+  </article>
+
+  <!-- ============ 02 ============ -->
+  <article class="case">
+    <div class="case-head">
+      <span class="num">02</span>
+      <span>Distribuidora El Maravilloso</span>
+      <span>Distribución · Concepción</span>
+      <span>Nov 2025 — hoy</span>
+    </div>
+
+    <h2>Integración de punto de venta y reportería tributaria</h2>
+
+    <p class="context">
+      Distribuidora de abarrotes en Concepción, con local y punto de venta propio. Registra alrededor
+      de <b>78 ventas diarias</b>.
+    </p>
+
+    <div class="ba">
+      <table>
+        <thead>
+          <tr><th scope="col">Operación</th><th scope="col">Antes</th><th scope="col">Hoy</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Ventas del día</th>
+            <td>Visibles solo en el computador del local</td>
+            <td class="now">Dashboard en tiempo real, consultable a distancia</td>
+          </tr>
+          <tr>
+            <th scope="row">Cuadre de caja</th>
+            <td>A mano, al cierre</td>
+            <td class="now">Cruce automático de 3 fuentes · <b>283</b> alertas emitidas</td>
+          </tr>
+          <tr>
+            <th scope="row">Documentos del SII</th>
+            <td>Descarga manual, uno por uno</td>
+            <td class="now">ETL desatendido · <b>305</b> facturas clasificadas sobre <b>87</b> proveedores</td>
+          </tr>
+          <tr>
+            <th scope="row">Gastos por proveedor</th>
+            <td>No existía el reporte</td>
+            <td class="now">Excel mensual categorizado por proveedor y rubro</td>
+          </tr>
+          <tr>
+            <th scope="row">Historial de venta</th>
+            <td>Sin consolidar, encerrado en el punto de venta</td>
+            <td class="now"><b>11.900</b> ventas y <b>40.000</b> líneas en base consultable</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="movements">
+      <div class="movement">
+        <h3>Desafío y objetivos</h3>
+        <div class="body">
+          <p>
+            La distribuidora operaba sobre un punto de venta cerrado, con base de datos local y <b>sin
+            API</b>. La información no salía del computador del local. El dueño no podía consultar las
+            ventas del día a distancia, el cuadre de caja se hacía a mano y los documentos tributarios
+            se descargaban del SII uno por uno.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>La solución</h3>
+        <div class="body">
+          <p>
+            Mapeé el esquema del punto de venta y construí la sincronización hacia una base PostgreSQL
+            en la nube. Sincroniza ventas, líneas de detalle y formas de pago, incluidos los pagos
+            divididos entre efectivo y tarjeta que el sistema guarda en una tabla aparte.
+          </p>
+          <p>
+            Sobre esa base desarrollé un <b>ETL desatendido</b> que se autentica en el portal del SII,
+            extrae los documentos tributarios del período y calcula los indicadores mensuales de
+            impuestos. Corre en un servidor según el calendario de vencimientos.
+          </p>
+          <p>
+            El módulo de <b>control de calidad</b> cruza tres fuentes independientes: documentos
+            tributarios, pagos electrónicos y ventas del punto de venta. Cuando no calzan, emite una
+            alerta. Por diseño <b>no corrige ningún dato</b> del cliente.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Resultado</h3>
+        <div class="body">
+          <p>
+            El cliente cuenta hoy con dashboard de ventas en tiempo real, informe ejecutivo mensual y
+            Excel de gastos categorizado por proveedor y rubro, generados sin intervención. La
+            reportería tributaria se convirtió en un producto aparte y opera para más de un cliente.
+          </p>
+          <p>
+            También opero el sistema. Diagnostiqué y corregí incidentes de integridad en producción:
+            pérdida de registros por una regla de limpieza mal acotada y desfase de relojes entre el
+            local y la nube. Los datos afectados se recuperaron.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools">Python · SQL · PostgreSQL · Firebird · Linux · procesos programados · web scraping</div>
+  </article>
+
+  <!-- ============ 03 ============ -->
+  <article class="case">
+    <div class="case-head">
+      <span class="num">03</span>
+      <span>LetsFit Company</span>
+      <span>Salud y entrenamiento · Remoto</span>
+      <span>Feb 2023 — hoy</span>
+    </div>
+
+    <h2>Migración de plataforma y sistema de gestión multi-sede</h2>
+
+    <p class="context">
+      Centro de entrenamiento y kinesiología con <b>2 sedes</b> en el Gran Concepción. Opera con
+      planes, reservas por horario y profesionales que cobran por sesión.
+    </p>
+
+    <div class="ba">
+      <table>
+        <thead>
+          <tr><th scope="col">Operación</th><th scope="col">Antes</th><th scope="col">Hoy</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Base de clientes</th>
+            <td>En la plataforma arrendada, sin acceso</td>
+            <td class="now"><b>~170</b> alumnos migrados con su historial completo</td>
+          </tr>
+          <tr>
+            <th scope="row">Comisiones</th>
+            <td>Calculadas a mano, sesión por sesión</td>
+            <td class="now">Liquidación automática de <b>14</b> profesionales sobre <b>768</b> sesiones</td>
+          </tr>
+          <tr>
+            <th scope="row">Reglas de negocio</th>
+            <td>Las del producto arrendado</td>
+            <td class="now">Planes, reservas y comisiones propias del centro</td>
+          </tr>
+          <tr>
+            <th scope="row">Sedes</th>
+            <td>Sin separación de datos entre locales</td>
+            <td class="now"><b>2</b> sedes con control de acceso por fila</td>
+          </tr>
+          <tr>
+            <th scope="row">Costo</th>
+            <td>Licencia mensual a un tercero</td>
+            <td class="now">Sistema propio, sin licencia</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="movements">
+      <div class="movement">
+        <h3>Desafío y objetivos</h3>
+        <div class="body">
+          <p>
+            El centro operaba sobre una plataforma comercial de pago mensual que no daba acceso a su
+            propia base de datos. <b>~170 alumnos activos</b>, con su historial de asistencia y sus
+            planes, estaban en un sistema de terceros. Las comisiones se calculaban a mano y las
+            reglas de negocio propias del centro no cabían en el producto arrendado.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>La solución</h3>
+        <div class="body">
+          <p>
+            Extraje la base completa por <b>web scraping</b>, la normalicé y trasladé clientes e
+            historial sin pérdida de registros.
+          </p>
+          <p>
+            Diseñé el modelo de datos en <b>PostgreSQL</b>, con esquema multi-sede, control de acceso
+            por fila y migraciones versionadas. Sobre eso construí el panel de administración y su
+            reportería: asistencia, ocupación por sede y horario, ingresos y liquidación de
+            comisiones.
+          </p>
+          <p>
+            Las reglas de planes, reservas y comisiones se levantaron en reuniones con los dueños y
+            los profesores antes de modelarlas.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Resultado</h3>
+        <div class="body">
+          <p>
+            Sistema propio operando en <b>2 sedes</b>, con la liquidación de <b>14 profesionales</b>
+            sobre una agenda de 768 sesiones calculada automáticamente.
+          </p>
+          <p>
+            La migración desde la plataforma anterior continúa, sede por sede, sin interrumpir la
+            operación.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools">PostgreSQL · SQL · TypeScript · Python · servidores en la nube</div>
+  </article>
+
+  <!-- ============ EN CURSO ============ -->
+  <section class="ongoing" id="curso">
+    <div class="section-label">EN CURSO</div>
+    <div class="grid">
+      <div class="item">
+        <div class="when">FEB 2026 — HOY · EN PRODUCCIÓN</div>
+        <h3>Analítica de flujo de personas en retail</h3>
+        <p>
+          Conteo de entrada y salida sobre cámaras de circuito cerrado ya instaladas, mapas de calor
+          de tráfico y alertas por cruce de línea configurable. El sistema usa las cámaras que el
+          local ya tiene, sin hardware adicional.
+        </p>
+        <div class="tools">Python · OpenCV · YOLOv8</div>
+      </div>
+      <div class="item">
+        <div class="when">2026 · PROYECTO DE TÍTULO</div>
+        <h3>Detección de elementos de protección personal</h3>
+        <p>
+          Detección de casco, chaleco y demás EPP en faena industrial. El aporte central del proyecto
+          es el dataset: imágenes capturadas en planta real, en vez de bancos públicos que no
+          representan las condiciones de faena.
+        </p>
+        <div class="tools">Python · PyTorch · YOLOv8</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOBRE MI ============ -->
+  <section class="about" id="sobremi">
+    <div class="portrait">
+      <img src="assets/media/luis.jpg" alt="Luis San Martín">
+    </div>
+    <div>
+      <div class="section-label">SOBRE MÍ</div>
+      <h2>Luis San Martín</h2>
+      <p>
+        Vivo en <b>Hualpén, Gran Concepción</b>. Soy egresado de Ingeniería Civil en Automatización de
+        la Universidad del Bío-Bío, con la titulación en curso.
+      </p>
+      <p>
+        Llevo más de tres años desarrollando software en producción para clientes de acuicultura,
+        distribución y salud. En todos los casos trabajé <b>directo con el dueño de la operación</b>,
+        levantando los requerimientos en terreno antes de escribir código.
+      </p>
+      <p>
+        Trabajo con Python, SQL y PostgreSQL en la parte de datos, y con OpenCV, YOLOv8 y PyTorch en
+        visión computacional. También despliego y opero los sistemas: servidores, procesos
+        programados y monitoreo.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ CIERRE ============ -->
+  <section class="end" id="contacto">
+    <h2>Contacto</h2>
+    <p>
+      Los repositorios son privados porque son sistemas en operación de terceros. Puedo mostrar el
+      código, los paneles y los datos en vivo en una reunión, bajo acuerdo.
+    </p>
+    <div class="links">
+      <a href="mailto:sanmaglass@gmail.com">sanmaglass@gmail.com</a>
+      <a href="https://www.linkedin.com/in/sanmartinluis/">linkedin.com/in/sanmartinluis</a>
+      <a href="https://github.com/sanmaglass">github.com/sanmaglass</a>
+    </div>
+    <p class="avail">
+      Disponibilidad inmediata · Gran Concepción, remoto o híbrido · Egresado de Ingeniería Civil en
+      Automatización, Universidad del Bío-Bío
+    </p>
+  </section>
+
+</div>
+
+<div class="cur-ring" aria-hidden="true"></div>
+<div class="cur-dot" aria-hidden="true"></div>
+
+<script>
+(function () {
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* --- viewport ---
+     Sin <meta name="viewport"> un celular real renderiza a 980px fijos y
+     muestra todo diminuto. Como esta pagina se publica sin <head> propio,
+     lo inyectamos si el contenedor no lo trajo. */
+  if (!document.querySelector('meta[name="viewport"]')) {
+    var mv = document.createElement('meta');
+    mv.name = 'viewport';
+    mv.content = 'width=device-width, initial-scale=1';
+    document.head.appendChild(mv);
+  }
+
+  /* --- video: arranca solo si el usuario no pidio menos movimiento,
+         y siempre se puede pausar --- */
+  document.querySelectorAll('.vid-toggle').forEach(function (btn) {
+    var v = document.getElementById(btn.dataset.target);
+    if (!v) return;
+
+    if (reduced) {
+      btn.textContent = 'Reproducir';
+    } else {
+      var p = v.play();
+      if (p && p.catch) p.catch(function () { btn.textContent = 'Reproducir'; });
+    }
+
+    btn.addEventListener('click', function () {
+      if (v.paused) { v.play(); btn.textContent = 'Pausar'; }
+      else { v.pause(); btn.textContent = 'Reproducir'; }
+    });
+
+    v.addEventListener('play',  function () { btn.textContent = 'Pausar'; });
+    v.addEventListener('pause', function () { btn.textContent = 'Reproducir'; });
+  });
+
+  /* --- aparicion por scroll --- */
+  var targets = document.querySelectorAll(
+    '.case-head, .case h2, .context, .shots figure, .readout, .movement, .tools,' +
+    '.ongoing .item, .about .portrait, .about > div, .end h2, .end p, .end .links'
+  );
+
+  if (reduced || !('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    targets.forEach(function (el) { el.classList.add('rv'); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    targets.forEach(function (el) { io.observe(el); });
+  }
+
+  /* --- cursor propio --- */
+  if (!finePointer || reduced) return;
+
+  var dot = document.querySelector('.cur-dot');
+  var ring = document.querySelector('.cur-ring');
+  var mx = 0, my = 0, rx = 0, ry = 0, shown = false, raf = null;
+
+  /* el anillo persigue al punto con retardo.
+     Solo corre mientras el mouse esta dentro: si no, gastaria 60 cuadros
+     por segundo de bateria sin que nadie lo vea. */
+  function loop() {
+    rx += (mx - rx) * 0.16;
+    ry += (my - ry) * 0.16;
+    ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px)';
+    raf = requestAnimationFrame(loop);
+  }
+
+  document.addEventListener('mousemove', function (e) {
+    mx = e.clientX; my = e.clientY;
+    dot.style.transform = 'translate(' + mx + 'px,' + my + 'px)';
+    if (!shown) {
+      shown = true;
+      rx = mx; ry = my;
+      dot.style.opacity = 1;
+      ring.style.opacity = 1;
+      if (raf === null) raf = requestAnimationFrame(loop);
+    }
+  });
+
+  document.addEventListener('mouseleave', function () {
+    shown = false;
+    dot.style.opacity = 0;
+    ring.style.opacity = 0;
+    if (raf !== null) { cancelAnimationFrame(raf); raf = null; }
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden && raf !== null) { cancelAnimationFrame(raf); raf = null; }
+  });
+
+  /* crece sobre lo que se puede tocar */
+  document.querySelectorAll('a, button, video').forEach(function (el) {
+    el.addEventListener('mouseenter', function () { ring.classList.add('big'); });
+    el.addEventListener('mouseleave', function () { ring.classList.remove('big'); });
+  });
+})();
+</script>
+</body>
+</html>
