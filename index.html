@@ -54,6 +54,16 @@
     /* escala real: solo dos tamaños de texto, no cuatro casi iguales */
     --t-body: 1.0625rem;
     --t-meta: 0.8125rem;
+
+    /* Rejilla de pagina de tres anchos. Antes TODO empezaba en el mismo
+       margen y media lo mismo: por eso se leia como planilla. Ahora hay un
+       carril a la izquierda y el media puede sangrar. */
+    --page-grid:
+      [full-start] minmax(2rem, 1fr)
+      [wide-start] minmax(0, 13rem)
+      [text-start] minmax(0, 44rem) [text-end]
+      minmax(0, 17rem) [wide-end]
+      minmax(2rem, 1fr) [full-end];
   }
 
   body {
@@ -69,7 +79,21 @@
   a { color: inherit; }
   :focus-visible { outline: 1px solid var(--fg); outline-offset: 4px; }
 
-  .wrap { max-width: 74rem; margin: 0 auto; padding: 0 2rem; }
+  .wrap, .case, .ongoing, .about, .end {
+    display: grid;
+    grid-template-columns: var(--page-grid);
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .wrap > * { grid-column: full; }
+  .ongoing > *, .about > *, .end > * { grid-column: wide; }
+
+  /* el hero conserva su contenedor centrado */
+  .hero-inner, .status-wrap { max-width: 74rem; margin: 0 auto; padding-left: 2rem; padding-right: 2rem; }
 
   /* ===================== NAV ===================== */
 
@@ -226,46 +250,79 @@
 
   /* ===================== CASOS ===================== */
 
-  /* el aire separa las secciones, no las lineas. y el ritmo varia. */
-  .case { padding: 10rem 0 0; }
-  .case:first-of-type { padding-top: 7rem; }
+  .case {
+    margin-top: 15rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--line);
+  }
 
+  .case:first-of-type { margin-top: 7rem; }
+
+  /* la cabecera del caso deja de ser una fila de tabla: baja al carril
+     izquierdo como un numero grande, y acompaña todo el bloque */
   .case-head {
+    grid-column: wide-start / text-start;
+    grid-row: span 3;
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.4rem 1.4rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-self: start;
+    margin: 0;
+    padding-right: 2rem;
     font-family: var(--mono);
     font-size: 0.72rem;
     letter-spacing: 0.1em;
     color: var(--fg-3);
-    margin-bottom: 1.4rem;
   }
 
-  .case-head .num { color: var(--fg); }
+  .case-head .num {
+    font-family: var(--display);
+    font-size: 4.25rem;
+    line-height: 0.78;
+    color: var(--fg);
+    margin-bottom: 0.9rem;
+  }
 
   .case h2 {
+    grid-column: text-start / wide-end;
     font-family: var(--display);
-    font-size: clamp(2rem, 5.2vw, 3.9rem);
-    line-height: 0.98;
+    font-size: clamp(2rem, 5.6vw, 4.4rem);
+    line-height: 0.95;
     font-weight: 400;
     letter-spacing: 0.005em;
     text-transform: uppercase;
-    max-width: 21ch;
+    max-width: 17ch;
     text-wrap: balance;
+    margin: 0;
   }
 
   .context {
-    max-width: 58ch;
+    grid-column: text;
+    max-width: 54ch;
     color: var(--fg-2);
     font-size: var(--t-body);
-    margin-top: 1.6rem;
+    margin-top: 1.75rem;
   }
 
   .context b { color: var(--fg); font-weight: 500; }
 
   /* --- media: el color lo pone la imagen, no la interfaz --- */
-  .shots { display: flex; flex-direction: column; gap: 2rem; margin: 3rem 0; }
+  .shots { grid-column: wide; display: flex; flex-direction: column; gap: 2rem; margin: 4.5rem 0 0; }
+
+  /* cada caso lleva el ritmo que le permite SU material, no el mismo molde */
+
+  /* 01 — el video a sangre, de borde a borde */
+  .case:nth-of-type(1) .shots { grid-column: full; margin-top: 5.5rem; }
+  .case:nth-of-type(1) .det-box { border-left: 0; border-right: 0; }
+  .case:nth-of-type(1) figcaption { max-width: 44rem; margin-left: 15rem; }
+
+  /* 02 — la muestra es vertical: va angosta, con negro a la izquierda */
+  .case:nth-of-type(2) .shots { grid-column: text-start / full-end; }
+  .case:nth-of-type(2) .det-box.tall { justify-content: flex-start; }
+  .case:nth-of-type(2) .det-box.tall img { max-height: 44rem; }
+
+  /* 03 — el escritorio sangra a la derecha y los telefonos se le montan */
+  .case:nth-of-type(3) .shots { grid-column: wide-start / full-end; gap: 0; }
 
   .det-box { position: relative; border: 1px solid var(--line-2); background: #000; }
 
@@ -322,11 +379,14 @@
   /* --- galeria de dispositivos: la app es una PWA, se usa en el celular --- */
   .devices {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(13rem, 17rem));
-    justify-content: center;
-    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 15rem));
+    justify-content: start;
+    gap: 2rem;
     align-items: start;
-    margin-top: 1.75rem;
+    margin-top: -4rem;
+    margin-left: -2rem;
+    position: relative;
+    z-index: 2;
   }
 
   .phone {
@@ -357,16 +417,16 @@
   }
 
   /* --- tabla antes / ahora: los numeros como evidencia, no como adorno --- */
-  .ba { width: 100%; margin: 3rem 0 3.5rem; overflow-x: auto; }
+  /* lectura antes/hoy, no planilla: se va la grilla de bordes y la columna
+     "hoy" pesa tipograficamente sobre la del pasado */
+  .ba { grid-column: wide; margin: 5rem 0 0; }
 
-  .ba table { width: 100%; border-collapse: collapse; min-width: 40rem; }
+  .ba table { border-collapse: collapse; width: 100%; min-width: 0; }
 
-  .ba th, .ba td {
-    text-align: left;
-    vertical-align: top;
-    padding: 1.1rem 1.5rem 1.1rem 0;
-    border-bottom: 1px solid var(--line);
-  }
+  .ba th, .ba td { border: 0; text-align: left; vertical-align: baseline; }
+
+  .ba tbody tr { border-bottom: 1px solid var(--line); }
+  .ba tbody th, .ba tbody td { padding: 1.5rem 2rem 1.5rem 0; }
 
   .ba thead th {
     font-family: var(--mono);
@@ -375,51 +435,71 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--fg-3);
-    padding-bottom: 0.9rem;
+    padding-bottom: 0.8rem;
     border-bottom: 1px solid var(--line-2);
   }
 
   .ba tbody th {
+    width: 13rem;
     font-family: var(--mono);
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     font-weight: 500;
-    letter-spacing: 0.02em;
-    color: var(--fg-2);
-    width: 22%;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-3);
   }
 
-  .ba td { font-size: var(--t-body); color: var(--fg-3); width: 39%; }
+  .ba td { width: 26%; font-size: 0.95rem; color: var(--fg-3); }
 
-  .ba td.now { color: var(--fg); }
+  .ba td.now { width: auto; font-size: 1.2rem; line-height: 1.4; color: var(--fg); }
 
   .ba td.now b {
     font-family: var(--mono);
+    font-size: 1.35em;
     font-weight: 500;
+    letter-spacing: -0.02em;
     font-variant-numeric: tabular-nums;
     color: var(--fg);
   }
 
   /* --- narrativa --- */
-  .movements { display: flex; flex-direction: column; gap: 3rem; }
-
-  .movement {
-    display: grid;
-    grid-template-columns: 15rem 1fr;
-    gap: 2.5rem;
-    align-items: start;
+  /* Se elimina la grilla de dos columnas: repetida 12 veces era lo que
+     hacia leer la pagina como formulario. La etiqueta pasa arriba, con una
+     regla que se escapa hacia el carril izquierdo. */
+  .movements {
+    grid-column: text;
+    display: flex;
+    flex-direction: column;
+    gap: 4.25rem;
+    margin-top: 6rem;
   }
 
+  .movement { display: block; }
+
   .movement h3 {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
     font-family: var(--mono);
     font-size: 0.74rem;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--fg-3);
-    padding-top: 0.35rem;
+    color: var(--fg);
+    margin-bottom: 1.15rem;
+    padding-top: 0;
   }
 
-  .movement .body { max-width: 62ch; }
+  .movement h3::before {
+    content: "";
+    flex: none;
+    width: 8rem;
+    height: 1px;
+    background: var(--line-2);
+    margin-left: -9.1rem;
+  }
+
+  .movement .body { max-width: none; }
   .movement p { color: var(--fg-2); font-size: var(--t-body); }
   .movement p + p { margin-top: 1rem; }
   .movement b { color: var(--fg); font-weight: 500; }
@@ -435,6 +515,9 @@
     white-space: nowrap;
     padding-bottom: 0.35rem;
   }
+
+  /* el cierre del caso se ancla a la derecha, no repite el margen izquierdo */
+  .case > .tools { grid-column: wide; text-align: right; margin-top: 5rem; }
 
   /* ===================== EN CURSO ===================== */
 
@@ -479,11 +562,14 @@
 
   .about {
     padding: 13rem 0 0;
-    display: grid;
-    grid-template-columns: 20rem 1fr;
     gap: 3.5rem;
     align-items: start;
   }
+
+  /* el retrato ocupa el carril izquierdo, igual que el numero de caso:
+     asi la vertical de la pagina es una sola de arriba a abajo */
+  .about > .portrait { grid-column: wide-start / text-start; }
+  .about > div { grid-column: text-start / wide-end; }
 
   .about .portrait { border: 1px solid var(--line-2); background: #000; }
   .about .portrait img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.05); }
@@ -607,17 +693,60 @@
   }
 
   @media (max-width: 56rem) {
-    .wrap { padding: 0 1.25rem; }
+    /* la rejilla colapsa a una sola columna con margen parejo */
+    :root {
+      --page-grid:
+        [full-start] 0
+        [wide-start] 1.25rem
+        [text-start] minmax(0, 1fr) [text-end]
+        1.25rem [wide-end] 0 [full-end];
+    }
+
     .nav { padding: 0.85rem 1.25rem; }
     .hero { padding-top: 4rem; }
-    .case { padding: 4rem 0; }
-    .ongoing, .about, .end { padding-top: 4rem; }
-    .end { padding-bottom: 5rem; margin-top: 4rem; }
-    .movement { grid-template-columns: 1fr; gap: 0.9rem; }
-    .about { grid-template-columns: 1fr; gap: 2rem; }
-    .about .portrait { max-width: 15rem; }
-    .readout .fig { padding-right: 1rem; }
+    .hero-inner, .status-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
     .ticker { margin-top: 3rem; }
+
+    .case { margin-top: 5rem; padding-top: 2rem; }
+    .case:first-of-type { margin-top: 3rem; }
+
+    .case-head {
+      grid-row: auto;
+      grid-column: text;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.4rem 1.2rem;
+      padding-right: 0;
+      margin-bottom: 1rem;
+    }
+
+    .case-head .num { font-family: var(--mono); font-size: 1.1rem; line-height: 1; margin: 0; }
+
+    .case h2,
+    .case:nth-of-type(1) .shots,
+    .case:nth-of-type(2) .shots,
+    .case:nth-of-type(3) .shots { grid-column: text; }
+
+    .case:nth-of-type(1) figcaption { margin-left: 0; }
+    .case:nth-of-type(1) .det-box {
+      border-left: 1px solid var(--line-2);
+      border-right: 1px solid var(--line-2);
+    }
+
+    .movements { margin-top: 3rem; gap: 2.5rem; }
+    .movement h3::before { display: none; }
+
+    .case > .tools { text-align: left; margin-top: 2.5rem; }
+
+    .ba { margin-top: 3rem; overflow-x: auto; }
+    .ba table { min-width: 32rem; }
+    .ba tbody th { width: 8rem; }
+
+    .about { gap: 2rem; }
+    .about .portrait { max-width: 15rem; }
+    .ongoing .grid { grid-template-columns: 1fr; }
+    .case:nth-of-type(3) .devices { margin: 1.5rem 0 0; justify-content: center; }
   }
 </style>
 
@@ -910,6 +1039,10 @@
           <div>
             <div class="phone"><img src="assets/media/mv-gastos.jpg" alt="Registro de gastos en el celular"></div>
             <div class="device-cap">Gastos por categoría</div>
+          </div>
+          <div>
+            <div class="phone"><img src="assets/media/mv-abc.jpg" alt="Análisis ABC de productos en el celular"></div>
+            <div class="device-cap">Análisis ABC de productos</div>
           </div>
         </div>
         <figcaption style="text-align:center">
