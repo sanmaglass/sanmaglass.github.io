@@ -311,10 +311,11 @@
 
   /* cada caso lleva el ritmo que le permite SU material, no el mismo molde */
 
-  /* 01 — el video a sangre, de borde a borde */
-  .case:nth-of-type(1) .shots { grid-column: full; margin-top: 5.5rem; }
-  .case:nth-of-type(1) .det-box { border-left: 0; border-right: 0; }
-  .case:nth-of-type(1) figcaption { max-width: 44rem; margin-left: 15rem; }
+  /* 01 — el video en el mismo carril que el resto.
+     A sangre completa crecia sin tope: en 1920px ocupaba el 100% del alto
+     de pantalla, y era el unico elemento que no se alineaba con nada. */
+  .case:nth-of-type(1) .shots { grid-column: wide; margin-top: 5.5rem; }
+  .case:nth-of-type(1) .det-box { max-width: 60rem; }
 
   /* 02 — la muestra es vertical: la caja se ciñe a la imagen, sin dejar
      medio metro de negro vacio adentro del borde */
