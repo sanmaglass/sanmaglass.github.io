@@ -231,6 +231,8 @@
   .case-head {
     grid-column: wide-start / text-start;
     grid-row: span 3;
+    position: sticky;
+    top: 6rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -574,9 +576,10 @@
 
   .rv.in { opacity: 1; transform: none; }
 
-  /* ===== CURSOR PROPIO =====
-     Punto de 8px + anillo que lo sigue con retardo. Solo en equipos con
-     mouse: en tactil no existe puntero y estorbaria. */
+  /* ===== CURSOR: MIRA DE DETECCION =====
+     Un punto y cuatro esquinas que lo siguen con retardo. Al pasar sobre
+     una imagen o el video, las esquinas SE CUADRAN sobre ella, como
+     cuando el modelo engancha un objeto. Solo en equipos con mouse. */
   .cur-dot, .cur-ring {
     position: fixed;
     top: 0;
@@ -588,29 +591,38 @@
   }
 
   .cur-dot {
-    width: 8px;
-    height: 8px;
-    margin: -4px 0 0 -4px;
-    border-radius: 50%;
+    width: 5px;
+    height: 5px;
+    margin: -2.5px 0 0 -2.5px;
     background: var(--fg);
   }
 
+  /* la mira: un cuadro sin bordes completos, solo las cuatro esquinas */
   .cur-ring {
-    width: 34px;
-    height: 34px;
-    margin: -17px 0 0 -17px;
-    border-radius: 50%;
-    border: 1px solid rgba(253, 254, 255, 0.45);
-    transition: opacity 0.3s ease, width 0.22s ease, height 0.22s ease,
-                margin 0.22s ease, border-color 0.22s ease;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    background:
+      linear-gradient(var(--fg), var(--fg)) 0 0 / 9px 1px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 0 0 / 1px 9px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 100% 0 / 9px 1px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 100% 0 / 1px 9px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 0 100% / 9px 1px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 0 100% / 1px 9px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 100% 100% / 9px 1px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 100% 100% / 1px 9px no-repeat;
+    transition: opacity 0.3s ease, width 0.28s cubic-bezier(.2,.9,.3,1),
+                height 0.28s cubic-bezier(.2,.9,.3,1), margin 0.28s cubic-bezier(.2,.9,.3,1);
   }
 
-  .cur-ring.big {
-    width: 56px;
-    height: 56px;
-    margin: -28px 0 0 -28px;
-    border-color: var(--fg);
-  }
+  .cur-ring.big { width: 52px; height: 52px; margin: -26px 0 0 -26px; }
+
+  /* enganchada: la mira toma el tamaño del elemento y se detiene sobre el */
+  .cur-ring.lock { transition: opacity .2s ease, transform .16s cubic-bezier(.2,.9,.3,1),
+                               width .22s cubic-bezier(.2,.9,.3,1), height .22s cubic-bezier(.2,.9,.3,1),
+                               margin .22s cubic-bezier(.2,.9,.3,1); }
+
+  .cur-dot.hide { opacity: 0 !important; }
 
   @media (pointer: coarse), (prefers-reduced-motion: reduce) {
     .cur-dot, .cur-ring { display: none; }
@@ -1174,7 +1186,7 @@
 
   var dot = document.querySelector('.cur-dot');
   var ring = document.querySelector('.cur-ring');
-  var mx = 0, my = 0, rx = 0, ry = 0, shown = false, raf = null;
+  var mx = 0, my = 0, rx = 0, ry = 0, shown = false, raf = null, locked = null;
 
   /* el anillo persigue al punto con retardo.
      Solo corre mientras el mouse esta dentro: si no, gastaria 60 cuadros
@@ -1182,7 +1194,7 @@
   function loop() {
     rx += (mx - rx) * 0.16;
     ry += (my - ry) * 0.16;
-    ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px)';
+    if (!locked) ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px)';
     raf = requestAnimationFrame(loop);
   }
 
@@ -1210,10 +1222,41 @@
   });
 
   /* crece sobre lo que se puede tocar */
-  document.querySelectorAll('a, button, video').forEach(function (el) {
+  document.querySelectorAll('a, button').forEach(function (el) {
     el.addEventListener('mouseenter', function () { ring.classList.add('big'); });
     el.addEventListener('mouseleave', function () { ring.classList.remove('big'); });
   });
+
+  /* ENGANCHE: sobre una imagen o el video, la mira se cuadra encima,
+     igual que una caja de deteccion sobre su objeto. */
+  document.querySelectorAll('.det-box, .phone').forEach(function (el) {
+    el.addEventListener('mouseenter', function () {
+      locked = el;
+      var r = el.getBoundingClientRect();
+      ring.classList.add('lock');
+      ring.style.width = Math.round(r.width) + 'px';
+      ring.style.height = Math.round(r.height) + 'px';
+      ring.style.margin = '0';
+      ring.style.transform = 'translate(' + Math.round(r.left) + 'px,' + Math.round(r.top) + 'px)';
+      dot.classList.add('hide');
+    });
+
+    el.addEventListener('mouseleave', function () {
+      locked = null;
+      ring.classList.remove('lock');
+      ring.style.width = '';
+      ring.style.height = '';
+      ring.style.margin = '';
+      dot.classList.remove('hide');
+    });
+  });
+
+  /* mientras esta enganchada, seguir al elemento si la pagina se mueve */
+  window.addEventListener('scroll', function () {
+    if (!locked) return;
+    var r = locked.getBoundingClientRect();
+    ring.style.transform = 'translate(' + Math.round(r.left) + 'px,' + Math.round(r.top) + 'px)';
+  }, { passive: true });
 })();
 </script>
 </body>
