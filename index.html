@@ -178,7 +178,7 @@
   .hero h1 {
     font-family: var(--display);
     font-size: clamp(2.8rem, 9.5vw, 7.5rem);
-    line-height: 0.92;
+    line-height: 1.02;
     font-weight: 400;
     letter-spacing: 0.005em;
     text-transform: uppercase;
@@ -287,7 +287,7 @@
     grid-column: text-start / wide-end;
     font-family: var(--display);
     font-size: clamp(2rem, 5.6vw, 4.4rem);
-    line-height: 0.95;
+    line-height: 1.05;
     font-weight: 400;
     letter-spacing: 0.005em;
     text-transform: uppercase;
@@ -298,7 +298,7 @@
 
   .context {
     grid-column: text;
-    max-width: 54ch;
+    max-width: 34rem;
     color: var(--fg-2);
     font-size: var(--t-body);
     margin-top: 1.75rem;
@@ -316,9 +316,15 @@
   .case:nth-of-type(1) .det-box { border-left: 0; border-right: 0; }
   .case:nth-of-type(1) figcaption { max-width: 44rem; margin-left: 15rem; }
 
-  /* 02 — la muestra es vertical: va angosta, con negro a la izquierda */
+  /* 02 — la muestra es vertical: la caja se ciñe a la imagen, sin dejar
+     medio metro de negro vacio adentro del borde */
   .case:nth-of-type(2) .shots { grid-column: text-start / full-end; }
-  .case:nth-of-type(2) .det-box.tall { justify-content: flex-start; }
+  .case:nth-of-type(2) .det-box.tall {
+    justify-content: flex-start;
+    width: max-content;
+    max-width: 100%;
+    margin-left: 0;
+  }
   .case:nth-of-type(2) .det-box.tall img { max-height: 44rem; }
 
   /* 03 — la app se presenta centrada y con aire, como pagina de producto */
@@ -329,7 +335,9 @@
     margin-top: 5.5rem;
   }
 
-  .case:nth-of-type(3) .shots > figure { width: 100%; }
+  /* el > figure no alcanzaba: la galeria va dentro de un div y sin esto
+     colapsaba a UNA columna, apilando los tres telefonos */
+  .case:nth-of-type(3) .shots > * { width: 100%; }
   .case:nth-of-type(3) figcaption { text-align: center; max-width: 46ch; margin-left: auto; margin-right: auto; }
 
   .det-box { position: relative; border: 1px solid var(--line-2); background: #000; }
@@ -504,7 +512,7 @@
     margin-left: -9.1rem;
   }
 
-  .movement .body { max-width: none; }
+  .movement .body { max-width: 34rem; }
   .movement p { color: var(--fg-2); font-size: var(--t-body); }
   .movement p + p { margin-top: 1rem; }
   .movement b { color: var(--fg); font-weight: 500; }
@@ -582,14 +590,14 @@
   .about h2 {
     font-family: var(--display);
     font-size: clamp(2rem, 4.4vw, 3.2rem);
-    line-height: 0.98;
+    line-height: 1.05;
     font-weight: 400;
     letter-spacing: 0.005em;
     text-transform: uppercase;
     margin-bottom: 1.5rem;
   }
 
-  .about p { color: var(--fg-2); font-size: var(--t-body); max-width: 60ch; }
+  .about p { color: var(--fg-2); font-size: var(--t-body); max-width: 34rem; }
   .about p + p { margin-top: 1rem; }
   .about b { color: var(--fg); font-weight: 500; }
 
@@ -599,15 +607,15 @@
 
   .end h2 {
     font-family: var(--display);
-    font-size: clamp(2.4rem, 7vw, 5.4rem);
-    line-height: 0.94;
+    font-size: clamp(2.2rem, 5.6vw, 4rem);
+    line-height: 1.05;
     font-weight: 400;
     letter-spacing: 0.005em;
     text-transform: uppercase;
     max-width: 18ch;
   }
 
-  .end p { color: var(--fg-2); max-width: 62ch; margin-top: 1.5rem; font-size: var(--t-body); }
+  .end p { color: var(--fg-2); max-width: 34rem; margin-top: 1.5rem; font-size: var(--t-body); }
 
   .end .links {
     font-family: var(--mono);
@@ -748,10 +756,41 @@
     .ba table { min-width: 32rem; }
     .ba tbody th { width: 8rem; }
 
+    /* el retrato caia en el carril de 1.25rem y quedaba de 18px */
     .about { gap: 2rem; }
-    .about .portrait { max-width: 15rem; }
+    .about > .portrait, .about > div { grid-column: text; }
+    .about .portrait { max-width: 12rem; }
+
     .ongoing .grid { grid-template-columns: 1fr; }
     .case:nth-of-type(3) .devices { margin: 1.5rem 0 0; justify-content: center; }
+
+    /* La tabla en telefono perdia la columna "Hoy" por scroll horizontal,
+       que es justamente el argumento. Se rompe a tarjetas apiladas. */
+    .ba { overflow-x: visible; }
+    .ba table { min-width: 0; }
+    .ba thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .ba tbody tr {
+      display: block;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .ba tbody th, .ba tbody td { display: block; width: auto; padding: 0; }
+    .ba tbody th { margin-bottom: 0.7rem; }
+    .ba tbody td { font-size: 0.95rem; }
+    .ba tbody td::before {
+      content: "Antes — ";
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--fg-3);
+    }
+    .ba tbody td.now { margin-top: 0.55rem; font-size: 1.05rem; color: var(--fg); }
+    .ba tbody td.now::before { content: "Hoy — "; }
+
+    /* objetivos tactiles: minimo 44px */
+    .vid-toggle { padding: 0.7rem 1rem; min-height: 44px; }
+    .nav .links a { padding: 0.55rem 0; }
   }
 </style>
 
