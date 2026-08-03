@@ -216,42 +216,6 @@
   }
 
   .btn:hover { background: rgba(253, 254, 255, 0.07); border-color: var(--fg); }
-
-  /* cinta de credenciales, como su marquesina */
-  .ticker {
-    position: relative;
-    z-index: 1;
-    margin-top: 5rem;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    overflow: hidden;
-    padding: 1.15rem 0;
-  }
-
-  .ticker .run {
-    display: flex;
-    gap: 3.5rem;
-    white-space: nowrap;
-    font-family: var(--mono);
-    font-size: clamp(0.95rem, 2vw, 1.35rem);
-    color: var(--fg-2);
-    letter-spacing: -0.01em;
-    width: max-content;
-    animation: slide 42s linear infinite;
-  }
-
-  .ticker .run span { display: inline-flex; align-items: center; gap: 3.5rem; }
-  .ticker .run span::after { content: "•"; color: var(--fg-3); }
-
-  @keyframes slide {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .ticker .run { animation: none; }
-  }
-
   /* ===================== CASOS ===================== */
 
   .case {
@@ -657,7 +621,7 @@
      porque el navegador desactiva los fondos pero no el color del texto */
   @media print {
     body { background: #fff; color: #000; }
-    .cur-dot, .cur-ring, .grid-bg, .ticker, .nav, .vid-toggle { display: none !important; }
+    .cur-dot, .cur-ring, .grid-bg, .nav, .vid-toggle { display: none !important; }
     .context, .movement p, .about p, .end p { color: #222; }
     .case-head, figcaption, .movement h3, .section-label { color: #555; }
     .movement b, .context b { color: #000; }
@@ -678,7 +642,6 @@
     .nav { padding: 0.85rem 1.25rem; }
     .hero { padding-top: 4rem; }
     .hero-inner, .status-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
-    .ticker { margin-top: 3rem; }
 
     .case { margin-top: 5rem; padding-top: 2rem; }
     .case:first-of-type { margin-top: 3rem; }
@@ -749,23 +712,6 @@
     <div class="btns">
       <a class="btn" href="#casos">Ver los casos</a>
       <a class="btn" href="#contacto">Contacto</a>
-    </div>
-  </div>
-
-  <div class="ticker" aria-hidden="true">
-    <div class="run">
-      <span>Mayor productor de mejillones del mundo</span>
-      <span>13.000 kg diarios en línea</span>
-      <span>696 larvas en 2,93 s</span>
-      <span>11.900 ventas integradas</span>
-      <span>305 facturas del SII</span>
-      <span>2 sedes en operación</span>
-      <span>Mayor productor de mejillones del mundo</span>
-      <span>13.000 kg diarios en línea</span>
-      <span>696 larvas en 2,93 s</span>
-      <span>11.900 ventas integradas</span>
-      <span>305 facturas del SII</span>
-      <span>2 sedes en operación</span>
     </div>
   </div>
 </header>
