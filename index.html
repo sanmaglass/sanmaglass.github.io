@@ -319,6 +319,38 @@
     max-width: 76ch;
   }
 
+  /* --- galeria de dispositivos: la app es una PWA, se usa en el celular --- */
+  .devices {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 1.75rem;
+    align-items: start;
+    margin-top: 1.75rem;
+  }
+
+  .phone {
+    border: 1px solid var(--line-2);
+    border-radius: 1.75rem;
+    padding: 0.5rem;
+    background: #000;
+  }
+
+  .phone img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 1.3rem;
+  }
+
+  .device-cap {
+    font-family: var(--mono);
+    font-size: 0.71rem;
+    letter-spacing: 0.05em;
+    color: var(--fg-3);
+    margin-top: 0.75rem;
+    text-align: center;
+  }
+
   /* --- tabla antes / ahora: los numeros como evidencia, no como adorno --- */
   .ba { width: 100%; margin: 3rem 0 3.5rem; overflow-x: auto; }
 
@@ -854,10 +886,30 @@
           <img src="assets/media/maravilloso-panel.jpg" alt="Panel de ventas del sistema: ventas del mes, gastos y utilidad">
         </div>
         <figcaption>
-          Panel que consolida lo que antes solo existía en el computador del local. Las cifras de esta
-          captura son de demostración: los datos del cliente no se publican.
+          Vista de escritorio. Consolida lo que antes solo existía en el computador del local.
         </figcaption>
       </figure>
+
+      <div>
+        <div class="devices">
+          <div>
+            <div class="phone"><img src="assets/media/mv-resumen.jpg" alt="Resumen de ventas en el celular"></div>
+            <div class="device-cap">Resumen del mes</div>
+          </div>
+          <div>
+            <div class="phone"><img src="assets/media/mv-gastos.jpg" alt="Registro de gastos en el celular"></div>
+            <div class="device-cap">Gastos por categoría</div>
+          </div>
+          <div>
+            <div class="phone"><img src="assets/media/mv-cierres.jpg" alt="Cierres diarios en el celular"></div>
+            <div class="device-cap">Cierres diarios</div>
+          </div>
+        </div>
+        <figcaption style="text-align:center">
+          La misma aplicación en el teléfono: se instala como app y funciona sin conexión. Todas las
+          cifras de estas capturas son de demostración; los datos del cliente no se publican.
+        </figcaption>
+      </div>
     </div>
 
     <div class="ba">
