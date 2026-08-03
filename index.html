@@ -662,16 +662,6 @@
         </figcaption>
       </figure>
 
-      <figure>
-        <div class="det-box tall">
-          <span class="det-label">Muestra de laboratorio · 696 objetos · 2,93 s</span>
-          <img src="assets/media/conteo-larvas.jpg" alt="Conteo automático de 696 larvas en una muestra de laboratorio">
-        </div>
-        <figcaption>
-          696 larvas detectadas y numeradas una por una en 2,93 segundos. El mismo recuento a mano,
-          bajo lupa, tomaba 45 minutos.
-        </figcaption>
-      </figure>
     </div>
 
     <div class="ba">
@@ -696,9 +686,9 @@
             <td class="now">Estancamientos detectados y registrados</td>
           </tr>
           <tr>
-            <th scope="row">Conteo de larvas</th>
-            <td>Bajo lupa, <b>45 minutos</b> por muestra</td>
-            <td class="now"><b>696</b> individuos en <b>2,93 s</b>, 85% de acierto</td>
+            <th scope="row">Registro del turno</th>
+            <td>Anotado a mano, si alcanzaba el tiempo</td>
+            <td class="now">Conteo por formato y detenciones, sin intervención</td>
           </tr>
         </tbody>
       </table>
@@ -712,10 +702,6 @@
             St. Andrews necesitaba saber cuántos paquetes de cada formato salían de sus estaciones de
             empaque y cuánto tiempo se detenía la línea. El conteo lo hacía un operario a la vista,
             sobre una línea de <b>13.000 kg diarios</b>.
-          </p>
-          <p>
-            En el laboratorio, contar las larvas de una muestra bajo lupa tomaba <b>45 minutos</b>. De
-            ese número dependían las decisiones de siembra.
           </p>
         </div>
       </div>
@@ -733,20 +719,12 @@
             cambios de iluminación durante el turno, movimiento de las cámaras, velocidad de cinta
             irregular y superficies mojadas.
           </p>
-          <p>
-            Para el laboratorio entrené un modelo aparte que detecta y numera cada larva de la
-            muestra. El dataset se construyó con imágenes capturadas en la propia planta.
-          </p>
         </div>
       </div>
 
       <div class="movement">
         <h3>Resultado</h3>
         <div class="body">
-          <p>
-            El conteo de larvas pasó de 45 minutos a <b>2,93 segundos</b> sobre 696 individuos, con
-            85% de acierto contra el conteo manual.
-          </p>
           <p>
             Las 3 estaciones operaron en producción durante toda la temporada, entregando conteo por
             formato y registro de detenciones sin intervención manual.
@@ -755,13 +733,108 @@
       </div>
     </div>
 
-    <div class="tools">Python · OpenCV · YOLOv8 · PyTorch · cámaras IP · seguimiento multiobjeto</div>
+    <div class="tools">Python · OpenCV · YOLOv8 · cámaras IP · seguimiento multiobjeto</div>
   </article>
 
   <!-- ============ 02 ============ -->
   <article class="case">
     <div class="case-head">
       <span class="num">02</span>
+      <span>St. Andrews · Mussels Chiloé</span>
+      <span>Acuicultura · laboratorio</span>
+      <span>Prueba de concepto validada</span>
+    </div>
+
+    <h2>Conteo automático de larvas de mejillón</h2>
+
+    <p class="context">
+      Proyecto distinto al de la línea de empaque, en otra área de la empresa: el laboratorio donde se
+      cuentan las larvas que definen la siembra.
+    </p>
+
+    <div class="shots">
+      <figure>
+        <div class="det-box tall">
+          <span class="det-label">Muestra de laboratorio · 696 objetos · 2,93 s</span>
+          <img src="assets/media/conteo-larvas.jpg" alt="Conteo automático de 696 larvas en una muestra de laboratorio">
+        </div>
+        <figcaption>
+          Salida real del sistema: cada larva detectada, numerada y contabilizada en una sola pasada.
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="ba">
+      <table>
+        <thead>
+          <tr><th scope="col">Operación</th><th scope="col">Antes</th><th scope="col">Con el sistema</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Conteo de una muestra</th>
+            <td>Bajo lupa, <b>45 minutos</b></td>
+            <td class="now"><b>2,93 segundos</b> sobre <b>696</b> individuos</td>
+          </tr>
+          <tr>
+            <th scope="row">Exactitud</th>
+            <td>Depende de quién cuente y de cuánto lleve mirando</td>
+            <td class="now"><b>85%</b> de acierto contra el conteo manual, repetible</td>
+          </tr>
+          <tr>
+            <th scope="row">Trazabilidad</th>
+            <td>Un número anotado, sin respaldo</td>
+            <td class="now">Imagen con cada individuo marcado y numerado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="movements">
+      <div class="movement">
+        <h3>Desafío y objetivos</h3>
+        <div class="body">
+          <p>
+            Contar las larvas de una muestra bajo lupa tomaba <b>45 minutos</b>. De ese número dependen
+            las decisiones de siembra, y el resultado variaba según quién hiciera el conteo y cuánto
+            tiempo llevara mirando.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>La solución</h3>
+        <div class="body">
+          <p>
+            Entrené un modelo de detección que localiza y numera cada larva de la muestra en una sola
+            pasada. El dataset se construyó con imágenes capturadas en la propia planta, no con bancos
+            públicos.
+          </p>
+          <p>
+            La dificultad está en la densidad: en una muestra hay cientos de individuos superpuestos,
+            translúcidos y de tamaño similar al ruido del fondo.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Estado</h3>
+        <div class="body">
+          <p>
+            <b>Prueba de concepto validada.</b> Quedó demostrado que el conteo se puede automatizar
+            —696 individuos en 2,93 segundos con 85% de acierto— pero no llegó a desplegarse como
+            sistema de operación diaria, a diferencia del caso anterior.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools">Python · PyTorch · OpenCV · dataset propio etiquetado en planta</div>
+  </article>
+
+  <!-- ============ 03 ============ -->
+  <article class="case">
+    <div class="case-head">
+      <span class="num">03</span>
       <span>Distribuidora El Maravilloso</span>
       <span>Distribución · Concepción</span>
       <span>Nov 2025 — hoy</span>
@@ -863,10 +936,10 @@
     <div class="tools">Python · SQL · PostgreSQL · Firebird · Linux · procesos programados · web scraping</div>
   </article>
 
-  <!-- ============ 03 ============ -->
+  <!-- ============ 04 ============ -->
   <article class="case">
     <div class="case-head">
-      <span class="num">03</span>
+      <span class="num">04</span>
       <span>LetsFit Company</span>
       <span>Salud y entrenamiento · Remoto</span>
       <span>Feb 2023 — hoy</span>
