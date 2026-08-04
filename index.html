@@ -586,28 +586,55 @@
 
   /* ===================== SOBRE MI ===================== */
 
-  .about {
-    padding: 13rem 0 0;
-    gap: 3.5rem;
+  .about { padding: 13rem 0 0; }
+
+  /* La seccion lleva su propia grilla de dos columnas dentro del carril:
+     el retrato a 22rem (que es su tamaño nativo real, 352px — mas grande
+     se veria blando) y el texto al lado. Sin superposiciones. */
+  .about > .grid-persona {
+    grid-column: wide;
+    display: grid;
+    grid-template-columns: 22rem minmax(0, 1fr);
+    gap: 4rem;
     align-items: start;
   }
 
-  /* el retrato ocupa el carril izquierdo, igual que el numero de caso:
-     asi la vertical de la pagina es una sola de arriba a abajo */
-  .about > .portrait { grid-column: wide-start / text-start; }
-  .about > div { grid-column: text-start / wide-end; }
+  .about .portrait { align-self: start; }
 
   .about .portrait { border: 1px solid var(--line-2); background: #000; }
   .about .portrait img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.05); }
 
   .about h2 {
     font-family: var(--display);
-    font-size: clamp(2rem, 4.4vw, 3.2rem);
-    line-height: 1.05;
+    font-size: clamp(2.6rem, 6.4vw, 5rem);
+    line-height: 1.02;
     font-weight: 400;
     letter-spacing: 0.005em;
     text-transform: uppercase;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.75rem;
+  }
+
+  /* datos de contacto junto al retrato, no escondidos abajo */
+  .about .contacto-directo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 2.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 0.92rem;
+  }
+
+  .about .contacto-directo a { text-decoration: none; color: var(--fg); }
+  .about .contacto-directo a:hover { color: var(--fg-2); }
+  .about .contacto-directo .et {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    display: block;
+    margin-bottom: 0.15rem;
   }
 
   .about p { color: var(--fg-2); font-size: var(--t-body); max-width: 34rem; }
@@ -813,9 +840,10 @@
     .case > .tools { text-align: left; margin-top: 2.5rem; }
 
     /* el retrato caia en el carril de 1.25rem y quedaba de 18px */
-    .about { gap: 2rem; }
-    .about > .portrait, .about > div { grid-column: text; }
-    .about .portrait { max-width: 12rem; }
+    .about { gap: 1.75rem; }
+    .about > .grid-persona { grid-template-columns: 1fr; gap: 1.75rem; }
+    .about .portrait { width: 13rem; }
+    
 
     .ongoing .grid { grid-template-columns: 1fr; }
     .case:nth-of-type(3) .devices { margin: 1.5rem 0 0; justify-content: center; }
@@ -1266,6 +1294,7 @@
 
   <!-- ============ SOBRE MI ============ -->
   <section class="about" id="sobremi">
+   <div class="grid-persona">
     <div class="portrait">
       <img src="assets/media/luis.jpg" alt="Luis San Martín">
     </div>
@@ -1286,7 +1315,19 @@
         visión computacional. También despliego y opero los sistemas: servidores, procesos
         programados y monitoreo.
       </p>
+
+      <div class="contacto-directo">
+        <span>
+          <span class="et">Teléfono</span>
+          <a href="tel:+56975878696">+56 9 7587 8696</a>
+        </span>
+        <span>
+          <span class="et">Correo</span>
+          <a href="mailto:sanmaglass@gmail.com">sanmaglass@gmail.com</a>
+        </span>
+      </div>
     </div>
+   </div>
   </section>
 
   <!-- ============ CIERRE ============ -->
@@ -1297,6 +1338,7 @@
       código, los paneles y los datos en vivo en una reunión, bajo acuerdo.
     </p>
     <div class="links">
+      <a href="tel:+56975878696">+56 9 7587 8696</a>
       <a href="mailto:sanmaglass@gmail.com">sanmaglass@gmail.com</a>
       <a href="https://www.linkedin.com/in/sanmartinluis/">linkedin.com/in/sanmartinluis</a>
       <a href="https://github.com/sanmaglass">github.com/sanmaglass</a>
