@@ -83,7 +83,9 @@
   a { color: inherit; }
   :focus-visible { outline: 1px solid var(--fg); outline-offset: 4px; }
 
-  .wrap, .case, .ongoing, .about, .end {
+  /* .indice faltaba aca: sin la rejilla se estiraba de borde a borde
+     mientras el resto quedaba centrado. Era el unico bloque desalineado. */
+  .wrap, .case, .indice, .ongoing, .about, .end {
     display: grid;
     grid-template-columns: var(--page-grid);
     max-width: none;
@@ -760,6 +762,11 @@
     align-items: start;
   }
 
+  /* palabras largas en Anton -AUTOMATIZACION- no se pueden partir y
+     empujan el contenedor en pantallas angostas */
+  .about > .grid-persona > * { min-width: 0; }
+  .about h2 { overflow-wrap: anywhere; }
+
   .about .portrait { align-self: start; }
 
   .about .portrait { border: 1px solid var(--line-2); background: #000; }
@@ -851,6 +858,71 @@
     margin-top: 1.8rem;
     max-width: none;
   }
+
+  /* ===== LINEA DE CONTEO =====
+     Sus sistemas cuentan asi: una linea cruza el cuadro y cada objeto que
+     la atraviesa suma. La pagina hace lo mismo con quien la lee. El
+     contador es el mismo formato quemado de sus overlays. */
+  .linea-conteo {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 62%;
+    height: 1px;
+    background: var(--fg);
+    opacity: 0.16;
+    pointer-events: none;
+    z-index: 30;
+  }
+
+  .linea-conteo::before,
+  .linea-conteo::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    width: 1px;
+    height: 7px;
+    background: var(--fg);
+  }
+
+  .linea-conteo::before { left: 0; }
+  .linea-conteo::after  { right: 0; }
+
+  /* a la derecha: el carril izquierdo lo ocupa el numero de caso, que es
+     sticky, y el HUD se le montaba encima */
+  .hud {
+    position: fixed;
+    right: 1.5rem;
+    text-align: right;
+    top: calc(62% + 0.9rem);
+    z-index: 31;
+    pointer-events: none;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    line-height: 1.5;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .hud.se-ve { opacity: 1; }
+  .hud b { color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  /* al cruzar, el bloque parpadea una vez: es el acuse del conteo */
+  @keyframes cruce {
+    0%, 100% { opacity: 0.16; }
+    35%      { opacity: 0.6; }
+  }
+
+  .linea-conteo.cruzando { animation: cruce 0.45s ease; }
+
+  @media (max-width: 56rem), (prefers-reduced-motion: reduce) {
+    .linea-conteo, .hud { display: none; }
+  }
+
+  @media print { .linea-conteo, .hud { display: none !important; } }
 
   /* ===== APARICION POR SCROLL =====
      Mismo patron que usan ellos: opacity + translateY, ~0.55s, disparado
@@ -1528,10 +1600,10 @@
     </div>
     <div>
       <div class="section-label">SOBRE MÍ</div>
-      <h2>Luis San Martín</h2>
+      <h2>Ingeniería Civil en Automatización</h2>
       <p>
-        Vivo en <b>Concepción, Chile</b>. Soy egresado de Ingeniería Civil en Automatización de
-        la Universidad del Bío-Bío, con la titulación en curso.
+        Egresado de la <b>Universidad del Bío-Bío</b>, con la titulación en curso. Vivo en
+        Concepción.
       </p>
       <p>
         Llevo más de tres años desarrollando software en producción para clientes de acuicultura,
@@ -1577,6 +1649,12 @@
     </p>
   </section>
 
+</div>
+
+<div class="linea-conteo" aria-hidden="true"></div>
+<div class="hud" aria-hidden="true">
+  Línea de conteo<br>
+  Casos: <b><span id="hud-n">0</span></b> / 4
 </div>
 
 <div class="cur-ring" aria-hidden="true"></div>
@@ -1641,6 +1719,48 @@
     }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
     targets.forEach(function (el) { io.observe(el); });
   }
+
+  /* --- LINEA DE CONTEO ---
+     Igual que en planta: la linea esta fija y el contador sube cuando un
+     caso la cruza. Aca "el objeto" es cada caso mientras se scrollea. */
+  (function () {
+    var linea = document.querySelector('.linea-conteo');
+    var hud = document.querySelector('.hud');
+    var salida = document.getElementById('hud-n');
+    var casos = [].slice.call(document.querySelectorAll('.case'));
+    if (!linea || !hud || !salida || !casos.length) return;
+    if (reduced || window.matchMedia('(max-width: 56rem)').matches) return;
+
+    var contados = 0;
+
+    function medir() {
+      var y = window.innerHeight * 0.62;
+      var n = 0;
+      for (var i = 0; i < casos.length; i++) {
+        var r = casos[i].getBoundingClientRect();
+        if (r.top <= y) n++;          // el caso ya cruzo la linea
+      }
+      if (n !== contados) {
+        contados = n;
+        salida.textContent = n;
+        linea.classList.remove('cruzando');
+        void linea.offsetWidth;        // reinicia la animacion
+        linea.classList.add('cruzando');
+      }
+      // el HUD aparece recien cuando se empieza a leer, no en la portada
+      hud.classList.toggle('se-ve', window.scrollY > window.innerHeight * 0.55);
+    }
+
+    var pedido = false;
+    window.addEventListener('scroll', function () {
+      if (pedido) return;
+      pedido = true;
+      requestAnimationFrame(function () { medir(); pedido = false; });
+    }, { passive: true });
+
+    window.addEventListener('resize', medir, { passive: true });
+    medir();
+  })();
 
   /* --- cursor propio --- */
   if (!puedeApuntar) return;
