@@ -332,6 +332,14 @@
     color: var(--fg-3);
   }
 
+  /* la carga operativa: un dato que no aparece en ninguna otra parte */
+  .case-head .carga {
+    color: var(--fg);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+
   .case-head .num {
     font-family: var(--display);
     font-size: 4.25rem;
@@ -780,7 +788,13 @@
         1.25rem [wide-end] 0 [full-end];
     }
 
-    .nav { padding: 0.85rem 1.25rem; }
+    /* Bug: la nav se partia en dos filas (108 px) y el contenido quedaba
+       leyendose por debajo. En telefono van solo dos destinos, sin envolver. */
+    .nav { padding: 0.7rem 1.25rem; }
+    .nav .mark { font-size: 0.72rem; }
+    .nav .links { flex-wrap: nowrap; gap: 0 1rem; }
+    .nav .links a[href="#curso"],
+    .nav .links a[href="#sobremi"] { display: none; }
     .hero { padding-top: 4rem; }
     .hero-inner, .status-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
 
@@ -867,12 +881,11 @@
 
 <header class="hero">
   <div class="grid-bg"></div>
-  <div class="glow"></div>
   <div class="wrap hero-inner">
-    <div class="eyebrow">PORTAFOLIO · 2026</div>
-    <h1>Visión computacional y datos en producción</h1>
+    <div class="eyebrow">Luis San Martín · Hualpén, Chile</div>
+    <h1>Tres estaciones de empaque. 11.900 ventas. 768 sesiones.</h1>
     <p class="lede">
-      Software en producción desde 2023 para clientes de acuicultura, distribución y salud.
+      Visión computacional y sistemas de datos, corriendo en planta y en local desde 2023.
     </p>
     <div class="btns">
       <a class="btn" href="#casos">Ver los casos</a>
@@ -951,8 +964,7 @@
   <article class="case" id="caso-01">
     <div class="case-head">
       <span class="num">01</span>
-      <span>St. Andrews · Mussels Chiloé</span>
-      <span>Acuicultura · Chiloé</span>
+      <span class="carga">13.000 kg / día</span>
       <span>Jun 2024 — Jul 2025</span>
     </div>
 
@@ -966,7 +978,7 @@
     <div class="shots">
       <figure>
         <div class="det-box">
-          <span class="det-label">Estación de empaque · en operación</span>
+          <span class="det-label">2024-10-10 13:05:54 · 500grs (81.7%)</span>
           <video id="vid-empaque" src="assets/media/empaque.mp4" poster="assets/media/empaque-poster.jpg"
                  loop muted playsinline preload="metadata"
                  aria-label="Conteo y clasificación de paquetes sobre la cinta de empaque"></video>
@@ -982,7 +994,7 @@
 
     <div class="movements">
       <div class="movement">
-        <h3>Desafío y objetivos</h3>
+        <h3>Un operario contando a ojo, 13.000 kg al día</h3>
         <div class="body">
           <p>
             St. Andrews necesitaba saber cuántos paquetes de cada formato salían de sus estaciones de
@@ -993,7 +1005,7 @@
       </div>
 
       <div class="movement">
-        <h3>La solución</h3>
+        <h3>Tres cámaras que cuentan, clasifican y detectan atascos</h3>
         <div class="body">
           <p>
             Sistema multicámara para <b>3 estaciones</b>: cuenta los paquetes que cruzan la línea, los
@@ -1004,7 +1016,7 @@
       </div>
 
       <div class="movement">
-        <h3>Resultado</h3>
+        <h3>Una temporada completa sin que nadie anotara nada</h3>
         <div class="body">
           <p>
             Las 3 estaciones operaron en producción toda la temporada, sin intervención manual.
@@ -1013,16 +1025,15 @@
       </div>
     </div>
 
-    <div class="tools">Python · OpenCV · YOLOv8 · cámaras IP · seguimiento multiobjeto</div>
+    <div class="tools">YOLOv8 para detección · SORT para el seguimiento entre cuadros · OpenCV · RTSP sobre cámaras IP · Python</div>
   </article>
 
   <!-- ============ 02 ============ -->
   <article class="case" id="caso-02">
     <div class="case-head">
       <span class="num">02</span>
-      <span>St. Andrews · Mussels Chiloé</span>
-      <span>Acuicultura · laboratorio</span>
-      <span>Prueba de concepto validada</span>
+      <span class="carga">696 en 2,93 s</span>
+      <span>No desplegado</span>
     </div>
 
     <h2>Conteo automático de larvas de mejillón</h2>
@@ -1035,7 +1046,7 @@
     <div class="shots">
       <figure>
         <div class="det-box tall">
-          <span class="det-label">Muestra de laboratorio · 696 objetos · 2,93 s</span>
+          <span class="det-label">Larvas detectadas: 696 · Tiempo: 2.93 seg</span>
           <img src="assets/media/conteo-larvas.jpg" alt="Conteo automático de 696 larvas en una muestra de laboratorio">
         </div>
         <figcaption>
@@ -1046,7 +1057,7 @@
 
     <div class="movements">
       <div class="movement">
-        <h3>Desafío y objetivos</h3>
+        <h3>45 minutos bajo lupa por cada muestra</h3>
         <div class="body">
           <p>
             Contar las larvas de una muestra bajo lupa tomaba <b>45 minutos</b>. De ese número dependen
@@ -1057,7 +1068,7 @@
       </div>
 
       <div class="movement">
-        <h3>La solución</h3>
+        <h3>Cientos de individuos translúcidos y superpuestos</h3>
         <div class="body">
           <p>
             Modelo de detección que localiza y numera cada larva en una sola pasada, entrenado con un
@@ -1068,7 +1079,7 @@
       </div>
 
       <div class="movement">
-        <h3>Estado</h3>
+        <h3>2,93 segundos, 85% de acierto, nunca se desplegó</h3>
         <div class="body">
           <p>
             <b>Prueba de concepto validada.</b> Quedó demostrado que el conteo se puede automatizar
@@ -1079,15 +1090,14 @@
       </div>
     </div>
 
-    <div class="tools">Python · PyTorch · OpenCV · dataset propio etiquetado en planta</div>
+    <div class="tools">PyTorch · detección de objetos pequeños y densos · dataset propio etiquetado en planta · OpenCV</div>
   </article>
 
   <!-- ============ 03 ============ -->
   <article class="case" id="caso-03">
     <div class="case-head">
       <span class="num">03</span>
-      <span>Distribuidora El Maravilloso</span>
-      <span>Distribución · Concepción</span>
+      <span class="carga">78 ventas / día</span>
       <span>Nov 2025 — hoy</span>
     </div>
 
@@ -1101,7 +1111,7 @@
     <div class="shots">
       <figure>
         <div class="det-box">
-          <span class="det-label">Panel de ventas · datos de demostración</span>
+          <span class="det-label">Resumen · agosto 2026 · datos de demostración</span>
           <img src="assets/media/maravilloso-panel.jpg" alt="Panel de ventas del sistema: ventas del mes, gastos y utilidad">
         </div>
         <figcaption>
@@ -1133,7 +1143,7 @@
 
     <div class="movements">
       <div class="movement">
-        <h3>Desafío y objetivos</h3>
+        <h3>Los datos existían pero no salían del mesón</h3>
         <div class="body">
           <p>
             La distribuidora operaba sobre un punto de venta cerrado, con base de datos local y <b>sin
@@ -1145,7 +1155,7 @@
       </div>
 
       <div class="movement">
-        <h3>La solución</h3>
+        <h3>Sincronizar el punto de venta y leerle el SII</h3>
         <div class="body">
           <p>
             Mapeé el esquema del punto de venta y construí la sincronización hacia PostgreSQL en la
@@ -1163,7 +1173,7 @@
       </div>
 
       <div class="movement">
-        <h3>Resultado</h3>
+        <h3>283 alertas emitidas, cero datos corregidos</h3>
         <div class="body">
           <p>
             Dashboard en tiempo real, informe mensual y Excel de gastos categorizado, generados sin
@@ -1178,15 +1188,14 @@
       </div>
     </div>
 
-    <div class="tools">Python · SQL · PostgreSQL · Firebird · Linux · procesos programados · web scraping</div>
+    <div class="tools">Firebird del punto de venta → PostgreSQL · reloj lógico híbrido para la sincronización · scraping autenticado del SII · cron en Linux · Python</div>
   </article>
 
   <!-- ============ 04 ============ -->
   <article class="case" id="caso-04">
     <div class="case-head">
       <span class="num">04</span>
-      <span>LetsFit Company</span>
-      <span>Salud y entrenamiento · Remoto</span>
+      <span class="carga">2 sedes · 14 profesionales</span>
       <span>Feb 2023 — hoy</span>
     </div>
 
@@ -1200,7 +1209,7 @@
     <div class="shots">
       <figure>
         <div class="det-box">
-          <span class="det-label">Liquidación de comisiones · datos de demostración</span>
+          <span class="det-label">Comisiones · 240 atenciones · datos de demostración</span>
           <img src="assets/media/letsfit-comisiones.jpg" alt="Panel de comisiones: facturado, comisión del centro y pago por profesional">
         </div>
         <figcaption>
@@ -1211,7 +1220,7 @@
 
       <figure>
         <div class="det-box">
-          <span class="det-label">Agenda semanal · datos de demostración</span>
+          <span class="det-label">Agenda · 3 al 9 de agosto · datos de demostración</span>
           <img src="assets/media/letsfit-agenda.jpg" alt="Agenda semanal con las reservas por día, profesional y servicio">
         </div>
         <figcaption>
@@ -1223,7 +1232,7 @@
 
     <div class="movements">
       <div class="movement">
-        <h3>Desafío y objetivos</h3>
+        <h3>170 alumnos encerrados en un sistema arrendado</h3>
         <div class="body">
           <p>
             El centro operaba sobre una plataforma comercial de pago mensual que no daba acceso a su
@@ -1235,7 +1244,7 @@
       </div>
 
       <div class="movement">
-        <h3>La solución</h3>
+        <h3>Sacar la base por scraping y reemplazar la plataforma</h3>
         <div class="body">
           <p>
             Extraje la base completa por <b>web scraping</b>, la normalicé y trasladé clientes e
@@ -1251,10 +1260,10 @@
       </div>
 
       <div class="movement">
-        <h3>Resultado</h3>
+        <h3>14 profesionales liquidados solos, sin licencia mensual</h3>
         <div class="body">
           <p>
-            Sistema propio en <b>2 sedes</b>, sin licencia mensual a terceros, con la liquidación de
+            Sistema propio sin licencia mensual a terceros, con la liquidación de
             <b>14 profesionales</b> sobre 768 sesiones calculada automáticamente. La migración continúa
             sede por sede, sin interrumpir la operación.
           </p>
@@ -1262,7 +1271,7 @@
       </div>
     </div>
 
-    <div class="tools">PostgreSQL · SQL · TypeScript · Python · servidores en la nube</div>
+    <div class="tools">PostgreSQL con Row Level Security por sede · migraciones versionadas · TypeScript · scraping para la migración · Python</div>
   </article>
 
   <!-- ============ EN CURSO ============ -->
@@ -1270,24 +1279,24 @@
     <div class="section-label">EN CURSO</div>
     <div class="grid">
       <div class="item">
-        <div class="when">FEB 2026 — HOY · EN PRODUCCIÓN</div>
+        <div class="when">Feb 2026 — hoy · con cliente, en producción</div>
         <h3>Analítica de flujo de personas en retail</h3>
         <p>
           Conteo de entrada y salida sobre cámaras de circuito cerrado ya instaladas, mapas de calor
           de tráfico y alertas por cruce de línea configurable. El sistema usa las cámaras que el
           local ya tiene, sin hardware adicional.
         </p>
-        <div class="tools">Python · OpenCV · YOLOv8</div>
+        <div class="tools">YOLOv8 · conteo por cruce de línea · mapas de calor acumulados · OpenCV</div>
       </div>
       <div class="item">
-        <div class="when">2026 · PROYECTO DE TÍTULO</div>
+        <div class="when">2026 · sin cliente · proyecto de título</div>
         <h3>Detección de elementos de protección personal</h3>
         <p>
           Detección de casco, chaleco y demás EPP en faena industrial. El aporte central del proyecto
           es el dataset: imágenes capturadas en planta real, en vez de bancos públicos que no
           representan las condiciones de faena.
         </p>
-        <div class="tools">Python · PyTorch · YOLOv8</div>
+        <div class="tools">PyTorch · YOLOv8 · dataset capturado en faena, no de banco público</div>
       </div>
     </div>
   </section>
@@ -1332,14 +1341,12 @@
 
   <!-- ============ CIERRE ============ -->
   <section class="end" id="contacto">
-    <h2>Contacto</h2>
+    <h2>Los repositorios son privados</h2>
     <p>
-      Los repositorios son privados porque son sistemas en operación de terceros. Puedo mostrar el
-      código, los paneles y los datos en vivo en una reunión, bajo acuerdo.
+      Son sistemas en operación de clientes, así que el código no es mío para publicarlo. Lo muestro
+      entero en una reunión, con los paneles y los datos en vivo, bajo acuerdo de confidencialidad.
     </p>
     <div class="links">
-      <a href="tel:+56975878696">+56 9 7587 8696</a>
-      <a href="mailto:sanmaglass@gmail.com">sanmaglass@gmail.com</a>
       <a href="https://www.linkedin.com/in/sanmartinluis/">linkedin.com/in/sanmartinluis</a>
       <a href="https://github.com/sanmaglass">github.com/sanmaglass</a>
       <a href="CV-Luis-San-Martin.pdf" download>Descargar CV (PDF)</a>
