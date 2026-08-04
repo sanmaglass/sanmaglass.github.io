@@ -590,32 +590,38 @@
     transition: opacity 0.3s ease;
   }
 
+  /* La flecha del sistema se esconde SOLO cuando el cursor propio ya
+     esta funcionando: la clase la pone el JS. Si el script fallara,
+     la flecha sigue ahi y no se queda nadie sin puntero. */
+  html.cursor-propio,
+  html.cursor-propio * { cursor: none !important; }
+
   .cur-dot {
-    width: 5px;
-    height: 5px;
-    margin: -2.5px 0 0 -2.5px;
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
     background: var(--fg);
   }
 
   /* la mira: un cuadro sin bordes completos, solo las cuatro esquinas */
   .cur-ring {
-    width: 30px;
-    height: 30px;
-    margin: -15px 0 0 -15px;
+    width: 42px;
+    height: 42px;
+    margin: -21px 0 0 -21px;
     background:
-      linear-gradient(var(--fg), var(--fg)) 0 0 / 9px 1px no-repeat,
-      linear-gradient(var(--fg), var(--fg)) 0 0 / 1px 9px no-repeat,
-      linear-gradient(var(--fg), var(--fg)) 100% 0 / 9px 1px no-repeat,
-      linear-gradient(var(--fg), var(--fg)) 100% 0 / 1px 9px no-repeat,
-      linear-gradient(var(--fg), var(--fg)) 0 100% / 9px 1px no-repeat,
-      linear-gradient(var(--fg), var(--fg)) 0 100% / 1px 9px no-repeat,
-      linear-gradient(var(--fg), var(--fg)) 100% 100% / 9px 1px no-repeat,
-      linear-gradient(var(--fg), var(--fg)) 100% 100% / 1px 9px no-repeat;
+      linear-gradient(var(--fg), var(--fg)) 0 0 / 14px 2px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 0 0 / 2px 14px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 100% 0 / 14px 2px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 100% 0 / 2px 14px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 0 100% / 14px 2px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 0 100% / 2px 14px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 100% 100% / 14px 2px no-repeat,
+      linear-gradient(var(--fg), var(--fg)) 100% 100% / 2px 14px no-repeat;
     transition: opacity 0.3s ease, width 0.28s cubic-bezier(.2,.9,.3,1),
                 height 0.28s cubic-bezier(.2,.9,.3,1), margin 0.28s cubic-bezier(.2,.9,.3,1);
   }
 
-  .cur-ring.big { width: 52px; height: 52px; margin: -26px 0 0 -26px; }
+  .cur-ring.big { width: 70px; height: 70px; margin: -35px 0 0 -35px; }
 
   /* enganchada: la mira toma el tamaño del elemento y se detiene sobre el */
   .cur-ring.lock { transition: opacity .2s ease, transform .16s cubic-bezier(.2,.9,.3,1),
@@ -1197,6 +1203,11 @@
 
   var dot = document.querySelector('.cur-dot');
   var ring = document.querySelector('.cur-ring');
+  if (!dot || !ring) return;
+
+  /* recien aqui escondemos la flecha del sistema: si algo fallo antes,
+     el usuario nunca se queda sin puntero */
+  document.documentElement.classList.add('cursor-propio');
   var mx = 0, my = 0, rx = 0, ry = 0, shown = false, raf = null, locked = null;
 
   /* el anillo persigue al punto con retardo.
