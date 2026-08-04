@@ -915,7 +915,9 @@
                                width .22s cubic-bezier(.2,.9,.3,1), height .22s cubic-bezier(.2,.9,.3,1),
                                margin .22s cubic-bezier(.2,.9,.3,1); }
 
-  .cur-dot.hide { opacity: 0 !important; }
+  /* el punto siempre visible: es el unico puntero que queda cuando la
+     flecha del sistema esta oculta */
+  .cur-dot { z-index: 10000; }
 
   /* Solo se esconde donde de verdad NO hay puntero (celular, tablet).
      `any-hover` es la consulta correcta: mira si ALGUN dispositivo puede apuntar: un notebook con pantalla tactil
@@ -1528,7 +1530,7 @@
       <div class="section-label">SOBRE MÍ</div>
       <h2>Luis San Martín</h2>
       <p>
-        Vivo en <b>Hualpén, Gran Concepción</b>. Soy egresado de Ingeniería Civil en Automatización de
+        Vivo en <b>Concepción, Chile</b>. Soy egresado de Ingeniería Civil en Automatización de
         la Universidad del Bío-Bío, con la titulación en curso.
       </p>
       <p>
@@ -1703,7 +1705,8 @@
       ring.style.height = Math.round(r.height) + 'px';
       ring.style.margin = '0';
       ring.style.transform = 'translate(' + Math.round(r.left) + 'px,' + Math.round(r.top) + 'px)';
-      dot.classList.add('hide');
+      /* el punto NO se esconde: con la flecha del sistema oculta, esconderlo
+         dejaba sin ningun puntero mientras se estaba sobre una imagen */
     });
 
     el.addEventListener('mouseleave', function () {
@@ -1712,7 +1715,6 @@
       ring.style.width = '';
       ring.style.height = '';
       ring.style.margin = '';
-      dot.classList.remove('hide');
     });
   });
 
