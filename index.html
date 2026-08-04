@@ -530,6 +530,79 @@
 
   .det-box video, .det-box img { display: block; width: 100%; height: auto; }
 
+  /* ===== CAJA RECONSTRUIDA (3a estacion) =====
+     Se dibuja en la pagina, con la tipografia y los grises del sitio, para
+     que NUNCA se confunda con las cajas amarillas quemadas en el video real.
+     Esa diferencia visual es deliberada: la otra opcion era imitar la
+     captura, y eso es presentar un resultado que el sistema no produjo.
+     Va en porcentajes para que calce a cualquier ancho. */
+  .recon { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+
+  .recon-tag {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--fg);
+    padding: 0.22rem 0.5rem;
+  }
+
+  /* barrido: recorre el cuadro una vez antes de que la caja enganche.
+     Primero busca, despues fija — es el orden real de un detector. */
+  .barrido {
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 2px;
+    opacity: 0;
+    background: linear-gradient(90deg,
+      transparent, rgba(253, 254, 255, 0.9) 22%, rgba(253, 254, 255, 0.9) 78%, transparent);
+  }
+
+  .recon .caja {
+    position: absolute;
+    left: var(--x); top: var(--y);
+    width: var(--w); height: var(--h);
+    outline: 1px solid rgba(253, 254, 255, 0.85);
+    outline-offset: 0;
+  }
+
+  /* las esquinas son mas gruesas que el trazo: el ojo las lee como
+     enganche, igual que el cursor de mira */
+  .recon .e {
+    position: absolute;
+    width: 15px; height: 15px;
+    border: 2px solid var(--fg);
+  }
+
+  .recon .tl { top: -1px; left: -1px;  border-right: 0; border-bottom: 0; }
+  .recon .tr { top: -1px; right: -1px; border-left: 0;  border-bottom: 0; }
+  .recon .bl { bottom: -1px; left: -1px;  border-right: 0; border-top: 0; }
+  .recon .br { bottom: -1px; right: -1px; border-left: 0;  border-top: 0; }
+
+  .recon .cap {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    transform: translateY(-100%);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    color: var(--bg);
+    background: var(--fg);
+    padding: 0.16rem 0.42rem;
+  }
+
+  /* en pantallas chicas la caja se achica con la foto y el rotulo no cabe */
+  @media (max-width: 34rem) {
+    .recon .cap { font-size: 0.55rem; padding: 0.12rem 0.3rem; }
+    .recon .e { width: 10px; height: 10px; }
+  }
+
   /* control de pausa: contenido en movimiento debe poder detenerse (WCAG 2.2.2) */
   .vid-toggle {
     position: absolute;
@@ -1302,11 +1375,23 @@
         <div class="det-box">
           <span class="det-label">23-01-2025 08:58:40 · vista de cámara</span>
           <img src="assets/media/tercera-estacion.jpg" alt="Tercera estación: vista de la cámara sobre la cinta, con una bolsa al vacío de mejillones">
+          <!-- La caja NO viene quemada en la foto: se dibuja aca, en la
+               pagina, y va rotulada como reconstruccion. Imitar la captura
+               real seria presentar un resultado que el sistema no produjo. -->
+          <div class="recon" aria-hidden="true">
+            <span class="recon-tag">Reconstrucción</span>
+            <span class="barrido"></span>
+            <div class="caja" style="--x:23%; --y:23%; --w:26.5%; --h:74%">
+              <i class="e tl"></i><i class="e tr"></i><i class="e bl"></i><i class="e br"></i>
+              <span class="cap">bolsa al vacío</span>
+            </div>
+          </div>
         </div>
         <figcaption>
-          Tercera estación, enero 2025. Vista cruda de la cámara, sin la capa de detección encima:
-          gran angular, cinta modular y <b>bolsa al vacío en vez de bandeja</b>. Este formato no es
-          el mismo que cuentan las otras dos estaciones.
+          Tercera estación, enero 2025. Gran angular, cinta modular y <b>bolsa al vacío en vez de
+          bandeja</b>: este formato no es el mismo que cuentan las otras dos. La foto es la vista
+          cruda de la cámara — <b>la caja está dibujada por esta página, no sale del sistema</b>.
+          Marca dónde engancharía el detector, con el mismo criterio que las otras dos estaciones.
         </figcaption>
       </figure>
 
@@ -1832,6 +1917,35 @@
           scrollTrigger: { trigger: cont, start: 'top 85%', once: true }
         });
       });
+    });
+
+    /* --- ENGANCHE DE LA CAJA RECONSTRUIDA ---
+       Las cuatro esquinas llegan separadas y CONVERGEN sobre el paquete;
+       recien despues aparece el trazo y el rotulo. Es el mismo gesto que
+       hace el cursor de mira al cuadrarse sobre una imagen, y el mismo que
+       hace un detector al enganchar: primero busca, despues fija. */
+    gsap.utils.toArray('.recon').forEach(function (rec) {
+      var caja = rec.querySelector('.caja');
+      var tl = gsap.timeline({
+        scrollTrigger: { trigger: rec, start: 'top 78%', once: true }
+      });
+
+      /* en pixeles y leido al vuelo: la altura depende del ancho de pantalla */
+      tl.fromTo(rec.querySelector('.barrido'),
+          { y: 0, opacity: 0 },
+          { duration: 0.85, ease: 'power1.inOut', opacity: 1, immediateRender: false,
+            y: function () { return rec.offsetHeight - 2; } }, 0)
+        .to(rec.querySelector('.barrido'), { duration: 0.25, opacity: 0 }, 0.7)
+        .from(rec.querySelectorAll('.e'), {
+          duration: 0.75, ease: 'expo.out', opacity: 0,
+          x: function (i) { return (i === 0 || i === 2) ? -26 : 26; },
+          y: function (i) { return (i < 2) ? -26 : 26; },
+          stagger: 0.06
+        }, 0.55)
+        .fromTo(caja, { outlineColor: 'rgba(253,254,255,0)' },
+                      { duration: 0.5, outlineColor: 'rgba(253,254,255,0.85)' }, 0.9)
+        .from(rec.querySelector('.cap'), { duration: 0.4, ease: 'power2.out', opacity: 0, y: 6 }, 1.15)
+        .from(rec.querySelector('.recon-tag'), { duration: 0.4, ease: 'power2.out', opacity: 0 }, 0.7);
     });
 
     /* --- PARALAJE LIGADO AL SCROLL ---
