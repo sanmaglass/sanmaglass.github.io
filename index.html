@@ -211,7 +211,7 @@
     overflow: hidden;
     /* 7rem dejaban la portada en 970px y el boton principal caia fuera
        de pantalla en 1366x768, 1440x900 y 1512x860 */
-    padding: 2.25rem 0 0;
+    padding: 1.5rem 0 0;
   }
 
   /* diagonales finas. NO el piso en perspectiva: ese fondo es el cliche
@@ -254,10 +254,34 @@
      principal fuera de pantalla. El archivo es de 900x1056 (3x) porque el
      original nuevo es de 12 MP; el anterior era de 400x400 y ya estaba
      al limite a 240. */
+  /* 328px de ancho: el bloque de texto ahora mide saludo + 2 lineas de
+     Anton, y la foto sube con el para que los dos sigan compartiendo borde
+     superior e inferior. Sale de 900px nativos, o sea el 36%: la foto nunca
+     se agranda, solo se usa mas del original de 12 MP. */
   .retrato-hero {
-    width: 300px;
+    width: 324px;
     flex: none;
     margin: 0;
+  }
+
+  .ficha-txt { min-width: 0; display: flex; flex-direction: column; }
+
+  .saludo {
+    font-size: 1.05rem;
+    line-height: 1.2;
+    color: var(--fg-3);
+    margin: 0 0 0.2rem;
+    letter-spacing: 0.01em;
+  }
+
+  /* el mosaico se dibuja encima de la foto y desaparece al terminar: si el
+     JS no corre, no existe y la foto se ve normal */
+  .mosaico {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    filter: grayscale(1) contrast(1.06);
   }
 
   .retrato-hero .det-box { border-color: var(--fg); }
@@ -296,8 +320,8 @@
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     color: var(--fg-3);
-    padding-bottom: 0.8rem;
-    margin-bottom: 2rem;
+    padding-bottom: 0.7rem;
+    margin-bottom: 1.6rem;
     border-bottom: 1px solid var(--line);
   }
 
@@ -348,7 +372,7 @@
     border-top: 1px solid var(--line);
   }
 
-  .btns { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
+  .btns { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 1.25rem; }
 
   .btn {
     display: inline-flex;
@@ -1546,7 +1570,10 @@
           <img src="assets/media/luis-ficha.jpg" alt="" width="300" height="352">
         </div>
       </figure>
-      <h1>Luis San<br>Martín</h1>
+      <div class="ficha-txt">
+        <p class="saludo">Hola, soy</p>
+        <h1>Luis San<br>Martín</h1>
+      </div>
     </div>
     <p class="rol">Visión computacional, IA y sistemas de datos</p>
     <p class="lede">
@@ -2396,17 +2423,90 @@
     /* descubrir de abajo hacia arriba, como si terminara de leerlo */
     var LEE   = { clipPath: 'inset(0% 0% 100% 0%)', yPercent: 8 };
 
-    /* --- portada: engancha el rostro, despues descubre el nombre ---
+    /* el nombre se parte en letras ANTES de armar la linea de tiempo */
+    var letras = [];
+    if (typeof SplitText !== 'undefined') {
+      try {
+        letras = SplitText.create('.hero h1', { type: 'chars' }).chars || [];
+      } catch (e) { letras = []; }
+    }
+
+    /* --- portada: la imagen se arma, despues se resuelve el nombre ---
        Orden de lectura, no de decoracion: primero se traza la regla de
        arriba, engancha la cara, se descubre el nombre, el oficio, la
        evidencia y recien al final los botones. */
     gsap.timeline()
       .from('.hero .eyebrow',   { duration: 0.7, ease: 'power2.out', opacity: 0, y: -8 }, 0)
-      .from('.retrato-hero',    { duration: 0.9, ease: 'expo.out', clipPath: TRAZO.clipPath, opacity: 0 }, 0.35)
-      .from('.hero h1',         { duration: 1.0, ease: 'expo.out', clipPath: LEE.clipPath, yPercent: 8 }, 0.65)
-      .from('.hero .rol',       { duration: 0.7, ease: 'power2.out', opacity: 0, y: 12 }, 1.2)
-      .from('.hero .lede',      { duration: 0.8, ease: 'power2.out', opacity: 0, y: 14 }, 1.35)
-      .from('.hero .btns .btn', { duration: 0.6, ease: 'power2.out', opacity: 0, y: 10, stagger: 0.07 }, 1.5);
+      .from('.hero .saludo',    { duration: 0.6, ease: 'power2.out', opacity: 0, y: 8 }, 0.5)
+      .from(letras.length ? letras : '.hero h1', {
+          duration: 0.5,
+          /* steps() en vez de una curva suave: el nombre no se desliza,
+             SALTA en escalones, que es lo que se lee como pixeles */
+          ease: 'steps(5)',
+          opacity: 0, scaleY: 0.25, transformOrigin: '50% 60%',
+          stagger: { each: 0.028, from: 'random' }
+        }, 0.75)
+      .from('.hero .rol',       { duration: 0.7, ease: 'power2.out', opacity: 0, y: 12 }, 1.45)
+      .from('.hero .lede',      { duration: 0.8, ease: 'power2.out', opacity: 0, y: 14 }, 1.6)
+      .from('.hero .btns .btn', { duration: 0.6, ease: 'power2.out', opacity: 0, y: 10, stagger: 0.07 }, 1.75)
+      .from('.hero .otro-idioma', { duration: 0.5, ease: 'power2.out', opacity: 0 }, 1.95);
+
+    /* --- LA IMAGEN SE ARMA ---
+       El retrato arranca como bloques gruesos y va resolviendo hasta la
+       foto completa. No es un filtro de moda: es como resuelve un sensor,
+       de menos a mas pixeles, asi que es el mismo lenguaje de los casos.
+
+       Se dibuja en un canvas ENCIMA de la foto y al terminar se borra. La
+       foto de abajo nunca se toca: si el JS no corre o el navegador no
+       soporta canvas, se ve normal desde el primer momento. */
+    (function () {
+      var fig = document.querySelector('.retrato-hero');
+      var img = fig && fig.querySelector('img');
+      var caja = fig && fig.querySelector('.det-box');
+      if (!img || !caja) return;
+
+      function armar() {
+        var w = Math.round(img.clientWidth), h = Math.round(img.clientHeight);
+        if (!w || !h) return;
+
+        var lienzo = document.createElement('canvas');
+        lienzo.className = 'mosaico';
+        lienzo.width = w; lienzo.height = h;
+        var ctx = lienzo.getContext('2d');
+        if (!ctx) return;
+
+        /* canvas aparte para achicar: leer y escribir en el mismo canvas
+           dentro del mismo cuadro da resultados distintos segun navegador */
+        var chico = document.createElement('canvas');
+        var cctx = chico.getContext('2d');
+
+        caja.appendChild(lienzo);
+        var estado = { n: 6 };   // bloques a lo ancho al empezar
+
+        gsap.to(estado, {
+          n: w,
+          duration: 1.15,
+          ease: 'power2.inOut',
+          delay: 0.3,
+          onUpdate: function () {
+            var n = Math.max(2, Math.round(estado.n));
+            var m = Math.max(2, Math.round(n * h / w));
+            chico.width = n; chico.height = m;
+            cctx.drawImage(img, 0, 0, n, m);
+            ctx.imageSmoothingEnabled = false;   // hay que reponerlo por cuadro
+            ctx.clearRect(0, 0, w, h);
+            ctx.drawImage(chico, 0, 0, n, m, 0, 0, w, h);
+          },
+          onComplete: function () {
+            gsap.to(lienzo, { opacity: 0, duration: 0.28,
+              onComplete: function () { lienzo.remove(); } });
+          }
+        });
+      }
+
+      if (img.complete && img.naturalWidth) armar();
+      else img.addEventListener('load', armar, { once: true });
+    })();
 
     /* --- media: cada imagen se traza al entrar --- */
     gsap.utils.toArray('.case .det-box, .phone').forEach(function (el) {
