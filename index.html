@@ -216,7 +216,7 @@
     overflow: hidden;
     /* 7rem dejaban la portada en 970px y el boton principal caia fuera
        de pantalla en 1366x768, 1440x900 y 1512x860 */
-    padding: 1.5rem 0 0;
+    padding: 1rem 0 0;
   }
 
   /* diagonales finas. NO el piso en perspectiva: ese fondo es el cliche
@@ -263,20 +263,25 @@
      Anton, y la foto sube con el para que los dos sigan compartiendo borde
      superior e inferior. Sale de 900px nativos, o sea el 36%: la foto nunca
      se agranda, solo se usa mas del original de 12 MP. */
+  /* 394px: es el ancho al que la foto mide exactamente lo mismo de alto
+     que el bloque saludo + nombre. Sale de 900px nativos, 44%. */
   .retrato-hero {
-    width: 324px;
+    width: 394px;
     flex: none;
     margin: 0;
   }
 
   .ficha-txt { min-width: 0; display: flex; flex-direction: column; }
 
+  /* Estaba en 1,05rem y en el gris MAS APAGADO del sitio: se leia como una
+     etiqueta, no como alguien saludando. Sube de tamaño, se aclara y se
+     pega al nombre para que los dos se lean como una sola frase. */
   .saludo {
-    font-size: 1.05rem;
-    line-height: 1.2;
-    color: var(--fg-3);
-    margin: 0 0 0.2rem;
-    letter-spacing: 0.01em;
+    font-size: 1.75rem;
+    line-height: 1.15;
+    color: var(--fg-2);
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.015em;
   }
 
   /* el mosaico se dibuja encima de la foto y desaparece al terminar: si el
@@ -325,8 +330,8 @@
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     color: var(--fg-3);
-    padding-bottom: 0.7rem;
-    margin-bottom: 1.6rem;
+    padding-bottom: 0.6rem;
+    margin-bottom: 1.25rem;
     border-bottom: 1px solid var(--line);
   }
 
@@ -342,7 +347,10 @@
      nombre, oficio, y recien despues la evidencia. */
   .hero h1 {
     font-family: var(--display);
-    font-size: 176px;      /* x2 lineas = 352px = alto de la foto */
+    /* 2 lineas de 212px + el saludo = 469px, que es el alto de la foto a
+       400 de ancho. Los dos crecieron juntos para seguir compartiendo
+       borde superior e inferior. */
+    font-size: 212px;
     line-height: 1;
     font-weight: 400;
     letter-spacing: 0.005em;
@@ -351,16 +359,28 @@
   }
 
   /* escalon intermedio: entre 56rem y 1180px, 176px no entra */
-  @media (min-width: 56.01rem) and (max-width: 1180px) {
+  /* La foto y el nombre van lado a lado y su SUMA tiene que caber en la
+     columna. Con un solo escalon, entre 1181 y 1219 la suma daba 1133
+     contra 1101 disponibles y la portada se APILABA en pleno escritorio:
+     foto arriba, nombre abajo. Van tres escalones para que en ninguna
+     franja se pase. */
+  @media (min-width: 56.01rem) and (max-width: 1023px) {
     .hero h1 { font-size: 132px; }
     .retrato-hero { width: 180px; }
+    .saludo { font-size: 1.25rem; }
+  }
+
+  @media (min-width: 1024px) and (max-width: 1219px) {
+    .hero h1 { font-size: 168px; }
+    .retrato-hero { width: 312px; }
+    .saludo { font-size: 1.45rem; }
   }
 
   .hero .rol {
     font-size: clamp(1.15rem, 2.8vw, 2rem);
     line-height: 1.2;
     color: var(--fg);
-    margin-top: 1.1rem;
+    margin-top: 0.85rem;
     max-width: 42ch;   /* con 22ch se partia en dos lineas */
     letter-spacing: -0.015em;
   }
@@ -370,23 +390,23 @@
     font-size: 0.95rem;
     line-height: 1.75;
     color: var(--fg-3);
-    margin-top: 1rem;
+    margin-top: 0.8rem;
     max-width: 66ch;   /* mas ancho = una linea menos y menos vacio al costado */
     letter-spacing: -0.01em;
-    padding-top: 1rem;
+    padding-top: 0.8rem;
     border-top: 1px solid var(--line);
   }
 
-  .btns { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 1.25rem; }
+  .btns { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 1rem; }
 
   .btn {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
     border: 1px solid var(--line-2);
-    padding: 0.9rem 1.6rem;
+    padding: 1.15rem 2rem;
     font-family: var(--sans);
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -1586,10 +1606,9 @@
     </div>
     <p class="rol">Visión computacional, IA y sistemas de datos</p>
     <p class="lede">
-      Desarrollo sistemas que quedan operando solos en plantas y locales. Tres estaciones de empaque
-      que cuentan sin que nadie mire, <span class="cuenta-n" data-n="11900">11.900</span> ventas
-      integradas desde un punto de venta cerrado y <span class="cuenta-n" data-n="768">768</span>
-      sesiones liquidadas solas. En producción desde 2023.
+      Sistemas que quedan operando solos: tres estaciones de empaque que cuentan sin que nadie mire,
+      <span class="cuenta-n" data-n="11900">11.900</span> ventas integradas desde un punto de venta
+      cerrado y <span class="cuenta-n" data-n="768">768</span> sesiones liquidadas solas.
     </p>
     <div class="btns">
       <!-- El CV es lo que una reclutadora necesita llevarse: pasa a ser el
