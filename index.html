@@ -376,6 +376,37 @@
   }
 
   .btn.primario:hover { background: rgba(253, 254, 255, 0.86); border-color: var(--fg); }
+
+  /* la flecha hacia abajo dice "esto se descarga" sin agregar una palabra */
+  .btn.descarga .flecha {
+    width: 9px;
+    height: 11px;
+    flex: none;
+    background: currentColor;
+    clip-path: polygon(40% 0, 60% 0, 60% 55%, 100% 55%, 50% 100%, 0 55%, 40% 55%);
+    transition: transform 0.22s cubic-bezier(.2,.9,.3,1);
+  }
+
+  .btn.descarga:hover .flecha { transform: translateY(3px); }
+
+  /* el segundo idioma NO es otro boton: dos botones de descarga compiten
+     entre si y ninguno gana */
+  .otro-idioma {
+    align-self: center;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    color: var(--fg-3);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 2px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .otro-idioma:hover { color: var(--fg); border-color: var(--fg); }
   /* ===================== INDICE =====================
      Es un indice de informe, no una grilla de tarjetas: columnas
      alineadas, una hairline por fila y la metadata a la derecha.
@@ -1525,9 +1556,16 @@
       sesiones liquidadas solas. En producción desde 2023.
     </p>
     <div class="btns">
-      <a class="btn primario" href="#casos">Ver los casos</a>
-      <a class="btn" href="CV-Luis-San-Martin.pdf" download>Descargar CV (PDF)</a>
+      <!-- El CV es lo que una reclutadora necesita llevarse: pasa a ser el
+           boton relleno. En esta paleta sin color de acento, el relleno es
+           lo mas fuerte que hay. El ingles va como enlace al lado para no
+           partir la accion en dos botones que compiten. -->
+      <a class="btn primario descarga" href="CV-Luis-San-Martin.pdf" download>
+        <span class="flecha" aria-hidden="true"></span>Descargar CV
+      </a>
+      <a class="btn" href="#casos">Ver los casos</a>
       <a class="btn" href="#contacto">Contacto</a>
+      <a class="otro-idioma" href="CV-Luis-San-Martin-EN.pdf" download>CV in English</a>
     </div>
   </div>
 </header>
@@ -2204,6 +2242,7 @@
       <a href="https://www.linkedin.com/in/sanmartinluis/">linkedin.com/in/sanmartinluis</a>
       <a href="https://github.com/sanmaglass">github.com/sanmaglass</a>
       <a href="CV-Luis-San-Martin.pdf" download>Descargar CV (PDF)</a>
+      <a href="CV-Luis-San-Martin-EN.pdf" download>Download CV (English)</a>
     </div>
     <p class="avail">
       <b>Busco</b> puesto de jornada completa como desarrollador de visión computacional o de datos ·
