@@ -155,6 +155,11 @@
     transform: translateY(-6px);
   }
 
+  /* opacity:0 esconde pero no saca el texto de la seleccion: al hacer
+     Ctrl+A el nombre aparecia dos veces en lo copiado. Con aria-hidden ya
+     puesto, tampoco tiene por que ser seleccionable. */
+  .nav .mark { user-select: none; -webkit-user-select: none; }
+
   .nav .links {
     display: flex;
     gap: 0.4rem 1.6rem;
@@ -1002,7 +1007,7 @@
 
   /* ===================== EN CURSO ===================== */
 
-  .ongoing { padding: 13rem 0 0; }
+  .ongoing { padding: 14rem 0 0; }
 
   .section-label {
     font-family: var(--mono);
@@ -1041,7 +1046,7 @@
 
   /* ===================== SOBRE MI ===================== */
 
-  .about { padding: 13rem 0 0; }
+  .about { padding: 14rem 0 0; }
 
   /* La seccion lleva su propia grilla de dos columnas dentro del carril:
      el retrato a 22rem (que es su tamaño nativo real, 352px — mas grande
@@ -1533,6 +1538,10 @@
   }
 </style>
 
+<!-- La mira de deteccion como icono de pestaña. Va en SVG embebido:
+     un archivo aparte seria una peticion mas y la CSP del artifact
+     bloquea recursos externos igual. -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000407'/%3E%3Cpath d='M4 11V4h7M21 4h7v7M28 21v7h-7M11 28H4v-7' fill='none' stroke='%23FDFEFF' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23FDFEFF'/%3E%3C/svg%3E">
 <a class="salta" href="#casos">Saltar al contenido</a>
 </head>
 <body>
@@ -2266,8 +2275,8 @@
       entero en una reunión, con los paneles y los datos en vivo, bajo acuerdo de confidencialidad.
     </p>
     <div class="links">
-      <a href="https://www.linkedin.com/in/sanmartinluis/">linkedin.com/in/sanmartinluis</a>
-      <a href="https://github.com/sanmaglass">github.com/sanmaglass</a>
+      <a href="https://www.linkedin.com/in/sanmartinluis/" target="_blank" rel="noopener">linkedin.com/in/sanmartinluis</a>
+      <a href="https://github.com/sanmaglass" target="_blank" rel="noopener">github.com/sanmaglass</a>
       <a href="CV-Luis-San-Martin.pdf" download>Descargar CV (PDF)</a>
       <a href="CV-Luis-San-Martin-EN.pdf" download>Download CV (English)</a>
     </div>
