@@ -177,7 +177,9 @@
   .hero {
     position: relative;
     overflow: hidden;
-    padding: 7rem 0 0;
+    /* 7rem dejaban la portada en 970px y el boton principal caia fuera
+       de pantalla en 1366x768, 1440x900 y 1512x860 */
+    padding: 2.25rem 0 0;
   }
 
   /* diagonales finas. NO el piso en perspectiva: ese fondo es el cliche
@@ -244,12 +246,30 @@
      encadenar retrato -> nombre -> oficio -> botones con delays en CSS
      obliga a recalcular todos los delays cada vez que cambia uno */
 
+  /* Se lee como el encabezado de un informe: un dato en cada extremo y una
+     hairline debajo. Es el MISMO patron que el rotulo de las estaciones
+     (.serie), asi la portada y los casos hablan igual. */
   .hero .eyebrow {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
     font-family: var(--mono);
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     color: var(--fg-3);
+    padding-bottom: 0.8rem;
     margin-bottom: 2rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* lo que busca va en el color del texto, no en gris: es lo unico de esta
+     linea que tiene que saltar */
+  .hero .eyebrow .estado {
+    color: var(--fg);
+    letter-spacing: 0.1em;
+    text-transform: none;
   }
 
   /* La portada abre con quien es, no con un resumen de cifras:
@@ -274,8 +294,8 @@
     font-size: clamp(1.15rem, 2.8vw, 2rem);
     line-height: 1.2;
     color: var(--fg);
-    margin-top: 1.4rem;
-    max-width: 22ch;
+    margin-top: 1.1rem;
+    max-width: 42ch;   /* con 22ch se partia en dos lineas */
     letter-spacing: -0.015em;
   }
 
@@ -284,14 +304,14 @@
     font-size: 0.95rem;
     line-height: 1.75;
     color: var(--fg-3);
-    margin-top: 2rem;
-    max-width: 58ch;
+    margin-top: 1rem;
+    max-width: 66ch;   /* mas ancho = una linea menos y menos vacio al costado */
     letter-spacing: -0.01em;
-    padding-top: 1.6rem;
+    padding-top: 1rem;
     border-top: 1px solid var(--line);
   }
 
-  .btns { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.75rem; }
+  .btns { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
 
   .btn {
     display: inline-flex;
@@ -309,6 +329,16 @@
   }
 
   .btn:hover { background: rgba(253, 254, 255, 0.07); border-color: var(--fg); }
+
+  /* tres botones iguales = ninguno manda. El que importa es ver el trabajo;
+     el CV y el contacto vienen despues de eso. */
+  .btn.primario {
+    background: var(--fg);
+    border-color: var(--fg);
+    color: var(--bg);
+  }
+
+  .btn.primario:hover { background: rgba(253, 254, 255, 0.86); border-color: var(--fg); }
   /* ===================== INDICE =====================
      Es un indice de informe, no una grilla de tarjetas: columnas
      alineadas, una hairline por fila y la metadata a la derecha.
@@ -1321,13 +1351,23 @@
 <header class="hero">
   <div class="grid-bg"></div>
   <div class="wrap hero-inner">
-    <div class="eyebrow">Concepción, Chile</div>
+    <div class="eyebrow">
+      <span>Concepción, Chile</span>
+      <!-- Lo que busca tenia que estar arriba, no al final de la pagina:
+           una reclutadora que cruza perfiles contra sus vacantes necesita
+           saber en dos segundos si calza. El texto es el suyo, el mismo
+           que ya estaba en Contacto. -->
+      <span class="estado">Disponible · jornada completa · remoto o híbrido</span>
+    </div>
 
     <div class="ficha">
       <figure class="retrato-hero">
         <div class="det-box">
           <span class="det-label">persona (99.8%)</span>
-          <img src="assets/media/luis-ficha.jpg" alt="Luis San Martín" width="240" height="352">
+          <!-- alt vacio a proposito: el <h1> de al lado ya lo nombra. Con
+               alt="Luis San Martín" el lector de pantalla decia su nombre
+               dos veces seguidas, y al copiar la pagina salia duplicado. -->
+          <img src="assets/media/luis-ficha.jpg" alt="" width="240" height="352">
         </div>
       </figure>
       <h1>Luis San<br>Martín</h1>
@@ -1335,11 +1375,12 @@
     <p class="rol">Visión computacional y sistemas de datos</p>
     <p class="lede">
       Desarrollo sistemas que quedan operando solos en plantas y locales. Tres estaciones de empaque
-      que cuentan sin que nadie mire, <span class="cuenta-n" data-n="11900">11.900</span> ventas integradas desde un punto de venta cerrado y <span class="cuenta-n" data-n="768">768</span>
-      sesiones liquidadas solas. Clientes de acuicultura, distribución y salud, desde 2023.
+      que cuentan sin que nadie mire, <span class="cuenta-n" data-n="11900">11.900</span> ventas
+      integradas desde un punto de venta cerrado y <span class="cuenta-n" data-n="768">768</span>
+      sesiones liquidadas solas. En producción desde 2023.
     </p>
     <div class="btns">
-      <a class="btn" href="#casos">Ver los casos</a>
+      <a class="btn primario" href="#casos">Ver los casos</a>
       <a class="btn" href="CV-Luis-San-Martin.pdf" download>Descargar CV (PDF)</a>
       <a class="btn" href="#contacto">Contacto</a>
     </div>
@@ -2002,12 +2043,17 @@
     /* descubrir de abajo hacia arriba, como si terminara de leerlo */
     var LEE   = { clipPath: 'inset(0% 0% 100% 0%)', yPercent: 8 };
 
-    /* --- portada: engancha el rostro, despues descubre el nombre --- */
+    /* --- portada: engancha el rostro, despues descubre el nombre ---
+       Orden de lectura, no de decoracion: primero se traza la regla de
+       arriba, engancha la cara, se descubre el nombre, el oficio, la
+       evidencia y recien al final los botones. */
     gsap.timeline()
-      .from('.retrato-hero', { duration: 0.9, ease: 'expo.out', clipPath: TRAZO.clipPath, opacity: 0 }, 0.2)
-      .from('.hero h1',      { duration: 1.0, ease: 'expo.out', clipPath: LEE.clipPath, yPercent: 8 }, 0.5)
-      .from('.hero .rol',    { duration: 0.7, ease: 'power2.out', opacity: 0, y: 12 }, 1.05)
-      .from('.hero .btns .btn', { duration: 0.6, ease: 'power2.out', opacity: 0, y: 10, stagger: 0.07 }, 1.2);
+      .from('.hero .eyebrow',   { duration: 0.7, ease: 'power2.out', opacity: 0, y: -8 }, 0)
+      .from('.retrato-hero',    { duration: 0.9, ease: 'expo.out', clipPath: TRAZO.clipPath, opacity: 0 }, 0.35)
+      .from('.hero h1',         { duration: 1.0, ease: 'expo.out', clipPath: LEE.clipPath, yPercent: 8 }, 0.65)
+      .from('.hero .rol',       { duration: 0.7, ease: 'power2.out', opacity: 0, y: 12 }, 1.2)
+      .from('.hero .lede',      { duration: 0.8, ease: 'power2.out', opacity: 0, y: 14 }, 1.35)
+      .from('.hero .btns .btn', { duration: 0.6, ease: 'power2.out', opacity: 0, y: 10, stagger: 0.07 }, 1.5);
 
     /* --- media: cada imagen se traza al entrar --- */
     gsap.utils.toArray('.case .det-box, .phone').forEach(function (el) {
