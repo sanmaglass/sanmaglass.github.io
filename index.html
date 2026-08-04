@@ -217,8 +217,13 @@
 
   .ficha h1 { min-width: 0; overflow-wrap: anywhere; }
 
+  /* 300px de ancho con la MISMA altura de 352: la foto se ve mas grande
+     y la portada no crece ni un pixel, que es lo que dejaba el boton
+     principal fuera de pantalla. El archivo es de 900x1056 (3x) porque el
+     original nuevo es de 12 MP; el anterior era de 400x400 y ya estaba
+     al limite a 240. */
   .retrato-hero {
-    width: 240px;
+    width: 300px;
     flex: none;
     margin: 0;
   }
@@ -1007,6 +1012,84 @@
   .about p + p { margin-top: 1rem; }
   .about b { color: var(--fg); font-weight: 500; }
 
+  /* ===== INVENTARIO =====
+     Lo que salva esto de ser una nube de palabras es la segunda columna:
+     cada herramienta dice DONDE se uso, y ese donde es un caso de esta
+     misma pagina. Aparece UNA vez, no repetida por caso: eso era lo que
+     hacia que la version anterior se leyera como formulario. */
+  .inventario { grid-column: wide; margin-top: 6rem; }
+
+  .inv-cab {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line-2);
+  }
+
+  .inv-cab .nota {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--fg-3);
+  }
+
+  .inv-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+    gap: 2.5rem 3.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .inv-grupo { min-width: 0; }
+
+  .inv-grupo h3 {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    margin: 0 0 0.9rem;
+  }
+
+  /* el bloque de operacion es su mejor carta: cualquiera entrena un modelo,
+     muy pocos lo dejan corriendo solo una temporada entera */
+  .inv-grupo.destacado h3 { color: var(--fg); }
+
+  .inv-grupo .fila {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.15rem 1.25rem;
+    padding: 0.7rem 0;
+    border-top: 1px solid var(--line);
+    min-width: 0;
+  }
+
+  .inv-grupo .q {
+    font-size: 0.95rem;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+  }
+
+  .inv-grupo .d {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: var(--fg-3);
+    text-align: right;
+    min-width: 0;
+  }
+
+  /* en una sola columna la fila se parte en dos renglones y el dato pasa a
+     alinearse a la izquierda, debajo del nombre */
+  @media (max-width: 34rem) {
+    .inv-grupo .d { text-align: left; flex-basis: 100%; }
+  }
+
   /* ===================== CIERRE ===================== */
 
   .end { padding: 14rem 0 9rem; }
@@ -1367,7 +1450,7 @@
           <!-- alt vacio a proposito: el <h1> de al lado ya lo nombra. Con
                alt="Luis San Martín" el lector de pantalla decia su nombre
                dos veces seguidas, y al copiar la pagina salia duplicado. -->
-          <img src="assets/media/luis-ficha.jpg" alt="" width="240" height="352">
+          <img src="assets/media/luis-ficha.jpg" alt="" width="300" height="352">
         </div>
       </figure>
       <h1>Luis San<br>Martín</h1>
@@ -1877,11 +1960,6 @@
         distribución y salud. En todos los casos trabajé <b>directo con el dueño de la operación</b>,
         levantando los requerimientos en terreno antes de escribir código.
       </p>
-      <p>
-        Trabajo con Python, SQL y PostgreSQL en la parte de datos, y con OpenCV, YOLOv8 y PyTorch en
-        visión computacional. También despliego y opero los sistemas: servidores, procesos
-        programados y monitoreo.
-      </p>
 
       <div class="contacto-directo">
         <span>
@@ -1892,6 +1970,46 @@
           <span class="et">Correo</span>
           <a href="mailto:sanmaglass@gmail.com">sanmaglass@gmail.com</a>
         </span>
+      </div>
+    </div>
+   </div>
+
+  <!-- Ni parrafo ni lista de palabras sueltas: cada fila dice DONDE se uso,
+       y ese donde es verificable contra un caso de esta misma pagina. Una
+       herramienta sin un lugar donde la uso no entra. Sin conteos: "1 caso"
+       se lee como debilidad y el nombre del proyecto ya es la evidencia. -->
+   <div class="inventario">
+    <div class="inv-cab">
+      <span class="section-label">Con qué trabajo</span>
+      <span class="nota">y dónde lo usé</span>
+    </div>
+
+    <div class="inv-cols">
+      <div class="inv-grupo">
+        <h3>Visión computacional</h3>
+        <div class="fila"><span class="q">YOLOv8</span><span class="d">empaque · retail · EPP</span></div>
+        <div class="fila"><span class="q">OpenCV</span><span class="d">empaque · larvas · retail</span></div>
+        <div class="fila"><span class="q">PyTorch</span><span class="d">larvas · EPP</span></div>
+        <div class="fila"><span class="q">Seguimiento multiobjeto</span><span class="d">SORT, sobre la cinta</span></div>
+        <div class="fila"><span class="q">Datasets propios</span><span class="d">etiquetados en planta y en faena</span></div>
+        <div class="fila"><span class="q">Cámaras IP en vivo</span><span class="d">RTSP · 696 objetos en 2,93 s</span></div>
+      </div>
+
+      <div class="inv-grupo">
+        <h3>Datos</h3>
+        <div class="fila"><span class="q">Python</span><span class="d">los seis casos</span></div>
+        <div class="fila"><span class="q">PostgreSQL</span><span class="d">con Row Level Security por sede</span></div>
+        <div class="fila"><span class="q">Firebird</span><span class="d">punto de venta cerrado</span></div>
+        <div class="fila"><span class="q">ETL y scraping autenticado</span><span class="d">SII · migración LetsFit</span></div>
+        <div class="fila"><span class="q">TypeScript</span><span class="d">letsfit</span></div>
+      </div>
+
+      <div class="inv-grupo destacado">
+        <h3>Despliegue y operación</h3>
+        <div class="fila"><span class="q">Entrenamiento en la nube</span><span class="d">Google Colab</span></div>
+        <div class="fila"><span class="q">Inferencia local, on-premise</span><span class="d">en la GPU del propio cliente</span></div>
+        <div class="fila"><span class="q">Linux, cron y monitoreo</span><span class="d">dos sistemas operando hoy</span></div>
+        <div class="fila"><span class="q">Docker · GitHub Actions</span><span class="d">integración continua en siete proyectos</span></div>
       </div>
     </div>
    </div>
@@ -2067,7 +2185,7 @@
     /* los titulares se animan mas abajo, linea por linea con SplitText */
 
     /* --- el resto entra de abajo, en grupos --- */
-    gsap.utils.toArray('.case-head, .context, .tools, .about .portrait, .end p, .end .links')
+    gsap.utils.toArray('.case-head, .context, .tools, .about .portrait, .end p, .end .links, .inv-cab')
       .forEach(function (el) {
         gsap.from(el, {
           duration: 0.7, ease: 'power3.out', opacity: 0, y: 22,
@@ -2076,7 +2194,7 @@
       });
 
     /* --- listas: escalonadas, se leen como algo que se va escribiendo --- */
-    [['.indice-lista', 'li'], ['.ongoing', '.item']].forEach(function (par) {
+    [['.indice-lista', 'li'], ['.ongoing', '.item'], ['.inv-grupo', '.fila']].forEach(function (par) {
       gsap.utils.toArray(par[0]).forEach(function (cont) {
         gsap.from(cont.querySelectorAll(par[1]), {
           duration: 0.65, ease: 'power3.out', opacity: 0, y: 20, stagger: 0.09,
