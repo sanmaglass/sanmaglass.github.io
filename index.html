@@ -229,8 +229,24 @@
 
   .retrato-hero { animation: bbox-entra 0.85s cubic-bezier(.2,.9,.3,1) 0.25s both; }
 
+  /* la portada entra en secuencia: primero la caja engancha el rostro,
+     despues se descubre el nombre. El nombre es lo ultimo que queda. */
+  @keyframes sube-linea {
+    from { clip-path: inset(0 0 100% 0); transform: translateY(14px); }
+    to   { clip-path: inset(0 0 0 0);    transform: none; }
+  }
+
+  @keyframes asoma {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .hero .eyebrow { animation: asoma 0.6s ease both; }
+  .hero h1       { animation: sube-linea 0.9s cubic-bezier(.16,.84,.34,1) 0.55s both; }
+  .hero .rol     { animation: asoma 0.7s ease 1.15s both; }
+
   @media (prefers-reduced-motion: reduce) {
-    .retrato-hero { animation: none; }
+    .retrato-hero, .hero .eyebrow, .hero h1, .hero .rol { animation: none; }
   }
 
   .hero .eyebrow {
@@ -934,6 +950,40 @@
   }
 
   .rv.in { opacity: 1; transform: none; }
+
+  /* ===== MOVIMIENTO =====
+     Un solo lenguaje, el mismo de sus sistemas: la caja se DIBUJA sobre
+     el objeto. Nada de efectos sueltos de catalogo. */
+
+  /* 1. las imagenes entran como una caja que se traza de izquierda a
+        derecha, igual que el retrato de la portada */
+  .traza {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+    transition: clip-path 0.9s cubic-bezier(.16,.84,.34,1),
+                opacity 0.5s ease;
+  }
+
+  .traza.in { clip-path: inset(0 0 0 0); opacity: 1; }
+
+  /* 2. los titulares se descubren de abajo hacia arriba, como si la
+        camara terminara de leerlos */
+  .case h2, .about h2, .end h2 {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.85s cubic-bezier(.16,.84,.34,1) 0.1s;
+  }
+
+  .case h2.in, .about h2.in, .end h2.in { clip-path: inset(0 0 0 0); }
+
+  /* 3. el media se mueve mas lento que la pagina: da profundidad sin
+        que nada salte de lugar */
+  .par { will-change: transform; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .traza { clip-path: none; opacity: 1; transition: none; }
+    .case h2, .about h2, .end h2 { clip-path: none; transition: none; }
+    .par { transform: none !important; }
+  }
 
   /* ===== CURSOR: MIRA DE DETECCION =====
      Un punto y cuatro esquinas que lo siguen con retardo. Al pasar sobre
@@ -1701,23 +1751,88 @@
   });
 
   /* --- aparicion por scroll --- */
+  /* las imagenes se trazan; el resto entra de abajo */
+  var trazados = document.querySelectorAll('.case .det-box, .phone');
+  var titulares = document.querySelectorAll('.case h2, .about h2, .end h2');
+
   var targets = document.querySelectorAll(
-    '.indice-head, .indice-lista li, .case-head, .case h2, .context, .shots figure, .movement, .tools,' +
-    '.ongoing .item, .about .portrait, .about > div, .end h2, .end p, .end .links'
+    '.indice-head, .indice-lista li, .case-head, .context, .movement, .tools,' +
+    '.ongoing .item, .about .portrait, .about > div, .end p, .end .links'
   );
 
-  if (reduced || !('IntersectionObserver' in window)) {
+  if (reduced) {
     targets.forEach(function (el) { el.classList.add('in'); });
+    trazados.forEach(function (el) { el.classList.add('in'); });
+    titulares.forEach(function (el) { el.classList.add('in'); });
   } else {
     targets.forEach(function (el) { el.classList.add('rv'); });
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        e.target.classList.add('in');
-        io.unobserve(e.target);
-      });
-    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
-    targets.forEach(function (el) { io.observe(el); });
+    trazados.forEach(function (el) { el.classList.add('traza'); });
+
+    /* el indice entra fila por fila: se lee como una lista que se va
+       escribiendo y no como un bloque que aparece de golpe */
+    [].forEach.call(document.querySelectorAll('.indice-lista li'), function (el, i) {
+      el.style.transitionDelay = (i * 90) + 'ms';
+    });
+
+    /* --- MOTOR DE SCROLL ---
+       Un solo bucle para aparecer y para el paralaje.
+
+       NO se usa IntersectionObserver a proposito: `.traza` recorta el
+       elemento a area cero, y con un threshold > 0 el observer nunca lo
+       daba por visible, asi que nunca le ponia `.in` y la imagen quedaba
+       recortada para siempre. Bloqueo mutuo: se comio las 9 imagenes de
+       los casos. Medir la posicion a mano no tiene ese problema. */
+    var pendientes = [].slice.call(targets)
+      .concat([].slice.call(trazados))
+      .concat([].slice.call(titulares));
+
+    /* La CAJA hace el paralaje, no la imagen dentro: moverla dentro del
+       marco obligaria a escalarla y quedaria agrandada. */
+    var capas = [].slice.call(document.querySelectorAll('.case .det-box, .phone'));
+    capas.forEach(function (el) { el.classList.add('par'); });
+
+    var AMP = 18, pedido = false;
+
+    function pintar() {
+      pedido = false;
+      var h = window.innerHeight;
+
+      /* aparecer: cuando el borde superior pasa el 88% del alto visible */
+      var corte = h * 0.88;
+      for (var i = pendientes.length - 1; i >= 0; i--) {
+        var el = pendientes[i];
+        var r = el.getBoundingClientRect();
+        // los que estan dentro de un <details> cerrado miden 0: se revelan
+        // igual, asi ya estan listos cuando el usuario lo abre
+        if (r.top < corte || (r.width === 0 && r.height === 0)) {
+          el.classList.add('in');
+          pendientes.splice(i, 1);
+        }
+      }
+
+      /* paralaje: -1 arriba del viewport, +1 abajo */
+      for (var j = 0; j < capas.length; j++) {
+        var c = capas[j];
+        var b = c.getBoundingClientRect();
+        if (b.bottom < -200 || b.top > h + 200) continue;
+        var t = ((b.top + b.height / 2) - h / 2) / (h / 2);
+        if (t > 1) t = 1; else if (t < -1) t = -1;
+        c.style.transform = 'translate3d(0,' + (t * AMP).toFixed(2) + 'px,0)';
+      }
+    }
+
+    function pedir() {
+      if (pedido) return;
+      pedido = true;
+      requestAnimationFrame(pintar);
+    }
+
+    window.addEventListener('scroll', pedir, { passive: true });
+    window.addEventListener('resize', pedir);
+    /* las imagenes cambian de alto al cargar: hay que volver a medir */
+    window.addEventListener('load', pedir);
+    document.addEventListener('toggle', pedir, true);
+    pintar();
   }
 
   /* --- LINEA DE CONTEO ---
