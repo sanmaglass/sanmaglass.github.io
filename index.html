@@ -175,14 +175,21 @@
      Sus sistemas dibujan una caja con etiqueta y confianza sobre cada
      objeto. Aplicado a el mismo: es su lenguaje, y nadie mas lo tiene.
      La foto mide 352px nativos: se muestra a ese tamaño, nunca mas. */
+  /* FICHA: dos lineas de Anton a 176px con line-height 1 miden exactamente
+     352px, el alto nativo de la foto. Retrato y nombre comparten borde
+     superior e inferior al pixel. El nombre BAJA a la altura de la foto,
+     en vez de agrandar la foto: por eso se ve grande sin perder nitidez. */
+  .ficha {
+    display: flex;
+    align-items: flex-start;
+    gap: 2.75rem;
+    flex-wrap: wrap;
+  }
+
   .retrato-hero {
-    position: absolute;
-    top: 0;
-    right: 2rem;
-    width: 352px;
-    max-width: 34vw;
+    width: 240px;
+    flex: none;
     margin: 0;
-    z-index: 2;
   }
 
   .retrato-hero .det-box { border-color: var(--fg); }
@@ -228,12 +235,18 @@
      nombre, oficio, y recien despues la evidencia. */
   .hero h1 {
     font-family: var(--display);
-    font-size: clamp(3.4rem, 13vw, 11rem);
-    line-height: 1.0;
+    font-size: 176px;      /* x2 lineas = 352px = alto de la foto */
+    line-height: 1;
     font-weight: 400;
     letter-spacing: 0.005em;
     text-transform: uppercase;
-    max-width: 12ch;
+    margin: 0;
+  }
+
+  /* escalon intermedio: entre 56rem y 1180px, 176px no entra */
+  @media (min-width: 56.01rem) and (max-width: 1180px) {
+    .hero h1 { font-size: 132px; }
+    .retrato-hero { width: 180px; }
   }
 
   .hero .rol {
@@ -850,12 +863,9 @@
     /* Bug: la nav se partia en dos filas (108 px) y el contenido quedaba
        leyendose por debajo. En telefono van solo dos destinos, sin envolver. */
     /* en telefono el retrato va arriba, en su propio lugar, no flotando */
-    .retrato-hero {
-      position: static;
-      width: 11rem;
-      max-width: none;
-      margin: 0 0 2.25rem;
-    }
+    .ficha { flex-direction: column; gap: 1.75rem; }
+    .retrato-hero { width: min(324px, 100%); }
+    .hero h1 { font-size: clamp(3.2rem, 15vw, 5.5rem); }
 
     .nav { padding: 0.7rem 1.25rem; }
     .nav .mark { font-size: 0.72rem; }
@@ -949,14 +959,17 @@
 <header class="hero">
   <div class="grid-bg"></div>
   <div class="wrap hero-inner">
-    <figure class="retrato-hero">
-      <div class="det-box">
-        <span class="det-label">persona (99.8%)</span>
-        <img src="assets/media/luis.jpg" alt="Luis San Martín" width="352" height="352">
-      </div>
-    </figure>
     <div class="eyebrow">Hualpén · Gran Concepción · Chile</div>
-    <h1>Luis San Martín</h1>
+
+    <div class="ficha">
+      <figure class="retrato-hero">
+        <div class="det-box">
+          <span class="det-label">persona (99.8%)</span>
+          <img src="assets/media/luis-ficha.jpg" alt="Luis San Martín" width="240" height="352">
+        </div>
+      </figure>
+      <h1>Luis San<br>Martín</h1>
+    </div>
     <p class="rol">Visión computacional y sistemas de datos</p>
     <p class="lede">
       Desarrollo sistemas que quedan operando solos en plantas y locales. Tres estaciones de empaque
