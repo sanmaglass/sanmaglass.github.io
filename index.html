@@ -123,6 +123,17 @@
     font-weight: 500;
     letter-spacing: 0.08em;
     white-space: nowrap;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  /* Con la portada a la vista el nombre aparecia DOS VECES: gigante en el
+     titular y chico en la barra, uno encima del otro. La marca recien
+     aparece cuando el titular sale de pantalla, que es cuando de verdad
+     hace falta saber de quien es la pagina.
+     El estado por defecto es VISIBLE: si el JS no corre, no se pierde. */
+  .nav.en-portada .mark {
+    opacity: 0;
+    transform: translateY(-6px);
   }
 
   .nav .links {
@@ -1429,7 +1440,9 @@
 </head>
 <body>
 <nav class="nav">
-  <div class="mark">LUIS SAN MARTÍN</div>
+  <!-- aria-hidden: repite el <h1>. Visualmente hace falta cuando la
+       portada ya paso, pero anunciarlo dos veces no. -->
+  <div class="mark" aria-hidden="true">LUIS SAN MARTÍN</div>
   <div class="links">
     <a href="#casos">CASOS</a>
     <a href="#curso">EN CURSO</a>
@@ -2466,6 +2479,24 @@
         onToggle: function (self) { o.a.classList.toggle('aqui', self.isActive); }
       });
     });
+
+    /* --- LA MARCA DE LA BARRA NO COMPITE CON EL TITULAR --- */
+    (function () {
+      var nav = document.querySelector('.nav');
+      var portada = document.querySelector('.hero h1');
+      if (!nav || !portada) return;
+      ScrollTrigger.create({
+        trigger: portada,
+        /* activo DESDE lo mas arriba de la pagina hasta que el titular sale
+           por arriba. Con 'top top' arrancaba recien cuando el titular
+           tocaba el borde, o sea nunca al cargar, que es justo cuando el
+           nombre se veia repetido. */
+        start: 'top bottom',
+        end: 'bottom top',
+        onToggle: function (self) { nav.classList.toggle('en-portada', self.isActive); },
+        onRefresh: function (self) { nav.classList.toggle('en-portada', self.isActive); }
+      });
+    })();
 
     /* --- SALTO SUAVE DESDE EL INDICE Y LA NAV ---
        Antes era un salto seco de ancla. El desfase de 6rem deja el caso
