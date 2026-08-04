@@ -553,6 +553,14 @@
   }
   .case:nth-of-type(2) .det-box.tall img { max-height: 44rem; }
 
+  /* 05 — el video viene de un telefono y es VERTICAL, de 576 nativos.
+     Sin tope se estiraba a 728 (126%) y perdia nitidez, que es justo lo
+     que no se puede deshacer. La foto del hardware es apaisada de 1200,
+     asi que esa si puede usar el ancho completo de la columna. */
+  .case:nth-of-type(5) .shots { gap: 3.5rem; }
+  .case:nth-of-type(5) figure:nth-of-type(1) .det-box,
+  .case:nth-of-type(5) figure:nth-of-type(1) .serie { max-width: 576px; }
+
   /* 03 — la app se presenta centrada y con aire, como pagina de producto */
   .case:nth-of-type(3) .shots {
     grid-column: text-start / wide-end;
@@ -1532,6 +1540,19 @@
           </span>
         </a>
       </li>
+      <li>
+        <a href="#caso-05">
+          <span class="ix-num">05</span>
+          <span class="ix-texto">
+            <span class="ix-cliente">EwooD · movilidad eléctrica</span>
+            <span class="ix-titulo">Detección de casco sobre cámara embebida</span>
+          </span>
+          <span class="ix-meta">
+            <span>2026</span>
+            <span class="estado">Prueba de concepto validada</span>
+          </span>
+        </a>
+      </li>
     </ol>
   </section>
 
@@ -1916,6 +1937,106 @@
     <div class="tools">PostgreSQL con Row Level Security por sede · migraciones versionadas · TypeScript · scraping para la migración · Python</div>
   </article>
 
+  <!-- ============ 05 ============ -->
+  <article class="case" id="caso-05">
+    <div class="case-head">
+      <span class="num">05</span>
+      <span class="carga"><span class="cuenta-n" data-n="9.6">9,6</span> cuadros / s</span>
+      <span>2026</span>
+    </div>
+
+    <h2>Detección de casco sobre cámara embebida</h2>
+
+    <p class="context">
+      Monitoreo de scooters eléctricos: el sistema distingue <b>scooter</b>, <b>con casco</b> y
+      <b>sin casco</b> sobre el video de una cámara del tamaño de una moneda, no de una cámara IP.
+    </p>
+
+    <div class="shots">
+      <figure>
+        <div class="serie"><span class="n">EN VIVO</span><span class="de">/ 02</span>
+          <span class="que">detectando</span></div>
+        <div class="det-box" data-mira="no-helmet 79% · 9,6 cuadros/s">
+          <span class="det-label">SafeRide · modelo propio afinado · 9,6 cuadros/s</span>
+          <video id="vid-saferide" src="assets/media/saferide.mp4" poster="assets/media/saferide-poster.jpg"
+                 loop muted playsinline preload="metadata"
+                 aria-label="El sistema marca en rojo a una persona sin casco, en vivo"></video>
+          <button type="button" class="vid-toggle" data-target="vid-saferide"
+                  aria-label="Pausar o reanudar el video">Pausar</button>
+        </div>
+        <figcaption>
+          La cámara apunta al desarrollador y el sistema lo marca <b>sin casco</b>, en vivo, a 9,6
+          cuadros por segundo. Es una prueba sobre sí mismo: no hay usuarios de terceros grabados.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <div class="serie"><span class="n">EL HARDWARE</span><span class="de">/ 02</span>
+          <span class="que">del tamaño de una moneda</span></div>
+        <div class="det-box" data-mira="XIAO ESP32-S3 Sense">
+          <span class="det-label">XIAO ESP32-S3 Sense + OV2640</span>
+          <img src="assets/media/saferide-camara.jpg" alt="La cámara embebida sostenida en la mano, con el registro del sistema corriendo detrás en el monitor">
+        </div>
+        <figcaption>
+          Esa es toda la cámara. Detrás, el registro del sistema corriendo. La restricción del
+          proyecto era esa: que funcionara <b>sobre hardware de bajo costo montable en el scooter</b>,
+          no sobre una cámara de circuito cerrado.
+        </figcaption>
+      </figure>
+    </div>
+
+    <details class="detalle">
+      <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
+      <div class="movements">
+      <div class="movement">
+        <h3>Tres clases, no dos</h3>
+        <div class="body">
+          <p>
+            El modelo distingue <b>scooter</b>, <b>casco</b> y <b>sin casco</b>. Separar el vehículo
+            de la persona permite contar cuántos circulan y qué proporción va protegida, que es
+            el dato que sirve para decidir, en vez de una alarma suelta.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Afinado sobre 12.321 imágenes</h3>
+        <div class="body">
+          <p>
+            YOLOv8 afinado durante <b>80 épocas</b> a 640 píxeles. Medido contra el conjunto de
+            prueba: <b>mAP@50 de 85,5%</b>, precisión 85,0% y recall 80,9%.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>La clase que peor anda es la que más importa</h3>
+        <div class="body">
+          <p>
+            En la matriz de confusión, <b>scooter</b> acierta 0,99 y <b>casco</b> 0,86, pero
+            <b>sin casco</b> se queda en 0,65: se confunde con el fondo. Es justo la clase que
+            justifica el sistema, así que el trabajo pendiente no es subir el promedio sino esa
+            clase, con más ejemplos reales de cabezas descubiertas en movimiento.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Entrenado en la nube, corriendo en el borde</h3>
+        <div class="body">
+          <p>
+            El entrenamiento se hizo en la nube y la inferencia corre localmente sobre el video que
+            entrega la placa. Es el mismo criterio de los otros casos: <b>el modelo termina donde
+            está el problema</b>, no en un servidor remoto.
+          </p>
+        </div>
+      </div>
+    </div>
+    </details>
+
+    <div class="tools">YOLOv8 afinado · XIAO ESP32-S3 Sense + OV2640 · 3 clases · PyTorch · OpenCV · Python</div>
+  </article>
+
   <!-- ============ EN CURSO ============ -->
   <section class="ongoing" id="curso">
     <div class="section-label">EN CURSO</div>
@@ -1981,27 +2102,28 @@
    <div class="inventario">
     <div class="inv-cab">
       <span class="section-label">Con qué trabajo</span>
-      <span class="nota">y dónde lo usé</span>
+      <span class="nota">cada uno tiene su caso en esta página</span>
     </div>
 
     <div class="inv-cols">
       <div class="inv-grupo">
         <h3>Visión computacional</h3>
-        <div class="fila"><span class="q">YOLOv8</span><span class="d">empaque · retail · EPP</span></div>
-        <div class="fila"><span class="q">OpenCV</span><span class="d">empaque · larvas · retail</span></div>
-        <div class="fila"><span class="q">PyTorch</span><span class="d">larvas · EPP</span></div>
-        <div class="fila"><span class="q">Seguimiento multiobjeto</span><span class="d">SORT, sobre la cinta</span></div>
-        <div class="fila"><span class="q">Datasets propios</span><span class="d">etiquetados en planta y en faena</span></div>
-        <div class="fila"><span class="q">Cámaras IP en vivo</span><span class="d">RTSP · 696 objetos en 2,93 s</span></div>
+        <div class="fila"><span class="q">YOLOv8</span></div>
+        <div class="fila"><span class="q">OpenCV</span></div>
+        <div class="fila"><span class="q">PyTorch</span></div>
+        <div class="fila"><span class="q">Seguimiento multiobjeto</span><span class="d">SORT</span></div>
+        <div class="fila"><span class="q">Datasets propios</span><span class="d">etiquetados en terreno</span></div>
+        <div class="fila"><span class="q">Cámaras IP en vivo</span><span class="d">RTSP</span></div>
+        <div class="fila"><span class="q">Cámara embebida</span><span class="d">XIAO ESP32-S3 Sense</span></div>
       </div>
 
       <div class="inv-grupo">
         <h3>Datos</h3>
-        <div class="fila"><span class="q">Python</span><span class="d">los seis casos</span></div>
-        <div class="fila"><span class="q">PostgreSQL</span><span class="d">con Row Level Security por sede</span></div>
-        <div class="fila"><span class="q">Firebird</span><span class="d">punto de venta cerrado</span></div>
-        <div class="fila"><span class="q">ETL y scraping autenticado</span><span class="d">SII · migración LetsFit</span></div>
-        <div class="fila"><span class="q">TypeScript</span><span class="d">letsfit</span></div>
+        <div class="fila"><span class="q">Python</span></div>
+        <div class="fila"><span class="q">PostgreSQL</span><span class="d">con Row Level Security</span></div>
+        <div class="fila"><span class="q">Firebird</span></div>
+        <div class="fila"><span class="q">ETL y scraping autenticado</span></div>
+        <div class="fila"><span class="q">TypeScript</span></div>
       </div>
 
       <div class="inv-grupo destacado">
@@ -2009,7 +2131,7 @@
         <div class="fila"><span class="q">Entrenamiento en la nube</span><span class="d">Google Colab</span></div>
         <div class="fila"><span class="q">Inferencia local, on-premise</span><span class="d">en la GPU del propio cliente</span></div>
         <div class="fila"><span class="q">Linux, cron y monitoreo</span><span class="d">dos sistemas operando hoy</span></div>
-        <div class="fila"><span class="q">Docker · GitHub Actions</span><span class="d">integración continua en siete proyectos</span></div>
+        <div class="fila"><span class="q">Docker · GitHub Actions</span><span class="d">integración continua</span></div>
       </div>
     </div>
    </div>
@@ -2039,7 +2161,7 @@
 <div class="linea-conteo" aria-hidden="true"></div>
 <div class="hud" aria-hidden="true">
   Línea de conteo<br>
-  Casos: <b><span id="hud-n">0</span></b> / 4
+  Casos: <b><span id="hud-n">0</span></b> / 5
 </div>
 
 <div class="cur-ring" aria-hidden="true"></div>
