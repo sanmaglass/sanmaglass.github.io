@@ -179,23 +179,37 @@
     margin-bottom: 2rem;
   }
 
+  /* La portada abre con quien es, no con un resumen de cifras:
+     nombre, oficio, y recien despues la evidencia. */
   .hero h1 {
     font-family: var(--display);
-    font-size: clamp(2.8rem, 9.5vw, 7.5rem);
-    line-height: 1.02;
+    font-size: clamp(3.4rem, 13vw, 11rem);
+    line-height: 1.0;
     font-weight: 400;
     letter-spacing: 0.005em;
     text-transform: uppercase;
-    max-width: 15ch;
+    max-width: 12ch;
+  }
+
+  .hero .rol {
+    font-size: clamp(1.15rem, 2.8vw, 2rem);
+    line-height: 1.2;
+    color: var(--fg);
+    margin-top: 1.4rem;
+    max-width: 22ch;
+    letter-spacing: -0.015em;
   }
 
   .hero .lede {
     font-family: var(--mono);
-    font-size: var(--t-body);
-    color: var(--fg-2);
-    margin-top: 1.8rem;
-    max-width: 52ch;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--fg-3);
+    margin-top: 2rem;
+    max-width: 58ch;
     letter-spacing: -0.01em;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--line);
   }
 
   .btns { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.75rem; }
@@ -882,10 +896,13 @@
 <header class="hero">
   <div class="grid-bg"></div>
   <div class="wrap hero-inner">
-    <div class="eyebrow">Luis San Martín · Hualpén, Chile</div>
-    <h1>Tres estaciones de empaque. 11.900 ventas. 768 sesiones.</h1>
+    <div class="eyebrow">Hualpén · Gran Concepción · Chile</div>
+    <h1>Luis San Martín</h1>
+    <p class="rol">Visión computacional y sistemas de datos</p>
     <p class="lede">
-      Visión computacional y sistemas de datos, corriendo en planta y en local desde 2023.
+      Desarrollo sistemas que quedan operando solos en plantas y locales. Tres estaciones de empaque
+      que cuentan sin que nadie mire, 11.900 ventas integradas desde un punto de venta cerrado y 768
+      sesiones liquidadas solas. Clientes de acuicultura, distribución y salud, desde 2023.
     </p>
     <div class="btns">
       <a class="btn" href="#casos">Ver los casos</a>
