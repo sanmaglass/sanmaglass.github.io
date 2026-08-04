@@ -171,6 +171,51 @@
 
   .hero-inner { position: relative; z-index: 1; }
 
+  /* EL RETRATO COMO DETECCION.
+     Sus sistemas dibujan una caja con etiqueta y confianza sobre cada
+     objeto. Aplicado a el mismo: es su lenguaje, y nadie mas lo tiene.
+     La foto mide 352px nativos: se muestra a ese tamaño, nunca mas. */
+  .retrato-hero {
+    position: absolute;
+    top: 0;
+    right: 2rem;
+    width: 352px;
+    max-width: 34vw;
+    margin: 0;
+    z-index: 2;
+  }
+
+  .retrato-hero .det-box { border-color: var(--fg); }
+
+  .retrato-hero img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: grayscale(1) contrast(1.06);
+  }
+
+  .retrato-hero .det-label {
+    background: var(--fg);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 0.3rem 0.7rem;
+  }
+
+  /* la caja se dibuja sola al cargar, como cuando el modelo engancha */
+  @keyframes bbox-entra {
+    from { clip-path: inset(0 100% 0 0); opacity: 0; }
+    to   { clip-path: inset(0 0 0 0);   opacity: 1; }
+  }
+
+  .retrato-hero { animation: bbox-entra 0.85s cubic-bezier(.2,.9,.3,1) 0.25s both; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .retrato-hero { animation: none; }
+  }
+
   .hero .eyebrow {
     font-family: var(--mono);
     font-size: 0.72rem;
@@ -804,6 +849,14 @@
 
     /* Bug: la nav se partia en dos filas (108 px) y el contenido quedaba
        leyendose por debajo. En telefono van solo dos destinos, sin envolver. */
+    /* en telefono el retrato va arriba, en su propio lugar, no flotando */
+    .retrato-hero {
+      position: static;
+      width: 11rem;
+      max-width: none;
+      margin: 0 0 2.25rem;
+    }
+
     .nav { padding: 0.7rem 1.25rem; }
     .nav .mark { font-size: 0.72rem; }
     .nav .links { flex-wrap: nowrap; gap: 0 1rem; }
@@ -896,6 +949,12 @@
 <header class="hero">
   <div class="grid-bg"></div>
   <div class="wrap hero-inner">
+    <figure class="retrato-hero">
+      <div class="det-box">
+        <span class="det-label">persona (99.8%)</span>
+        <img src="assets/media/luis.jpg" alt="Luis San Martín" width="352" height="352">
+      </div>
+    </figure>
     <div class="eyebrow">Hualpén · Gran Concepción · Chile</div>
     <h1>Luis San Martín</h1>
     <p class="rol">Visión computacional y sistemas de datos</p>
