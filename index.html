@@ -624,9 +624,18 @@
 
   .cur-dot.hide { opacity: 0 !important; }
 
-  @media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  /* Solo se esconde donde de verdad NO hay puntero (celular, tablet).
+     `any-hover` es la consulta correcta: mira si ALGUN dispositivo puede apuntar: un notebook con pantalla tactil
+     Y mouse reporta puntero "grueso" pero si puede apuntar, y antes lo
+     escondiamos por error.
+     El movimiento reducido NO apaga el cursor: le quita el retardo. */
+  @media (any-hover: none) {
     .cur-dot, .cur-ring { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
     .rv { opacity: 1; transform: none; transition: none; }
+    .cur-ring { transition: opacity 0.2s ease; }
   }
 
   /* impreso: sin esto sale texto casi blanco sobre papel blanco,
@@ -1125,7 +1134,9 @@
 
 <script>
 (function () {
-  var finePointer = window.matchMedia('(pointer: fine)').matches;
+  /* `hover: hover` = el equipo puede apuntar. Antes usabamos `pointer: fine`,
+     que da falso en notebooks con pantalla tactil aunque tengan mouse. */
+  var puedeApuntar = window.matchMedia('(any-hover: hover)').matches;
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* --- viewport ---
@@ -1182,7 +1193,7 @@
   }
 
   /* --- cursor propio --- */
-  if (!finePointer || reduced) return;
+  if (!puedeApuntar) return;
 
   var dot = document.querySelector('.cur-dot');
   var ring = document.querySelector('.cur-ring');
@@ -1192,8 +1203,9 @@
      Solo corre mientras el mouse esta dentro: si no, gastaria 60 cuadros
      por segundo de bateria sin que nadie lo vea. */
   function loop() {
-    rx += (mx - rx) * 0.16;
-    ry += (my - ry) * 0.16;
+    var k = reduced ? 1 : 0.16;   // sin animaciones: sigue al puntero sin retardo
+    rx += (mx - rx) * k;
+    ry += (my - ry) * k;
     if (!locked) ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px)';
     raf = requestAnimationFrame(loop);
   }
