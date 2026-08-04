@@ -553,13 +553,12 @@
   }
   .case:nth-of-type(2) .det-box.tall img { max-height: 44rem; }
 
-  /* 05 — el video viene de un telefono y es VERTICAL, de 576 nativos.
-     Sin tope se estiraba a 728 (126%) y perdia nitidez, que es justo lo
-     que no se puede deshacer. La foto del hardware es apaisada de 1200,
-     asi que esa si puede usar el ancho completo de la columna. */
-  .case:nth-of-type(5) .shots { gap: 3.5rem; }
-  .case:nth-of-type(5) figure:nth-of-type(1) .det-box,
-  .case:nth-of-type(5) figure:nth-of-type(1) .serie { max-width: 576px; }
+  /* 05 — las dos piezas al MISMO ancho, igual que las estaciones del 01.
+     El video del telefono es vertical de 576 nativos y la foto apaisada de
+     1200: dejando a cada una su tope nativo, los bordes derechos no
+     calzaban y el caso se leia desordenado. 576 es el ancho de la mas
+     chica, asi que la otra se achica y ninguna se estira. */
+  .case:nth-of-type(5) .shots { gap: 3.5rem; max-width: 576px; }
 
   /* 03 — la app se presenta centrada y con aire, como pagina de producto */
   .case:nth-of-type(3) .shots {
@@ -2331,6 +2330,8 @@
     gsap.utils.toArray('.cuenta-n').forEach(function (el) {
       var fin = parseFloat(el.dataset.n);
       if (!isFinite(fin)) return;
+      var partes = String(el.dataset.n).split('.');
+      var dec = partes.length > 1 ? partes[1].length : 0;
       var estado = { v: 0 };
       /* reserva el ancho final: si no, la linea se encoge y se estira
          mientras cuenta y arrastra al texto de al lado */
@@ -2343,9 +2344,16 @@
         duration: fin > 1000 ? 1.6 : 1.1,
         ease: 'power2.out',
         onUpdate: function () {
-          el.textContent = Math.round(estado.v).toLocaleString('es-CL');
+          /* con decimales hay que respetarlos: 9,6 redondeado sube hasta
+             10 y recien al terminar salta atras a 9,6 */
+          el.textContent = dec
+            ? estado.v.toLocaleString('es-CL', { minimumFractionDigits: dec, maximumFractionDigits: dec })
+            : Math.round(estado.v).toLocaleString('es-CL');
         },
-        onComplete: function () { el.textContent = fin.toLocaleString('es-CL'); },
+        onComplete: function () {
+          el.textContent = fin.toLocaleString('es-CL',
+            { minimumFractionDigits: dec, maximumFractionDigits: dec });
+        },
         scrollTrigger: { trigger: el, start: 'top 92%', once: true }
       });
     });
