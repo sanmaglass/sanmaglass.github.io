@@ -588,8 +588,8 @@
     grid-column: text;
     display: flex;
     flex-direction: column;
-    gap: 4.25rem;
-    margin-top: 6rem;
+    gap: 3rem;
+    margin-top: 0;
   }
 
   .movement { display: block; }
@@ -638,6 +638,73 @@
 
   /* el cierre del caso se ancla a la derecha, no repite el margen izquierdo */
   .case > .tools { grid-column: wide; text-align: right; margin-top: 5rem; }
+
+  /* ===== DETALLE PLEGADO =====
+     La pagina se lee con imagenes y titulares; el detalle tecnico aparece
+     solo si se pide. <details> nativo: sin JS, y el lector de pantalla lo
+     anuncia como lo que es. */
+  /* arranca en la columna de texto, no en el carril: ahi vive el numero
+     de caso y es sticky, asi que se montaria encima */
+  .detalle {
+    grid-column: text-start / wide-end;
+    margin-top: 3.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .detalle > summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    min-height: 44px;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    transition: color 0.2s ease;
+  }
+
+  .detalle > summary::-webkit-details-marker { display: none; }
+  .detalle > summary:hover { color: var(--fg); }
+
+  /* el indicador: una cruz que se vuelve raya al abrir */
+  .detalle > summary .mas {
+    position: relative;
+    flex: none;
+    width: 14px;
+    height: 14px;
+  }
+
+  .detalle > summary .mas::before,
+  .detalle > summary .mas::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  .detalle > summary .mas::before { inset: 6px 0; height: 2px; }
+  .detalle > summary .mas::after  { inset: 0 6px; width: 2px; }
+
+  .detalle[open] > summary .mas::after { transform: scaleY(0); opacity: 0; }
+  .detalle[open] > summary { color: var(--fg); }
+
+  .detalle .movements { grid-column: auto; margin-top: 1.25rem; padding-bottom: 1rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .detalle > summary .mas::before,
+    .detalle > summary .mas::after { transition: none; }
+  }
+
+  /* impreso y buscadores: el detalle no puede quedarse escondido */
+  @media print {
+    .detalle > summary { display: none; }
+    .detalle > .movements { display: flex !important; }
+  }
 
   /* ===================== EN CURSO ===================== */
 
@@ -961,8 +1028,9 @@
       border-right: 1px solid var(--line-2);
     }
 
-    .movements { margin-top: 3rem; gap: 2.5rem; }
+    .movements { margin-top: 0; gap: 2.25rem; }
     .movement h3::before { display: none; }
+    .detalle { grid-column: text; margin-top: 2.5rem; }
 
     .case > .tools { text-align: left; margin-top: 2.5rem; }
 
@@ -1129,7 +1197,9 @@
 
     </div>
 
-    <div class="movements">
+    <details class="detalle">
+      <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
+      <div class="movements">
       <div class="movement">
         <h3>Un operario contando a ojo, 13.000 kg al día</h3>
         <div class="body">
@@ -1161,6 +1231,7 @@
         </div>
       </div>
     </div>
+    </details>
 
     <div class="tools">YOLOv8 para detección · SORT para el seguimiento entre cuadros · OpenCV · RTSP sobre cámaras IP · Python</div>
   </article>
@@ -1192,7 +1263,9 @@
       </figure>
     </div>
 
-    <div class="movements">
+    <details class="detalle">
+      <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
+      <div class="movements">
       <div class="movement">
         <h3>45 minutos bajo lupa por cada muestra</h3>
         <div class="body">
@@ -1226,6 +1299,7 @@
         </div>
       </div>
     </div>
+    </details>
 
     <div class="tools">PyTorch · detección de objetos pequeños y densos · dataset propio etiquetado en planta · OpenCV</div>
   </article>
@@ -1278,7 +1352,9 @@
       </div>
     </div>
 
-    <div class="movements">
+    <details class="detalle">
+      <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
+      <div class="movements">
       <div class="movement">
         <h3>Los datos existían pero no salían del mesón</h3>
         <div class="body">
@@ -1324,6 +1400,7 @@
         </div>
       </div>
     </div>
+    </details>
 
     <div class="tools">Firebird del punto de venta → PostgreSQL · reloj lógico híbrido para la sincronización · scraping autenticado del SII · cron en Linux · Python</div>
   </article>
@@ -1367,7 +1444,9 @@
       </figure>
     </div>
 
-    <div class="movements">
+    <details class="detalle">
+      <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
+      <div class="movements">
       <div class="movement">
         <h3>170 alumnos encerrados en un sistema arrendado</h3>
         <div class="body">
@@ -1407,6 +1486,7 @@
         </div>
       </div>
     </div>
+    </details>
 
     <div class="tools">PostgreSQL con Row Level Security por sede · migraciones versionadas · TypeScript · scraping para la migración · Python</div>
   </article>
