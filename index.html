@@ -809,12 +809,18 @@
     scrollbar-width: thin;
     scrollbar-color: var(--line-2) transparent;
   }
+  /* mismo porte para las tres: distinto alto y pies de largo distinto
+     hacian que la fila se leyera como ruido en vez de como una serie */
   .case:nth-of-type(6) .shots > figure {
-    flex: 0 0 clamp(17rem, 58vw, 26rem);
+    flex: 0 0 clamp(15rem, 54vw, 21rem);
     min-width: 0;
     scroll-snap-align: start;
   }
-  .case:nth-of-type(6) .shots img { width: 100%; height: auto; display: block; }
+  .case:nth-of-type(6) .det-box { aspect-ratio: 4 / 5; }
+  .case:nth-of-type(6) .shots img {
+    width: 100%; height: 100%; display: block; object-fit: cover;
+  }
+  .case:nth-of-type(6) figcaption { min-height: 2.8em; }
   .case:nth-of-type(6) .shots::-webkit-scrollbar { height: 6px; }
   .case:nth-of-type(6) .shots::-webkit-scrollbar-thumb {
     background: var(--line-2); border-radius: 3px;
@@ -1882,7 +1888,7 @@
       <li>
         <a href="#caso-06">
           <span class="ix-num">06</span>
-          <span class="ix-thumb"><img src="assets/media/th-06.jpg" alt="" width="340" height="421" loading="lazy" decoding="async"></span>
+          <span class="ix-thumb"><img src="assets/media/th-06.jpg" alt="" width="340" height="425" loading="lazy" decoding="async"></span>
           <span class="ix-texto">
             <span class="ix-cliente">Distribuidora El Maravilloso</span>
             <span class="ix-titulo">Conteo por cruce de línea con seguimiento multiobjeto sobre CCTV existente</span>
@@ -2398,67 +2404,50 @@
 
     <div class="shots">
       <figure>
-        <div class="serie"><span class="n">EL SISTEMA</span><span class="de">/ 04</span>
+        <div class="serie"><span class="n">EL SISTEMA</span><span class="de">/ 03</span>
           <span class="que">corriendo</span></div>
         <div class="det-box" data-mira="5 cámaras en línea">
-          <span class="det-label">VISION_SANMA · conteo por línea · registro de cruces</span>
-          <img src="assets/media/retail-panel.jpg" alt="Panel del sistema: las cinco cámaras en línea, el conteo de entradas y salidas, y el registro de cruces con hora e identificador" width="1000" height="1802" loading="lazy" decoding="async">
+          <span class="det-label">Panel · conteo y registro de cruces</span>
+          <img src="assets/media/retail-panel.jpg" alt="Panel del sistema: las cinco cámaras en línea, el conteo de entradas y salidas, y el registro de cruces con hora e identificador" width="1040" height="1300" loading="lazy" decoding="async">
         </div>
-        <figcaption>
-          El panel no muestra video: muestra <b>decisiones</b>. Cámaras en línea, cuántos entraron,
-          cuántos salieron, cuántos quedan dentro, y el registro de cada cruce con hora e
-          identificador de la persona.
-        </figcaption>
+        <figcaption>Cámaras en línea, entradas y salidas, y cada cruce con su hora.</figcaption>
       </figure>
 
       <figure>
-        <div class="serie"><span class="n">LA VISTA</span><span class="de">/ 04</span>
+        <div class="serie"><span class="n">LA VISTA</span><span class="de">/ 03</span>
           <span class="que">las cinco a la vez</span></div>
         <div class="det-box" data-mira="líneas y detección">
-          <span class="det-label">Las cinco cámaras a la vez · líneas de conteo y detección</span>
-          <img src="assets/media/retail-mosaico.jpg" alt="Las celdas del sistema a la vez, con las líneas de conteo dibujadas y una persona detectada con su identificador" width="1500" height="1533" loading="lazy" decoding="async">
+          <span class="det-label">Las cinco cámaras · 11:07:53 · 63 cuadros/s</span>
+          <img src="assets/media/retail-mosaico.jpg" alt="Las celdas del sistema a la vez, con las líneas de conteo dibujadas y una persona detectada con su identificador" width="1040" height="1300" loading="lazy" decoding="async">
         </div>
-        <figcaption>
-          Bodega, sala, acceso y mesón en una pantalla. Sobre cada escena van dibujadas
-          <b>sus propias líneas de conteo</b> —rojas en la bodega, verde en el acceso— y una persona
-          aparece seguida con su identificador. Todo es el mismo instante: 11:07:53, a 63 cuadros
-          por segundo.
-        </figcaption>
+        <figcaption>Bodega, sala y acceso en un instante, cada una con su línea.</figcaption>
       </figure>
 
       <figure>
-        <div class="serie"><span class="n">LA LÍNEA</span><span class="de">/ 04</span>
+        <div class="serie"><span class="n">LA LÍNEA</span><span class="de">/ 03</span>
           <span class="que">el cruce</span></div>
         <div class="det-box" data-mira="cruce de línea">
           <span class="det-label">CAM 5 · acceso · línea de conteo</span>
-          <img src="assets/media/retail-lineas.jpg" alt="La cámara del acceso con la línea de conteo verde cruzando el pasillo de entrada" width="1100" height="1363" loading="lazy" decoding="async">
+          <img src="assets/media/retail-lineas.jpg" alt="La cámara del acceso con la línea de conteo verde cruzando el pasillo de entrada" width="1040" height="1300" loading="lazy" decoding="async">
         </div>
-        <figcaption>
-          La <b>línea verde cruza el pasillo de entrada</b>, dibujada sobre la escena real y con su
-          contador encima. Quien la cruza en un sentido suma una entrada; en el otro, una salida.
-          Contar por cruce, y no por presencia, es lo que permite distinguir las dos cosas.
-        </figcaption>
+        <figcaption>La línea verde cruza el acceso: un sentido suma, el otro resta.</figcaption>
       </figure>
-
-      <figure>
-        <div class="serie"><span class="n">EL SEGUIMIENTO</span><span class="de">/ 04</span>
-          <span class="que">con identificador</span></div>
-        <div class="det-box" data-mira="ID persistente">
-          <span class="det-label">CAM 4 · Persona #420 · 85% de confianza</span>
-          <img src="assets/media/retail-detalle.jpg" alt="La celda de CAM 4 completa, con su barra de título y una persona detectada con identificador y confianza" width="1300" height="1239" loading="lazy" decoding="async">
-        </div>
-        <figcaption>
-          Una celda completa, tal como la ve el operador: la cámara, su hora y sus cuadros por
-          segundo. Cada persona lleva un <b>identificador que se mantiene entre cuadros</b>; sin eso,
-          alguien que se detiene frente a la góndola se contaría muchas veces. Las caras van tapadas
-          en las capturas publicadas.
-        </figcaption>
-      </figure>
-    </div>
 
     <details class="detalle">
       <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
+      <div class="movement">
+        <h3>Contar por cruce, no por presencia</h3>
+        <div class="body">
+          <p>
+            Sobre cada escena va dibujada <b>su propia línea</b>, calibrada a mano sobre la imagen
+            real de esa cámara. Quien la cruza en un sentido suma una entrada; en el otro, una
+            salida. Contar personas presentes en el cuadro no serviría: alguien parado frente a la
+            góndola sumaría en cada cuadro.
+          </p>
+        </div>
+      </div>
+
       <div class="movement">
         <h3>El sub-stream, no el de máxima calidad</h3>
         <div class="body">
