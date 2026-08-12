@@ -1852,6 +1852,20 @@
           </span>
         </a>
       </li>
+      <li>
+        <a href="#caso-06">
+          <span class="ix-num">06</span>
+          <span class="ix-thumb"><img src="assets/media/th-06.jpg" alt="" width="340" height="368" loading="lazy" decoding="async"></span>
+          <span class="ix-texto">
+            <span class="ix-cliente">Distribuidora El Maravilloso</span>
+            <span class="ix-titulo">Conteo por cruce de línea con seguimiento multiobjeto sobre CCTV existente</span>
+          </span>
+          <span class="ix-meta">
+            <span>Feb 2026 — hoy</span>
+            <span class="estado">5 cámaras en producción</span>
+          </span>
+        </a>
+      </li>
     </ol>
   </section>
 
@@ -2339,20 +2353,124 @@
     <div class="tools">YOLOv8 afinado · 3 clases · XIAO ESP32-S3 Sense + OV2640 para la captura · inferencia sobre GPU local · PyTorch · OpenCV · Python</div>
   </article>
 
+  <!-- ============ 06 ============ -->
+  <article class="case" id="caso-06">
+    <div class="case-head">
+      <span class="num">06</span>
+      <span class="carga"><span class="cuenta-n" data-n="5">5</span> cámaras en paralelo</span>
+      <span>Feb 2026 — hoy</span>
+    </div>
+
+    <h2>Conteo de personas por cruce de línea sobre CCTV existente</h2>
+
+    <p class="context">
+      Mismo cliente del caso 03: distribuidora de abarrotes y papelería en Concepción. El sistema
+      corre sobre las <b>cámaras de circuito cerrado que el local ya tenía</b> instaladas. No se
+      agregó ni una cámara ni un equipo de captura.
+    </p>
+
+    <div class="shots">
+      <figure>
+        <div class="serie"><span class="n">EL SISTEMA</span><span class="de">/ 03</span>
+          <span class="que">corriendo</span></div>
+        <div class="det-box" data-mira="5 cámaras en línea">
+          <span class="det-label">VISION_SANMA · conteo por línea · registro de cruces</span>
+          <img src="assets/media/retail-panel.jpg" alt="Panel del sistema: las cinco cámaras en línea, el conteo de entradas y salidas, y el registro de cruces con hora e identificador" width="900" height="1492" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          El panel no muestra video: muestra <b>decisiones</b>. Cámaras en línea, cuántos entraron,
+          cuántos salieron, cuántos quedan dentro, y el registro de cada cruce con hora e
+          identificador de la persona.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <div class="serie"><span class="n">LA LÍNEA</span><span class="de">/ 03</span>
+          <span class="que">calibrada por cámara</span></div>
+        <div class="det-box" data-mira="una línea por cámara">
+          <span class="det-label">Líneas de conteo dibujadas sobre cada escena</span>
+          <img src="assets/media/retail-lineas.jpg" alt="Cuatro cámaras de la tienda a la vez, con las líneas de conteo dibujadas sobre el acceso y una persona detectada" width="1200" height="1452" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          Cada cámara lleva <b>su propia línea</b>, calibrada sobre la escena real. Contar por cruce
+          de línea, y no por presencia, es lo que permite distinguir quién entra de quién sale.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <div class="serie"><span class="n">EL SEGUIMIENTO</span><span class="de">/ 03</span>
+          <span class="que">con identificador</span></div>
+        <div class="det-box" data-mira="ID persistente">
+          <span class="det-label">Persona #515 · 92% de confianza</span>
+          <img src="assets/media/retail-detalle.jpg" alt="Recuadro de seguimiento sobre una persona en la tienda, con su identificador y el porcentaje de confianza" width="1100" height="956" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          Cada persona lleva un <b>identificador que se mantiene entre cuadros</b>. Sin eso, alguien
+          que se detiene frente a la góndola se contaría muchas veces. Las caras van tapadas en las
+          capturas publicadas.
+        </figcaption>
+      </figure>
+    </div>
+
+    <details class="detalle">
+      <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
+      <div class="movements">
+      <div class="movement">
+        <h3>El sub-stream, no el de máxima calidad</h3>
+        <div class="body">
+          <p>
+            El sistema toma el <b>sub-stream H.264</b> de cada cámara en vez del principal en H.265
+            a 1080p. Aguanta mejor la red del local y para el modelo da lo mismo: la detección
+            trabaja a 640x360. Pedir más resolución habría sumado caídas de conexión sin sumar
+            aciertos.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Un seguidor por cámara, no uno solo para todas</h3>
+        <div class="body">
+          <p>
+            Cada canal tiene su propio seguimiento multiobjeto, con una <b>tolerancia de 45 cuadros</b>
+            antes de dar por perdida a una persona. Esa holgura es la que sostiene el identificador
+            cuando alguien queda tapado detrás de una góndola y reaparece dos segundos después.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Detección en lote</h3>
+        <div class="body">
+          <p>
+            Las cámaras que necesitan inferencia se agrupan y se procesan <b>en una sola pasada</b>,
+            en vez de una llamada por canal. Y si el ciclo corre más rápido que la cámara, reutiliza
+            el resultado anterior en lugar de detectar dos veces sobre el mismo cuadro.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Pensado para quedarse prendido</h3>
+        <div class="body">
+          <p>
+            En cada ciclo se descartan las etiquetas de las personas que ya salieron de escena: sin
+            eso la memoria crece indefinidamente y el sistema se cae a los días. Aparte, un hilo
+            liviano consulta el grabador cada 30 segundos para marcar cámaras caídas <b>sin frenar
+            el video</b>. La diferencia entre una demo y algo que queda corriendo está en esos dos
+            detalles, no en el modelo.
+          </p>
+        </div>
+      </div>
+      </div>
+    </details>
+
+    <div class="tools">YOLO · seguimiento multiobjeto SORT por cámara · RTSP sobre las cámaras IP existentes · conteo por cruce de línea · OpenCV · Python</div>
+  </article>
+
   <!-- ============ EN CURSO ============ -->
   <section class="ongoing" id="curso" aria-labelledby="curso-titulo">
     <div class="section-label" id="curso-titulo">EN CURSO</div>
     <div class="grid">
-      <div class="item">
-        <div class="when">Feb 2026 — hoy · con cliente, en producción</div>
-        <h3>Analítica de flujo de personas en retail</h3>
-        <p>
-          Conteo de entrada y salida sobre cámaras de circuito cerrado ya instaladas, mapas de calor
-          de tráfico y alertas por cruce de línea configurable. El sistema usa las cámaras que el
-          local ya tiene, sin hardware adicional.
-        </p>
-        <div class="tools">YOLOv8 · conteo por cruce de línea · mapas de calor acumulados · OpenCV</div>
-      </div>
       <div class="item">
         <div class="when">2026 · sin cliente · proyecto de título</div>
         <h3>Detección de elementos de protección personal</h3>
