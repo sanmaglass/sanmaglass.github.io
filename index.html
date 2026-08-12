@@ -821,6 +821,31 @@
     width: 100%; height: 100%; display: block; object-fit: cover;
   }
   .case:nth-of-type(6) figcaption { min-height: 2.8em; }
+
+  /* la fila no se leia como recorrible: nadie tiene por que descubrir
+     que hay mas a la derecha. Flechas, y un velo en el borde. */
+  .carrusel { position: relative; grid-column: text-start / wide-end; min-width: 0; }
+  .carrusel::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 1.2rem; width: 4rem;
+    background: linear-gradient(to right, transparent, var(--bg));
+    pointer-events: none; transition: opacity 0.25s ease;
+  }
+  .carrusel[data-fin="si"]::after { opacity: 0; }
+  .case:nth-of-type(6) .shots { grid-column: auto; margin-top: 4rem; }
+
+  .car-flecha {
+    position: absolute; top: calc(50% - 2rem); z-index: 3;
+    width: 2.6rem; height: 2.6rem; border-radius: 50%;
+    border: 1px solid var(--line-2); background: var(--bg); color: var(--fg-1);
+    font-size: 1.3rem; line-height: 1; cursor: pointer;
+    display: grid; place-items: center; padding: 0 0 0.15em;
+    opacity: 0.85; transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .car-flecha:hover { opacity: 1; transform: scale(1.08); }
+  .car-flecha.izq { left: -0.6rem; }
+  .car-flecha.der { right: -0.6rem; }
+  .car-flecha[hidden] { display: none; }
+  @media (max-width: 700px) { .car-flecha { display: none; } }
   .case:nth-of-type(6) .shots::-webkit-scrollbar { height: 6px; }
   .case:nth-of-type(6) .shots::-webkit-scrollbar-thumb {
     background: var(--line-2); border-radius: 3px;
@@ -2402,10 +2427,11 @@
       agregó ni una cámara ni un equipo de captura.
     </p>
 
+    <div class="carrusel">
+      <button class="car-flecha izq" type="button" aria-label="Ver capturas anteriores" hidden>&#8249;</button>
+      <button class="car-flecha der" type="button" aria-label="Ver más capturas" hidden>&#8250;</button>
     <div class="shots">
       <figure>
-        <div class="serie"><span class="n">EL SISTEMA</span><span class="de">/ 03</span>
-          <span class="que">corriendo</span></div>
         <div class="det-box" data-mira="5 cámaras en línea">
           <span class="det-label">Panel · conteo y registro de cruces</span>
           <img src="assets/media/retail-panel.jpg" alt="Panel del sistema: las cinco cámaras en línea, el conteo de entradas y salidas, y el registro de cruces con hora e identificador" width="1040" height="1300" loading="lazy" decoding="async">
@@ -2414,8 +2440,6 @@
       </figure>
 
       <figure>
-        <div class="serie"><span class="n">LA VISTA</span><span class="de">/ 03</span>
-          <span class="que">las cinco a la vez</span></div>
         <div class="det-box" data-mira="líneas y detección">
           <span class="det-label">Las cinco cámaras · 11:07:53 · 63 cuadros/s</span>
           <img src="assets/media/retail-mosaico.jpg" alt="Las celdas del sistema a la vez, con las líneas de conteo dibujadas y una persona detectada con su identificador" width="1040" height="1300" loading="lazy" decoding="async">
@@ -2424,14 +2448,22 @@
       </figure>
 
       <figure>
-        <div class="serie"><span class="n">LA LÍNEA</span><span class="de">/ 03</span>
-          <span class="que">el cruce</span></div>
         <div class="det-box" data-mira="cruce de línea">
           <span class="det-label">CAM 5 · acceso · línea de conteo</span>
           <img src="assets/media/retail-lineas.jpg" alt="La cámara del acceso con la línea de conteo verde cruzando el pasillo de entrada" width="1040" height="1300" loading="lazy" decoding="async">
         </div>
         <figcaption>La línea verde cruza el acceso: un sentido suma, el otro resta.</figcaption>
       </figure>
+
+      <figure>
+        <div class="det-box" data-mira="Persona #420 · 85%">
+          <span class="det-label">Seguimiento · identificador y confianza</span>
+          <img src="assets/media/retail-detalle.jpg" alt="Primer plano de una persona detectada dentro de su recuadro de seguimiento, con su identificador y el porcentaje de confianza" width="1040" height="1300" loading="lazy" decoding="async">
+        </div>
+        <figcaption>Cada persona lleva un identificador que sobrevive a las oclusiones.</figcaption>
+      </figure>
+    </div>
+    </div>
 
     <details class="detalle">
       <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
@@ -2927,6 +2959,33 @@
           scrollTrigger: { trigger: cont, start: 'top 85%', once: true }
         });
       });
+    });
+
+    /* --- LA FILA DE CAPTURAS SE RECORRE ---
+       Con scroll lateral y sin senal, la mitad de la gente no descubre que
+       hay mas imagenes. Las flechas aparecen solo si de verdad hay desborde. */
+    document.querySelectorAll('.carrusel').forEach(function (car) {
+      var fila = car.querySelector('.shots');
+      var izq = car.querySelector('.car-flecha.izq');
+      var der = car.querySelector('.car-flecha.der');
+      if (!fila || !izq || !der) return;
+
+      function paso() {
+        var f = fila.querySelector('figure');
+        return f ? f.getBoundingClientRect().width + 26 : fila.clientWidth * 0.8;
+      }
+      function estado() {
+        var resto = fila.scrollWidth - fila.clientWidth;
+        if (resto < 8) { izq.hidden = der.hidden = true; car.dataset.fin = 'si'; return; }
+        izq.hidden = fila.scrollLeft < 8;
+        der.hidden = fila.scrollLeft > resto - 8;
+        car.dataset.fin = fila.scrollLeft > resto - 8 ? 'si' : 'no';
+      }
+      izq.addEventListener('click', function () { fila.scrollBy({ left: -paso(), behavior: 'smooth' }); });
+      der.addEventListener('click', function () { fila.scrollBy({ left: paso(), behavior: 'smooth' }); });
+      fila.addEventListener('scroll', estado, { passive: true });
+      window.addEventListener('resize', estado);
+      estado();
     });
 
     /* --- LOS NUMEROS CUENTAN ---
