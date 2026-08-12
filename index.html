@@ -793,6 +793,33 @@
   .case:nth-of-type(3) .shots > * { width: 100%; }
   .case:nth-of-type(3) figcaption { text-align: center; max-width: 46ch; margin-left: auto; margin-right: auto; }
 
+  /* 06 — el material son capturas de pantalla altas. Apiladas estiraban la
+     pagina sin aportar: cuatro imagenes verticales seguidas son mas scroll
+     que caso. Van en fila, con desplazamiento lateral y anclaje por figura. */
+  .case:nth-of-type(6) .shots {
+    grid-column: text-start / wide-end;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.6rem;
+    margin-top: 4rem;
+    padding-bottom: 1.2rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-2) transparent;
+  }
+  .case:nth-of-type(6) .shots > figure {
+    flex: 0 0 clamp(17rem, 58vw, 26rem);
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  .case:nth-of-type(6) .shots img { width: 100%; height: auto; display: block; }
+  .case:nth-of-type(6) .shots::-webkit-scrollbar { height: 6px; }
+  .case:nth-of-type(6) .shots::-webkit-scrollbar-thumb {
+    background: var(--line-2); border-radius: 3px;
+  }
+
   .det-box { position: relative; border: 1px solid var(--line-2); background: #000; }
 
   .det-box > .det-label {
@@ -2387,13 +2414,15 @@
       <figure>
         <div class="serie"><span class="n">LA VISTA</span><span class="de">/ 04</span>
           <span class="que">las cinco a la vez</span></div>
-        <div class="det-box" data-mira="tres personas seguidas">
-          <span class="det-label">Las cinco cámaras a la vez · tres personas detectadas</span>
-          <img src="assets/media/retail-mosaico.jpg" alt="Las celdas del sistema a la vez: bodega, sala, acceso y mesón, con tres personas detectadas al mismo tiempo" width="1400" height="1084" loading="lazy" decoding="async">
+        <div class="det-box" data-mira="líneas y detección">
+          <span class="det-label">Las cinco cámaras a la vez · líneas de conteo y detección</span>
+          <img src="assets/media/retail-mosaico.jpg" alt="Las celdas del sistema a la vez, con las líneas de conteo dibujadas y una persona detectada con su identificador" width="1500" height="1533" loading="lazy" decoding="async">
         </div>
         <figcaption>
-          Bodega, sala, acceso y mesón en una pantalla, con <b>tres personas seguidas al mismo
-          tiempo</b> en cámaras distintas. Cada una lleva su identificador y su confianza.
+          Bodega, sala, acceso y mesón en una pantalla. Sobre cada escena van dibujadas
+          <b>sus propias líneas de conteo</b> —rojas en la bodega, verde en el acceso— y una persona
+          aparece seguida con su identificador. Todo es el mismo instante: 11:07:53, a 63 cuadros
+          por segundo.
         </figcaption>
       </figure>
 
