@@ -1760,13 +1760,14 @@
      bloque + su <script> gemelo devuelve el sitio a blanco y negro.
      ===================================================================== */
   :root {
-    --v:  #8b5cf6;   /* violeta */
-    --b:  #4f8cff;   /* azul */
-    --g:  #2fe6a8;   /* verde deteccion */
-    --grad:      linear-gradient(115deg, var(--v) 0%, var(--b) 52%, var(--g) 100%);
-    --grad-anim: linear-gradient(115deg, var(--v) 0%, var(--b) 40%, var(--g) 75%, var(--v) 100%);
-    --glow-v: rgba(139, 92, 246, 0.32);
-    --glow-g: rgba(47, 230, 168, 0.30);
+    --m:  #d648ff;   /* magenta/rosa: el punto mas vivo */
+    --v:  #7c3aed;   /* violeta saturado */
+    --b:  #3b7bff;   /* azul */
+    --g:  #17e6a0;   /* verde deteccion */
+    --grad:      linear-gradient(115deg, var(--m) 0%, var(--v) 34%, var(--b) 68%, var(--g) 100%);
+    --grad-anim: linear-gradient(115deg, var(--m) 0%, var(--v) 28%, var(--b) 56%, var(--g) 80%, var(--m) 100%);
+    --glow-v: rgba(148, 58, 246, 0.40);
+    --glow-g: rgba(23, 230, 160, 0.34);
     --ink: #0a0714;   /* texto sobre acento */
   }
 
@@ -1963,6 +1964,37 @@
       pointer-events: none;
     }
 
+    /* --- TIRA DE MARCAS / TRAYECTORIA --- */
+    .marcas { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .marcas-inner {
+      max-width: 74rem; margin: 0 auto; padding: 1.4rem 2rem;
+      display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+    }
+    .marcas-rot {
+      font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--fg-3); flex: none;
+    }
+    .marcas-lista {
+      list-style: none; display: flex; align-items: center;
+      gap: 1rem 2.6rem; flex-wrap: wrap; margin: 0; padding: 0;
+    }
+    .marca {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      opacity: 0.55; filter: grayscale(1);
+      transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+    }
+    .marca:hover { opacity: 1; filter: grayscale(0); transform: translateY(-2px); }
+    .marca .logo-img { height: 26px; width: auto; display: block; }
+    .marca-txt {
+      font-family: var(--sans); font-size: 0.98rem; font-weight: 400;
+      letter-spacing: -0.01em; color: var(--fg-2); white-space: nowrap;
+    }
+    .marca-txt b { font-weight: 600; color: var(--fg); }
+    .marca:hover .marca-txt b {
+      background: var(--grad); -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+
     .end .links a { transition: color 0.2s ease; }
     .end .links a:hover { color: var(--b); }
     .end .avail b {
@@ -2061,6 +2093,34 @@
     </div>
   </div>
 </header>
+
+<!-- ============ MARCAS / TRAYECTORIA ============
+     Tira de logos: formacion + clientes. Prueba social instantanea.
+     Cada .marca acepta un <img class="logo-img"> cuando llegue el archivo;
+     mientras, muestra el wordmark de texto. En gris, se coloriza al hover. -->
+<section class="marcas" aria-label="Formación y clientes">
+  <div class="marcas-inner">
+    <span class="marcas-rot">Formación y clientes</span>
+    <ul class="marcas-lista">
+      <li class="marca" data-logo="ubb">
+        <!-- cuando exista: <img class="logo-img" src="assets/logos/ubb.svg" alt="Universidad del Bío-Bío"> -->
+        <span class="marca-txt">Universidad del <b>Bío-Bío</b></span>
+      </li>
+      <li class="marca" data-logo="st-andrews">
+        <span class="marca-txt">St. <b>Andrews</b></span>
+      </li>
+      <li class="marca" data-logo="maravilloso">
+        <span class="marca-txt">El <b>Maravilloso</b></span>
+      </li>
+      <li class="marca" data-logo="letsfit">
+        <span class="marca-txt">Lets<b>Fit</b></span>
+      </li>
+      <li class="marca" data-logo="ewood">
+        <span class="marca-txt">e<b>WOOD</b></span>
+      </li>
+    </ul>
+  </div>
+</section>
 
 <main>
 <div class="wrap">
