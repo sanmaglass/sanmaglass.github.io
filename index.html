@@ -1751,6 +1751,247 @@
     .vid-toggle { padding: 0.7rem 1rem; min-height: 44px; }
     .nav .links a { padding: 0.55rem 0; }
   }
+
+  /* =====================================================================
+     CAPA VIVA  (aditiva — sep-2026, direccion "gradientes + motion")
+     El sitio nacio monocromo a proposito. Esta capa mete color y efectos
+     SIN tocar las reglas de arriba: mismo selector, fuente mas abajo, gana
+     por orden. Paleta violeta -> azul -> verde-deteccion. Borrar este
+     bloque + su <script> gemelo devuelve el sitio a blanco y negro.
+     ===================================================================== */
+  :root {
+    --v:  #8b5cf6;   /* violeta */
+    --b:  #4f8cff;   /* azul */
+    --g:  #2fe6a8;   /* verde deteccion */
+    --grad:      linear-gradient(115deg, var(--v) 0%, var(--b) 52%, var(--g) 100%);
+    --grad-anim: linear-gradient(115deg, var(--v) 0%, var(--b) 40%, var(--g) 75%, var(--v) 100%);
+    --glow-v: rgba(139, 92, 246, 0.32);
+    --glow-g: rgba(47, 230, 168, 0.30);
+    --ink: #0a0714;   /* texto sobre acento */
+  }
+
+  @media screen {
+    /* --- PROFUNDIDAD: manchas de color a la deriva. Mata la "planilla". --- */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(42rem 34rem at 15% 8%,  rgba(139, 92, 246, 0.20), transparent 60%),
+        radial-gradient(46rem 38rem at 92% 2%,  rgba(79, 140, 255, 0.18), transparent 62%),
+        radial-gradient(40rem 40rem at 78% 96%, rgba(47, 230, 168, 0.16), transparent 60%),
+        radial-gradient(36rem 32rem at 4% 88%,  rgba(139, 92, 246, 0.12), transparent 60%);
+      filter: blur(10px);
+      animation: derivar 26s ease-in-out infinite alternate;
+    }
+    /* grano/vinñeta sutil para que el color no se vea plano */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(120% 90% at 50% 0%, transparent 55%, rgba(0,4,7,0.55) 100%);
+    }
+
+    /* --- SPOTLIGHT que sigue el cursor (lo mueve el JS gemelo) --- */
+    .spot {
+      position: fixed;
+      top: 0; left: 0;
+      width: 44rem; height: 44rem;
+      margin: -22rem 0 0 -22rem;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      background: radial-gradient(circle, rgba(79,140,255,0.14) 0%, rgba(139,92,246,0.08) 35%, transparent 68%);
+      transition: opacity 0.5s ease;
+      will-change: transform;
+      mix-blend-mode: screen;
+    }
+
+    ::selection { background: var(--v); color: #fff; }
+    :focus-visible { outline-color: var(--b); }
+
+    .hero .grid-bg {
+      background-image: repeating-linear-gradient(
+        115deg,
+        rgba(139, 92, 246, 0.06) 0 1px,
+        transparent 1px 190px
+      );
+    }
+
+    /* --- HERO: nombre en degradado animado. Es lo primero que se ve. --- */
+    .ficha-txt h1 {
+      background: var(--grad-anim);
+      background-size: 220% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      animation: correr-grad 8s ease infinite;
+    }
+    .ficha-txt .saludo { color: var(--g); }
+    .rol {
+      background: linear-gradient(100deg, var(--fg) 30%, var(--b));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+
+    /* ficha de deteccion, firma del sitio */
+    .retrato-hero .det-box {
+      border-color: var(--b);
+      box-shadow: 0 0 0 1px rgba(79,140,255,0.30), 0 26px 70px -28px var(--glow-v);
+    }
+    .retrato-hero .det-label { background: var(--grad); color: #fff; }
+
+    .hero .eyebrow .estado {
+      color: var(--g);
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .hero .eyebrow .estado::before {
+      content: ""; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--g); box-shadow: 0 0 0 0 var(--glow-g);
+      animation: latido 2.4s ease-out infinite;
+    }
+
+    /* --- NAV --- */
+    .nav .links a:not(.nav-cta)::after { background: var(--grad); height: 2px; }
+    .nav .links a.aqui { color: var(--fg); }
+    .nav .links a.nav-cta {
+      border-color: transparent;
+      background: var(--grad); background-size: 160% 100%;
+      color: #fff;
+      box-shadow: 0 8px 22px -12px var(--glow-v);
+      transition: background-position 0.5s ease, box-shadow 0.3s ease;
+    }
+    .nav .links a.nav-cta:hover {
+      background-position: 100% 0;
+      box-shadow: 0 10px 26px -10px var(--glow-g);
+      color: #fff;
+    }
+    .nav .links a.nav-cv:hover { color: var(--b); }
+
+    /* --- BOTONES --- */
+    .btn { transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.25s ease, transform 0.18s ease; }
+    .btn:hover { border-color: var(--b); background: rgba(79,140,255,0.10); transform: translateY(-2px); }
+    .btn.primario {
+      background: var(--grad); background-size: 180% 100%;
+      background-position: 0 0;
+      border-color: transparent; color: #fff;
+      box-shadow: 0 16px 40px -16px var(--glow-v);
+      transition: background-position 0.6s ease, box-shadow 0.3s ease, transform 0.18s ease;
+    }
+    .btn.primario:hover {
+      background-position: 100% 0;
+      box-shadow: 0 20px 46px -14px var(--glow-g);
+      transform: translateY(-2px);
+    }
+    .otro-idioma:hover { color: var(--b); }
+
+    /* --- INDICE: tarjetas con tilt 3D (JS) + borde degradado en hover --- */
+    .indice-lista li { perspective: 900px; }
+    .indice-lista a {
+      transition: transform 0.2s ease;
+      transform-style: preserve-3d;
+      border-radius: 4px;
+    }
+    .ix-thumb { position: relative; overflow: hidden; }
+    .ix-thumb::before, .ix-thumb::after { border-color: var(--g); z-index: 2; }
+    /* barrido de luz que cruza la miniatura al pasar el mouse */
+    .ix-thumb img { transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1), filter 0.5s ease; }
+    .indice-lista a:hover .ix-thumb img { filter: saturate(1.15); }
+    .ix-thumb .brillo {
+      content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.14) 48%, transparent 60%);
+      transform: translateX(-120%);
+      transition: transform 0.7s ease;
+    }
+    .indice-lista a:hover .ix-thumb .brillo { transform: translateX(120%); }
+    .indice-lista a:hover .ix-num { color: var(--b); }
+    .indice-lista a:hover .ix-titulo { color: var(--fg); }
+    .indice-lista a:hover .ix-cliente { color: var(--g); }
+
+    /* --- ROTULOS DE SECCION --- */
+    .section-label {
+      background: var(--grad);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+    .section-label::before {
+      content: ""; display: inline-block;
+      width: 1.8rem; height: 2px; margin-right: 0.7rem; vertical-align: middle;
+      background: var(--grad); border-radius: 2px;
+    }
+
+    /* --- CASOS: numero grande en degradado, hairline y parallax card --- */
+    .case-head .num {
+      background: var(--grad-anim); background-size: 200% 100%;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+      animation: correr-grad 9s ease infinite;
+    }
+    .movement h3::before { background: var(--grad); opacity: 0.9; height: 2px; }
+    .serie .n {
+      background: var(--grad); -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+    .case .det-box { transition: border-color 0.35s ease, box-shadow 0.35s ease; }
+    .case .det-box:hover {
+      border-color: rgba(79,140,255,0.5);
+      box-shadow: 0 30px 70px -34px var(--glow-v);
+    }
+
+    /* --- SOBRE MI: titulos de categoria + grupo destacado con borde vivo --- */
+    .inv-grupo h3 {
+      background: var(--grad); -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+    .inv-grupo.destacado {
+      position: relative;
+      padding: 1.2rem 1.3rem; border-radius: 10px;
+      background: rgba(139,92,246,0.05);
+    }
+    .inv-grupo.destacado::before {
+      content: ""; position: absolute; inset: 0; border-radius: 10px; padding: 1px;
+      background: var(--grad-anim); background-size: 200% 100%;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      animation: correr-grad 6s linear infinite;
+      pointer-events: none;
+    }
+
+    .end .links a { transition: color 0.2s ease; }
+    .end .links a:hover { color: var(--b); }
+    .end .avail b {
+      background: var(--grad); -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+  }
+
+  @keyframes derivar {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(2%, -2%) scale(1.06); }
+    100% { transform: translate(-2%, 2%) scale(1.02); }
+  }
+  @keyframes correr-grad {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes latido {
+    0%   { box-shadow: 0 0 0 0 var(--glow-g); }
+    70%  { box-shadow: 0 0 0 8px rgba(47, 230, 168, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(47, 230, 168, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body::before { animation: none; }
+    .ficha-txt h1, .case-head .num, .inv-grupo.destacado::before { animation: none; }
+    .hero .eyebrow .estado::before { animation: none; }
+    .spot { display: none; }
+  }
 </style>
 
 <!-- La mira de deteccion como icono de pestaña. Va en SVG embebido:
@@ -3394,6 +3635,77 @@
     var r = locked.getBoundingClientRect();
     ring.style.transform = 'translate(' + Math.round(r.left) + 'px,' + Math.round(r.top) + 'px)';
   }, { passive: true });
+})();
+</script>
+
+<!-- ============================================================
+     CAPA VIVA · JS gemelo del bloque CSS "CAPA VIVA".
+     Spotlight que sigue el cursor + tilt 3D en las miniaturas +
+     barrido de luz. Aislado: si falla, el sitio sigue intacto.
+     ============================================================ -->
+<script>
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fino = window.matchMedia('(pointer: fine)').matches;
+
+  /* --- SPOTLIGHT que sigue el cursor --- */
+  if (fino && !reduced) {
+    var spot = document.createElement('div');
+    spot.className = 'spot';
+    document.body.appendChild(spot);
+    var sx = 0, sy = 0, tx = 0, ty = 0, raf = null, visible = false;
+    function seguir() {
+      sx += (tx - sx) * 0.12;
+      sy += (ty - sy) * 0.12;
+      spot.style.transform = 'translate(' + sx + 'px,' + sy + 'px)';
+      raf = requestAnimationFrame(seguir);
+    }
+    document.addEventListener('mousemove', function (e) {
+      tx = e.clientX; ty = e.clientY;
+      if (!visible) {
+        visible = true; sx = tx; sy = ty; spot.style.opacity = 1;
+        if (raf === null) raf = requestAnimationFrame(seguir);
+      }
+    }, { passive: true });
+    document.addEventListener('mouseleave', function () {
+      spot.style.opacity = 0;
+    });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden && raf !== null) { cancelAnimationFrame(raf); raf = null; visible = false; }
+    });
+  }
+
+  /* --- BARRIDO DE LUZ en cada miniatura del indice --- */
+  document.querySelectorAll('.ix-thumb').forEach(function (t) {
+    if (t.querySelector('.brillo')) return;
+    var b = document.createElement('span');
+    b.className = 'brillo';
+    b.setAttribute('aria-hidden', 'true');
+    t.appendChild(b);
+  });
+
+  /* --- TILT 3D en las tarjetas del indice --- */
+  if (fino && !reduced) {
+    document.querySelectorAll('.indice-lista a').forEach(function (card) {
+      var pend = false, lx = 0, ly = 0;
+      function aplicar() {
+        pend = false;
+        var r = card.getBoundingClientRect();
+        var px = (lx - r.left) / r.width - 0.5;   // -0.5..0.5
+        var py = (ly - r.top) / r.height - 0.5;
+        var rotY = px * 7, rotX = -py * 7;         // grados suaves
+        card.style.transform =
+          'perspective(900px) rotateX(' + rotX.toFixed(2) + 'deg) rotateY(' + rotY.toFixed(2) + 'deg) translateZ(6px)';
+      }
+      card.addEventListener('mousemove', function (e) {
+        lx = e.clientX; ly = e.clientY;
+        if (!pend) { pend = true; requestAnimationFrame(aplicar); }
+      });
+      card.addEventListener('mouseleave', function () {
+        card.style.transform = '';
+      });
+    });
+  }
 })();
 </script>
 </body>
