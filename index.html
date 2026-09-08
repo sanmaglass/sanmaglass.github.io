@@ -21,6 +21,12 @@
 
 <style>
   @font-face {
+    font-family: 'Fraunces';
+    src: url('assets/fonts/fraunces.woff2') format('woff2');
+    font-weight: 300 900;
+    font-display: swap;
+  }
+  @font-face {
     font-family: 'Anton';
     src: url('assets/fonts/Anton-Regular.woff2') format('woff2');
     font-weight: 400;
@@ -51,7 +57,7 @@
     --line:   rgba(253, 254, 255, 0.14);
     --line-2: rgba(253, 254, 255, 0.28);
 
-    --display: 'Anton', 'Arial Narrow', 'Segoe UI', sans-serif;
+    --display: 'Fraunces', 'Anton', Georgia, 'Times New Roman', serif;
     --sans: 'Geist', 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
     --mono: 'Geist Mono', Consolas, 'SF Mono', ui-monospace, 'Courier New', monospace;
 
@@ -1760,17 +1766,182 @@
      bloque + su <script> gemelo devuelve el sitio a blanco y negro.
      ===================================================================== */
   :root {
-    --p:  #ff7ae0;   /* rosa claro: el toque mas dulce */
-    --m:  #ff4fd8;   /* magenta/rosa hot: el punto mas vivo */
-    --v:  #9b3dff;   /* violeta saturado */
-    --b:  #5b7bff;   /* azul */
-    --g:  #17e6a0;   /* verde deteccion */
-    --grad:      linear-gradient(115deg, var(--p) 0%, var(--m) 24%, var(--v) 52%, var(--b) 78%, var(--g) 100%);
-    --grad-anim: linear-gradient(115deg, var(--p) 0%, var(--m) 22%, var(--v) 46%, var(--b) 68%, var(--g) 86%, var(--p) 100%);
-    --glow-v: rgba(155, 61, 255, 0.48);
-    --glow-m: rgba(255, 79, 216, 0.44);
-    --glow-g: rgba(23, 230, 160, 0.34);
+    /* MORADO ESTATICO (sep-2026): antes era arcoiris neon (magenta/azul/verde).
+       Ahora toda la escala de acento es una rampa violeta->lila. Un solo color,
+       sin neon. --v es el acento principal. */
+    --p:  #c4b5fd;   /* lila claro */
+    --m:  #a78bfa;   /* lila */
+    --v:  #8b5cf6;   /* violeta: ACENTO principal */
+    --b:  #7c3aed;   /* violeta profundo (antes azul) */
+    --g:  #a78bfa;   /* lila (antes verde deteccion) */
+    --grad:      linear-gradient(115deg, var(--p) 0%, var(--v) 55%, var(--b) 100%);
+    --grad-anim: linear-gradient(115deg, var(--p) 0%, var(--m) 40%, var(--v) 72%, var(--b) 100%);
+    --glow-v: rgba(139, 92, 246, 0.45);
+    --glow-m: rgba(167, 139, 250, 0.40);
+    --glow-g: rgba(139, 92, 246, 0.30);
     --ink: #14071c;   /* texto sobre acento */
+  }
+
+  /* --- TIPOGRAFIA FRAUNCES (sep-2026) ---
+     Antes el display era Anton (condensada, pesada, MAYUSCULAS). Fraunces es
+     serif de alto contraste: luce en caja mixta y con peso alto, no en
+     mayusculas finas. Este bloque va despues de las reglas base y gana por
+     orden: sube el peso y quita el uppercase de los titulos. */
+  .hero h1 { font-weight: 600; letter-spacing: -0.02em; }
+  .case h2, .about h2, .end h2, .ongoing h2, .indice h2 {
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: -0.012em;
+  }
+  .case-head .num, .ix-num { font-weight: 700; letter-spacing: -0.01em; }
+  .indice-head .section-label { font-family: var(--display); }
+
+  /* =====================================================================
+     INDICE HORIZONTAL (sep-2026)
+     Antes era una lista vertical (se leia hacia abajo). Ahora los proyectos
+     se recorren PARA EL LADO: carrusel de tarjetas con scroll-snap, cada una
+     con el logo de su empresa arriba. Estas reglas van despues de las base y
+     ganan por orden de cascada.
+     ===================================================================== */
+  .indice-lista {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.25rem;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x proximity;
+    scroll-padding-left: 0.25rem;
+    padding: 2.25rem 0.25rem 2.75rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--v) transparent;
+  }
+  .indice-lista::-webkit-scrollbar { height: 8px; }
+  .indice-lista::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.5); border-radius: 99px;
+  }
+  .indice-lista::-webkit-scrollbar-track { background: transparent; }
+
+  .indice-lista li {
+    border-bottom: 0;
+    flex: 0 0 min(84vw, 21.5rem);
+    scroll-snap-align: start;
+  }
+
+  .indice-lista a {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    height: 100%;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(24, 14, 42, 0.62), rgba(14, 8, 26, 0.62));
+    box-shadow: 0 18px 40px -30px rgba(0, 0, 0, 0.9);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.3s ease, box-shadow 0.45s ease, background 0.3s ease;
+  }
+  .indice-lista a:hover {
+    padding-left: 0;
+    transform: translateY(-8px);
+    border-color: rgba(139, 92, 246, 0.6);
+    box-shadow: 0 32px 70px -34px var(--glow-v), 0 0 0 1px rgba(139, 92, 246, 0.25) inset;
+    background: linear-gradient(180deg, rgba(30, 18, 52, 0.8), rgba(16, 9, 30, 0.72));
+  }
+
+  /* --- logo de la empresa, arriba de la tarjeta --- */
+  .indice-lista .ix-logo {
+    order: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.95rem 1.15rem 0.75rem;
+    color: var(--fg-3);
+    transition: color 0.3s ease;
+  }
+  .indice-lista a:hover .ix-logo { color: var(--v); }
+  .indice-lista .ix-mark {
+    width: 22px; height: 22px; flex: 0 0 auto; display: block;
+    color: var(--fg-2);
+    transition: color 0.3s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .indice-lista a:hover .ix-mark { color: var(--v); transform: scale(1.08); }
+  .indice-lista .ix-brand {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    color: var(--fg-2);
+    line-height: 1;
+    transition: color 0.3s ease;
+  }
+  .indice-lista .ix-brand b { font-weight: 700; color: var(--fg); }
+  .indice-lista a:hover .ix-brand { color: var(--fg); }
+
+  .indice-lista .ix-thumb {
+    order: 1;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .indice-lista a:hover .ix-thumb img { opacity: 1; transform: scale(1.05); }
+
+  .indice-lista .ix-num {
+    position: absolute;
+    top: 0.75rem; right: 0.85rem;
+    order: 0;
+    z-index: 3;
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--v);
+    background: rgba(10, 6, 20, 0.7);
+    backdrop-filter: blur(6px);
+    padding: 0.3rem 0.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(139, 92, 246, 0.4);
+  }
+  .indice-lista a:hover .ix-num { color: var(--p); }
+
+  .indice-lista .ix-texto { order: 2; padding: 1rem 1.15rem 0.4rem; gap: 0.45rem; }
+  .indice-lista .ix-titulo { font-size: 1.06rem; }
+
+  .indice-lista .ix-meta {
+    order: 3;
+    margin-top: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.7rem;
+    text-align: left;
+    white-space: normal;
+    padding: 0.9rem 1.15rem 1.2rem;
+  }
+  .indice-lista .ix-meta .estado {
+    color: var(--v);
+    background: rgba(139, 92, 246, 0.12);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    padding: 0.15rem 0.5rem;
+    border-radius: 99px;
+    font-size: 0.66rem;
+  }
+
+  /* pista de que se arrastra para el lado */
+  .indice-head::after {
+    content: "arrastra →";
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    color: var(--v);
+    opacity: 0.8;
+  }
+
+  @media (max-width: 40rem) {
+    .indice-lista li { flex-basis: 86vw; }
   }
 
   @media screen {
@@ -1789,11 +1960,11 @@
       z-index: -2;
       pointer-events: none;
       background:
-        radial-gradient(42rem 34rem at 15% 8%,  rgba(255, 79, 216, 0.34), transparent 60%),
-        radial-gradient(46rem 38rem at 92% 2%,  rgba(155, 61, 255, 0.32), transparent 62%),
-        radial-gradient(40rem 40rem at 78% 96%, rgba(255, 122, 224, 0.24), transparent 60%),
-        radial-gradient(38rem 34rem at 6% 92%,  rgba(91, 123, 255, 0.22), transparent 60%),
-        radial-gradient(34rem 34rem at 60% 60%, rgba(23, 230, 160, 0.14), transparent 62%);
+        radial-gradient(42rem 34rem at 15% 8%,  rgba(139, 92, 246, 0.30), transparent 60%),
+        radial-gradient(46rem 38rem at 92% 2%,  rgba(124, 58, 237, 0.30), transparent 62%),
+        radial-gradient(40rem 40rem at 78% 96%, rgba(167, 139, 250, 0.22), transparent 60%),
+        radial-gradient(38rem 34rem at 6% 92%,  rgba(124, 58, 237, 0.20), transparent 60%),
+        radial-gradient(34rem 34rem at 60% 60%, rgba(139, 92, 246, 0.14), transparent 62%);
       filter: blur(12px);
       animation: derivar 26s ease-in-out infinite alternate;
     }
@@ -1817,7 +1988,7 @@
       pointer-events: none;
       z-index: 0;
       opacity: 0;
-      background: radial-gradient(circle, rgba(79,140,255,0.14) 0%, rgba(139,92,246,0.08) 35%, transparent 68%);
+      background: radial-gradient(circle, rgba(139,92,246,0.16) 0%, rgba(124,58,237,0.08) 35%, transparent 68%);
       transition: opacity 0.5s ease;
       will-change: transform;
       mix-blend-mode: screen;
@@ -1836,13 +2007,11 @@
 
     /* --- HERO: nombre en degradado animado. Es lo primero que se ve. --- */
     .ficha-txt h1 {
-      background: var(--grad-anim);
-      background-size: 220% 100%;
+      background: var(--grad);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       color: transparent;
-      animation: correr-grad 8s ease infinite;
     }
     .ficha-txt .saludo { color: var(--g); }
     .rol {
@@ -1854,7 +2023,7 @@
     /* ficha de deteccion, firma del sitio */
     .retrato-hero .det-box {
       border-color: var(--b);
-      box-shadow: 0 0 0 1px rgba(79,140,255,0.30), 0 26px 70px -28px var(--glow-v);
+      box-shadow: 0 0 0 1px rgba(139,92,246,0.30), 0 26px 70px -28px var(--glow-v);
     }
     .retrato-hero .det-label { background: var(--grad); color: #fff; }
 
@@ -1871,7 +2040,7 @@
     /* --- NAV --- */
     .nav {
       background: rgba(24, 10, 44, 0.72);
-      border-bottom-color: rgba(255, 122, 224, 0.16);
+      border-bottom-color: rgba(139, 92, 246, 0.18);
     }
     .nav .links a:not(.nav-cta)::after { background: var(--grad); height: 2px; }
     .nav .links a.aqui { color: var(--fg); }
@@ -1891,7 +2060,7 @@
 
     /* --- BOTONES --- */
     .btn { transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.25s ease, transform 0.18s ease; }
-    .btn:hover { border-color: var(--b); background: rgba(79,140,255,0.10); transform: translateY(-2px); }
+    .btn:hover { border-color: var(--b); background: rgba(139,92,246,0.12); transform: translateY(-2px); }
     .btn.primario {
       background: var(--grad); background-size: 180% 100%;
       background-position: 0 0;
@@ -1955,7 +2124,7 @@
     }
     .case .det-box { transition: border-color 0.35s ease, box-shadow 0.35s ease; }
     .case .det-box:hover {
-      border-color: rgba(79,140,255,0.5);
+      border-color: rgba(139,92,246,0.55);
       box-shadow: 0 30px 70px -34px var(--glow-v);
     }
 
@@ -1999,6 +2168,11 @@
     }
     .marca:hover { opacity: 1; filter: grayscale(0); transform: translateY(-2px); }
     .marca .logo-img { height: 26px; width: auto; display: block; }
+    .marca-mark {
+      width: 20px; height: 20px; flex: 0 0 auto; display: block;
+      color: var(--fg-2); transition: color 0.3s ease, transform 0.3s ease;
+    }
+    .marca:hover .marca-mark { color: var(--v); transform: scale(1.12); }
     .marca-txt {
       font-family: var(--sans); font-size: 0.98rem; font-weight: 400;
       letter-spacing: -0.01em; color: var(--fg-2); white-space: nowrap;
@@ -2065,6 +2239,28 @@
   </div>
 </nav>
 
+<!-- Marks de empresa (sep-2026). Formas geometricas simples, NO son los logos
+     oficiales de cada marca: identifican el cliente sin suplantar su imagen.
+     Usan currentColor: la tarjeta los tinta de gris a violeta en hover. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="m-stad" viewBox="0 0 24 24">
+    <path d="M4 4L20 20M20 4L4 20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  </symbol>
+  <symbol id="m-marv" viewBox="0 0 24 24">
+    <path d="M12 1.5c.7 5.4 2.4 7.1 7.8 7.8-5.4.7-7.1 2.4-7.8 7.8-.7-5.4-2.4-7.1-7.8-7.8 5.4-.7 7.1-2.4 7.8-7.8Z" fill="currentColor"/>
+  </symbol>
+  <symbol id="m-fit" viewBox="0 0 24 24">
+    <path d="M13.5 2L4 14h6l-1.5 8L20 9.5h-6.5L15 2z" fill="currentColor"/>
+  </symbol>
+  <symbol id="m-ewood" viewBox="0 0 24 24">
+    <path d="M5 21C5 12 11 5 20 5c0 9-6 16-15 16Z" fill="currentColor"/>
+    <path d="M8.5 18C11 13.5 14 10.5 18 8.5" stroke="rgba(0,0,0,0.35)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="m-ubb" viewBox="0 0 24 24">
+    <path d="M12 2l8 3v6c0 5-3.4 8.6-8 11-4.6-2.4-8-6-8-11V5z" fill="currentColor"/>
+  </symbol>
+</svg>
+
 <header class="hero">
   <div class="grid-bg"></div>
   <div class="wrap hero-inner">
@@ -2112,19 +2308,23 @@
     <span class="marcas-rot">Formación y clientes</span>
     <ul class="marcas-lista">
       <li class="marca" data-logo="ubb">
-        <!-- cuando exista: <img class="logo-img" src="assets/logos/ubb.svg" alt="Universidad del Bío-Bío"> -->
+        <svg class="marca-mark"><use href="#m-ubb"/></svg>
         <span class="marca-txt">Universidad del <b>Bío-Bío</b></span>
       </li>
       <li class="marca" data-logo="st-andrews">
+        <svg class="marca-mark"><use href="#m-stad"/></svg>
         <span class="marca-txt">St. <b>Andrews</b></span>
       </li>
       <li class="marca" data-logo="maravilloso">
+        <svg class="marca-mark"><use href="#m-marv"/></svg>
         <span class="marca-txt">El <b>Maravilloso</b></span>
       </li>
       <li class="marca" data-logo="letsfit">
+        <svg class="marca-mark"><use href="#m-fit"/></svg>
         <span class="marca-txt">Lets<b>Fit</b></span>
       </li>
       <li class="marca" data-logo="ewood">
+        <svg class="marca-mark"><use href="#m-ewood"/></svg>
         <span class="marca-txt">e<b>WOOD</b></span>
       </li>
     </ul>
@@ -2144,6 +2344,7 @@
     <ol class="indice-lista">
       <li>
         <a href="#caso-01">
+          <span class="ix-logo"><svg class="ix-mark"><use href="#m-stad"/></svg><span class="ix-brand">St <b>Andrews</b></span></span>
           <span class="ix-num">01</span>
           <!-- alt vacio a proposito, mismo criterio que el retrato de la
                portada: el enlace ya dice cliente y titulo, y con alt la fila
@@ -2166,6 +2367,7 @@
       </li>
       <li>
         <a href="#caso-02">
+          <span class="ix-logo"><svg class="ix-mark"><use href="#m-stad"/></svg><span class="ix-brand">St <b>Andrews</b></span></span>
           <span class="ix-num">02</span>
           <span class="ix-thumb"><img src="assets/media/th-02.jpg" alt="" width="340" height="376" loading="lazy" decoding="async"></span>
           <span class="ix-texto">
@@ -2180,6 +2382,7 @@
       </li>
       <li>
         <a href="#caso-03">
+          <span class="ix-logo"><svg class="ix-mark"><use href="#m-marv"/></svg><span class="ix-brand">El <b>Maravilloso</b></span></span>
           <span class="ix-num">03</span>
           <span class="ix-thumb"><img src="assets/media/th-03.jpg" alt="" width="340" height="124" loading="lazy" decoding="async"></span>
           <span class="ix-texto">
@@ -2194,6 +2397,7 @@
       </li>
       <li>
         <a href="#caso-04">
+          <span class="ix-logo"><svg class="ix-mark"><use href="#m-fit"/></svg><span class="ix-brand">Lets<b>Fit</b></span></span>
           <span class="ix-num">04</span>
           <span class="ix-thumb"><img src="assets/media/th-04.jpg" alt="" width="340" height="152" loading="lazy" decoding="async"></span>
           <span class="ix-texto">
@@ -2208,6 +2412,7 @@
       </li>
       <li>
         <a href="#caso-05">
+          <span class="ix-logo"><svg class="ix-mark"><use href="#m-ewood"/></svg><span class="ix-brand">e<b>WOOD</b></span></span>
           <span class="ix-num">05</span>
           <span class="ix-thumb"><img src="assets/media/th-05.jpg" alt="" width="340" height="454" loading="lazy" decoding="async"></span>
           <span class="ix-texto">
@@ -2222,6 +2427,7 @@
       </li>
       <li>
         <a href="#caso-06">
+          <span class="ix-logo"><svg class="ix-mark"><use href="#m-marv"/></svg><span class="ix-brand">El <b>Maravilloso</b></span></span>
           <span class="ix-num">06</span>
           <span class="ix-thumb"><img src="assets/media/th-06.jpg" alt="" width="340" height="425" loading="lazy" decoding="async"></span>
           <span class="ix-texto">
@@ -2932,6 +3138,8 @@
       entero en una reunión, con los paneles y los datos en vivo, bajo acuerdo de confidencialidad.
     </p>
     <div class="links">
+      <a href="mailto:sanmaglass@gmail.com">sanmaglass@gmail.com</a>
+      <a href="https://wa.me/56975878696" target="_blank" rel="noopener">WhatsApp +56 9 7587 8696</a>
       <a href="https://www.linkedin.com/in/sanmartinluis/" target="_blank" rel="noopener">linkedin.com/in/sanmartinluis</a>
       <a href="https://github.com/sanmaglass" target="_blank" rel="noopener">github.com/sanmaglass</a>
       <a href="CV-Luis-San-Martin.pdf" download>Descargar CV (PDF)</a>
@@ -3764,7 +3972,7 @@
         var py = (ly - r.top) / r.height - 0.5;
         var rotY = px * 7, rotX = -py * 7;         // grados suaves
         card.style.transform =
-          'perspective(900px) rotateX(' + rotX.toFixed(2) + 'deg) rotateY(' + rotY.toFixed(2) + 'deg) translateZ(6px)';
+          'perspective(900px) rotateX(' + rotX.toFixed(2) + 'deg) rotateY(' + rotY.toFixed(2) + 'deg) translateY(-6px) translateZ(6px)';
       }
       card.addEventListener('mousemove', function (e) {
         lx = e.clientX; ly = e.clientY;
