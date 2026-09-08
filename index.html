@@ -1760,18 +1760,27 @@
      bloque + su <script> gemelo devuelve el sitio a blanco y negro.
      ===================================================================== */
   :root {
-    --m:  #d648ff;   /* magenta/rosa: el punto mas vivo */
-    --v:  #7c3aed;   /* violeta saturado */
-    --b:  #3b7bff;   /* azul */
+    --p:  #ff7ae0;   /* rosa claro: el toque mas dulce */
+    --m:  #ff4fd8;   /* magenta/rosa hot: el punto mas vivo */
+    --v:  #9b3dff;   /* violeta saturado */
+    --b:  #5b7bff;   /* azul */
     --g:  #17e6a0;   /* verde deteccion */
-    --grad:      linear-gradient(115deg, var(--m) 0%, var(--v) 34%, var(--b) 68%, var(--g) 100%);
-    --grad-anim: linear-gradient(115deg, var(--m) 0%, var(--v) 28%, var(--b) 56%, var(--g) 80%, var(--m) 100%);
-    --glow-v: rgba(148, 58, 246, 0.40);
+    --grad:      linear-gradient(115deg, var(--p) 0%, var(--m) 24%, var(--v) 52%, var(--b) 78%, var(--g) 100%);
+    --grad-anim: linear-gradient(115deg, var(--p) 0%, var(--m) 22%, var(--v) 46%, var(--b) 68%, var(--g) 86%, var(--p) 100%);
+    --glow-v: rgba(155, 61, 255, 0.48);
+    --glow-m: rgba(255, 79, 216, 0.44);
     --glow-g: rgba(23, 230, 160, 0.34);
-    --ink: #0a0714;   /* texto sobre acento */
+    --ink: #14071c;   /* texto sobre acento */
   }
 
   @media screen {
+    /* --- FONDO MORADO: base violeta profunda en vez del negro. --- */
+    body {
+      background:
+        radial-gradient(150% 120% at 50% -12%, #35134f 0%, #200a3a 42%, #120726 74%, #0a0518 100%)
+        fixed;
+    }
+
     /* --- PROFUNDIDAD: manchas de color a la deriva. Mata la "planilla". --- */
     body::before {
       content: "";
@@ -1780,11 +1789,12 @@
       z-index: -2;
       pointer-events: none;
       background:
-        radial-gradient(42rem 34rem at 15% 8%,  rgba(139, 92, 246, 0.20), transparent 60%),
-        radial-gradient(46rem 38rem at 92% 2%,  rgba(79, 140, 255, 0.18), transparent 62%),
-        radial-gradient(40rem 40rem at 78% 96%, rgba(47, 230, 168, 0.16), transparent 60%),
-        radial-gradient(36rem 32rem at 4% 88%,  rgba(139, 92, 246, 0.12), transparent 60%);
-      filter: blur(10px);
+        radial-gradient(42rem 34rem at 15% 8%,  rgba(255, 79, 216, 0.34), transparent 60%),
+        radial-gradient(46rem 38rem at 92% 2%,  rgba(155, 61, 255, 0.32), transparent 62%),
+        radial-gradient(40rem 40rem at 78% 96%, rgba(255, 122, 224, 0.24), transparent 60%),
+        radial-gradient(38rem 34rem at 6% 92%,  rgba(91, 123, 255, 0.22), transparent 60%),
+        radial-gradient(34rem 34rem at 60% 60%, rgba(23, 230, 160, 0.14), transparent 62%);
+      filter: blur(12px);
       animation: derivar 26s ease-in-out infinite alternate;
     }
     /* grano/vinñeta sutil para que el color no se vea plano */
@@ -1794,7 +1804,7 @@
       inset: 0;
       z-index: -1;
       pointer-events: none;
-      background: radial-gradient(120% 90% at 50% 0%, transparent 55%, rgba(0,4,7,0.55) 100%);
+      background: radial-gradient(120% 90% at 50% 0%, transparent 52%, rgba(9, 3, 22, 0.60) 100%);
     }
 
     /* --- SPOTLIGHT que sigue el cursor (lo mueve el JS gemelo) --- */
@@ -1859,6 +1869,10 @@
     }
 
     /* --- NAV --- */
+    .nav {
+      background: rgba(24, 10, 44, 0.72);
+      border-bottom-color: rgba(255, 122, 224, 0.16);
+    }
     .nav .links a:not(.nav-cta)::after { background: var(--grad); height: 2px; }
     .nav .links a.aqui { color: var(--fg); }
     .nav .links a.nav-cta {
@@ -2056,11 +2070,6 @@
   <div class="wrap hero-inner">
     <div class="eyebrow">
       <span>Concepción, Chile</span>
-      <!-- Lo que busca tenia que estar arriba, no al final de la pagina:
-           una reclutadora que cruza perfiles contra sus vacantes necesita
-           saber en dos segundos si calza. El texto es el suyo, el mismo
-           que ya estaba en Contacto. -->
-      <span class="estado">Disponible · jornada completa · remoto o híbrido</span>
     </div>
 
     <div class="ficha">
@@ -2930,7 +2939,7 @@
     </div>
     <p class="avail">
       <b>Busco</b> puesto de jornada completa como desarrollador de visión computacional o de datos ·
-      Disponibilidad inmediata · Gran Concepción, remoto o híbrido · Egresado de Ingeniería Civil en
+      Gran Concepción, remoto o híbrido · Egresado de Ingeniería Civil en
       Automatización, Universidad del Bío-Bío
     </p>
   </footer>
