@@ -1958,6 +1958,47 @@
     .indice-lista li { flex-basis: 86vw; }
   }
 
+  /* --- FONDO TECH: red neuronal + codigo YOLO difuminado (sep-2026) --- */
+  .fondo-tech {
+    position: fixed; inset: 0; z-index: -2;
+    pointer-events: none; overflow: hidden;
+    /* despeja la franja central (donde va el texto) y deja ver los costados */
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 28%, transparent 43%, transparent 57%, #000 72%, #000 100%);
+    mask-image: linear-gradient(90deg, #000 0%, #000 28%, transparent 43%, transparent 57%, #000 72%, #000 100%);
+  }
+  .fondo-net {
+    position: absolute; left: -3.5rem; top: 50%;
+    width: 33rem; height: auto; transform: translateY(-50%);
+    opacity: 0.5;
+    filter: drop-shadow(0 0 34px rgba(139, 92, 246, 0.28));
+    animation: red-deriva 11s ease-in-out infinite alternate;
+  }
+  .fondo-code {
+    position: absolute; margin: 0;
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.75;
+    color: rgba(167, 139, 250, 0.42); white-space: pre;
+    filter: blur(1px); text-shadow: 0 0 16px rgba(139, 92, 246, 0.3);
+  }
+  .fondo-code b { color: rgba(196, 181, 253, 0.62); font-weight: 400; }
+  .fondo-code i { color: rgba(148, 214, 186, 0.42); font-style: normal; }
+  .fondo-code .cmt { color: rgba(122, 127, 133, 0.5); }
+  .fondo-code-1 { top: 6.5rem; right: -1.5rem; width: 30rem; }
+  .fondo-code-2 { bottom: 5rem; right: 4rem; width: 26rem; opacity: 0.85; }
+  @keyframes red-deriva {
+    from { transform: translateY(-50%) translateX(0); }
+    to   { transform: translateY(-52%) translateX(12px); }
+  }
+  @media (prefers-reduced-motion: reduce) { .fondo-net { animation: none; } }
+  @media (max-width: 62rem) {
+    .fondo-tech {
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 55%);
+      mask-image: linear-gradient(90deg, #000 0%, transparent 55%);
+    }
+    .fondo-net { left: -13rem; opacity: 0.3; }
+    .fondo-code-1 { right: -10rem; opacity: 0.55; }
+    .fondo-code-2 { display: none; }
+  }
+
   /* --- BARRA DE PROGRESO DE SCROLL (sep-2026) --- */
   .scroll-prog {
     position: fixed; top: 0; left: 0;
@@ -2304,6 +2345,39 @@
     <path d="M12 2l8 3v6c0 5-3.4 8.6-8 11-4.6-2.4-8-6-8-11V5z" fill="currentColor"/>
   </symbol>
 </svg>
+
+<!-- FONDO TECH (sep-2026): red neuronal + codigo de entrenamiento YOLO,
+     difuminado y tenue. Fijo, detras de todo, con mascara que despeja la
+     franja central para no pisar la lectura. Puro adorno. -->
+<div class="fondo-tech" aria-hidden="true">
+  <img class="fondo-net" src="assets/red-neuronal.svg" alt="" width="520" height="620" loading="lazy" decoding="async">
+  <pre class="fondo-code fondo-code-1"><b>from</b> ultralytics <b>import</b> YOLO
+
+model = YOLO(<i>"yolov8n.pt"</i>)
+
+results = model.train(
+    data=<i>"mejillones.yaml"</i>,
+    epochs=<i>100</i>,
+    imgsz=<i>640</i>,
+    batch=<i>16</i>,
+    device=<i>0</i>,
+    optimizer=<i>"AdamW"</i>,
+    lr0=<i>0.001</i>,
+    patience=<i>25</i>,
+)
+
+metrics = model.val()
+<b>print</b>(metrics.box.map)   <span class="cmt"># mAP50-95</span></pre>
+  <pre class="fondo-code fondo-code-2"><b>for</b> frame <b>in</b> stream:
+    dets = model.track(frame, persist=<b>True</b>)
+    <b>for</b> box <b>in</b> dets[<i>0</i>].boxes:
+        cls  = <b>int</b>(box.cls)
+        conf = <b>float</b>(box.conf)
+        x1,y1,x2,y2 = box.xyxy[<i>0</i>]
+        <b>if</b> conf > <i>0.5</i>:
+            count[cls] += <i>1</i>
+            draw(x1,y1,x2,y2, LABELS[cls])</pre>
+</div>
 
 <header class="hero">
   <div class="grid-bg"></div>
