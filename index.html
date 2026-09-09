@@ -2238,6 +2238,57 @@
     .edu-logo { width: 66px; }
   }
 
+  /* --- HERO SPLIT (sep-2026): texto a la izquierda, foto grande a la derecha.
+     Antes la foto quedaba arriba-izquierda porque el nombre gigante la empujaba.
+     Ahora dos columnas centradas verticalmente; la foto es protagonista y
+     ocupa la mitad derecha (donde antes solo estaba el codigo de fondo). --- */
+  @media (min-width: 60rem) {
+    .hero { padding-top: 1.5rem; }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) clamp(19rem, 33vw, 27rem);
+      align-items: center;
+      gap: clamp(2rem, 5vw, 4.5rem);
+      min-height: min(84vh, 760px);
+    }
+    .hero-col { min-width: 0; display: flex; flex-direction: column; }
+    .hero h1 { font-size: clamp(3rem, 7.4vw, 5.9rem); }
+    .retrato-hero {
+      width: 100%; max-width: none; margin: 0; justify-self: end;
+      align-self: center;
+    }
+    .retrato-hero .det-box {
+      box-shadow: 0 40px 90px -40px var(--glow-v), 0 0 0 1px rgba(139,92,246,0.25);
+    }
+    /* la foto entra con un leve flotar continuo, para que llame la atencion */
+    .retrato-hero { animation: retrato-flota 6s ease-in-out infinite; }
+    @keyframes retrato-flota {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+    .scroll-cue { margin-top: 2rem; }
+  }
+  @media (min-width: 60rem) and (prefers-reduced-motion: reduce) {
+    .retrato-hero { animation: none; }
+  }
+  /* Movil: el split se apila. El nombre baja de tamaño para no desbordar y
+     la foto se centra debajo del texto. */
+  @media (max-width: 59.99rem) {
+    .hero-inner { display: block; }
+    .hero h1 { font-size: clamp(2rem, 10.5vw, 3.6rem); overflow-wrap: anywhere; }
+    .hero .rol { font-size: 1.1rem; max-width: 100%; }
+    .hero .btns { max-width: 100%; }
+    .hero .btns { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+    .hero .btns .btn { justify-content: center; padding: 0.85rem 1rem; }
+    .hero .btns .otro-idioma { text-align: center; margin-top: 0.2rem; }
+    .retrato-hero {
+      width: min(80%, 19rem); margin: 1.8rem auto 0; float: none;
+    }
+    .retrato-hero .det-box {
+      box-shadow: 0 24px 60px -30px var(--glow-v), 0 0 0 1px rgba(139,92,246,0.25);
+    }
+  }
+
   @media screen {
     /* --- FONDO MORADO: base violeta profunda en vez del negro. --- */
     body {
@@ -2632,43 +2683,41 @@ metrics = model.val()
 
 <header class="hero">
   <div class="grid-bg"></div>
-  <div class="wrap hero-inner">
-    <div class="eyebrow">
-      <span>Concepción, Chile</span>
-    </div>
-
-    <div class="ficha">
-      <figure class="retrato-hero">
-        <div class="det-box">
-          <span class="det-label">persona (99.8%)</span>
-          <!-- alt vacio a proposito: el <h1> de al lado ya lo nombra. Con
-               alt="Luis San Martín" el lector de pantalla decia su nombre
-               dos veces seguidas, y al copiar la pagina salia duplicado. -->
-          <img src="assets/media/luis-ficha-v2.jpg" alt="" width="300" height="352">
-        </div>
-      </figure>
+  <div class="hero-inner">
+    <div class="hero-col">
+      <div class="eyebrow">
+        <span>Concepción, Chile</span>
+      </div>
       <div class="ficha-txt">
         <p class="saludo" data-en="Hi, I'm">Hola, soy</p>
         <h1>Luis San<br>Martín</h1>
       </div>
-    </div>
-    <p class="rol" data-en="Computer vision, AI and data systems">Visión computacional, IA y sistemas de datos</p>
-    <div class="btns">
-      <!-- El CV es lo que una reclutadora necesita llevarse: pasa a ser el
-           boton relleno. En esta paleta sin color de acento, el relleno es
-           lo mas fuerte que hay. El ingles va como enlace al lado para no
-           partir la accion en dos botones que compiten. -->
-      <a class="btn primario descarga" href="CV-Luis-San-Martin.pdf" download data-en="<span class='flecha' aria-hidden='true'></span>Download CV">
-        <span class="flecha" aria-hidden="true"></span>Descargar CV
+      <p class="rol" data-en="Computer vision, AI and data systems">Visión computacional, IA y sistemas de datos</p>
+      <div class="btns">
+        <!-- El CV es lo que una reclutadora necesita llevarse: pasa a ser el
+             boton relleno. En esta paleta sin color de acento, el relleno es
+             lo mas fuerte que hay. El ingles va como enlace al lado para no
+             partir la accion en dos botones que compiten. -->
+        <a class="btn primario descarga" href="CV-Luis-San-Martin.pdf" download data-en="<span class='flecha' aria-hidden='true'></span>Download CV">
+          <span class="flecha" aria-hidden="true"></span>Descargar CV
+        </a>
+        <a class="btn" href="#casos" data-en="View the work">Ver los casos</a>
+        <a class="btn" href="#contacto" data-en="Contact">Contacto</a>
+        <a class="otro-idioma" href="CV-Luis-San-Martin-EN.pdf" download data-en="CV en español">CV in English</a>
+      </div>
+      <a class="scroll-cue" href="#casos" aria-label="Bajar a los casos">
+        <span>scroll</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-down"/></svg>
       </a>
-      <a class="btn" href="#casos" data-en="View the work">Ver los casos</a>
-      <a class="btn" href="#contacto" data-en="Contact">Contacto</a>
-      <a class="otro-idioma" href="CV-Luis-San-Martin-EN.pdf" download data-en="CV en español">CV in English</a>
     </div>
-    <a class="scroll-cue" href="#casos" aria-label="Bajar a los casos">
-      <span>scroll</span>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-down"/></svg>
-    </a>
+
+    <figure class="retrato-hero">
+      <div class="det-box">
+        <span class="det-label">persona (99.8%)</span>
+        <!-- alt vacio a proposito: el <h1> de al lado ya lo nombra. -->
+        <img src="assets/media/luis-ficha-v2.jpg" alt="" width="300" height="352">
+      </div>
+    </figure>
   </div>
 </header>
 
