@@ -97,7 +97,7 @@
 
   /* .indice faltaba aca: sin la rejilla se estiraba de borde a borde
      mientras el resto quedaba centrado. Era el unico bloque desalineado. */
-  .wrap, .case, .indice, .ongoing, .about, .end {
+  .wrap, .case, .indice, .ongoing, .about, .end, .trayectoria {
     display: grid;
     grid-template-columns: var(--page-grid);
     max-width: none;
@@ -108,7 +108,7 @@
   }
 
   .wrap > * { grid-column: full; }
-  .ongoing > *, .about > *, .end > * { grid-column: wide; }
+  .ongoing > *, .about > *, .end > *, .trayectoria > * { grid-column: wide; }
 
   /* el hero conserva su contenedor centrado */
   .hero-inner, .status-wrap { max-width: 74rem; margin: 0 auto; padding-left: 2rem; padding-right: 2rem; }
@@ -2059,6 +2059,72 @@
     .scroll-cue { display: none; }
   }
 
+  /* --- TRAYECTORIA / TIMELINE FREELANCE (sep-2026) --- */
+  .trayectoria { padding: 9rem 0 0; }
+  .tray-head {
+    grid-column: wide; display: flex; justify-content: space-between;
+    align-items: baseline; gap: 1.5rem; flex-wrap: wrap;
+    padding-bottom: 1.1rem; border-bottom: 1px solid var(--line-2);
+  }
+  .tray-head .cuenta {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--v);
+  }
+  .tl { grid-column: wide; list-style: none; margin: 2.6rem 0 0; padding: 0; position: relative; }
+  .tl::before {
+    content: ""; position: absolute; left: 8rem; top: 0.6rem; bottom: 1rem; width: 1px;
+    background: linear-gradient(var(--v), rgba(139, 92, 246, 0.12));
+  }
+  .tl-item {
+    display: grid; grid-template-columns: 8rem 1fr; gap: 0 1.7rem;
+    padding: 0 0 2.1rem; position: relative;
+  }
+  .tl-item::before {
+    content: ""; position: absolute; left: 8rem; top: 1.55rem;
+    width: 11px; height: 11px; border-radius: 50%; background: var(--v);
+    transform: translateX(-50%);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15), 0 0 14px var(--glow-v);
+  }
+  .tl-when {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em;
+    color: var(--fg-2); text-align: right; padding-top: 1.4rem;
+  }
+  .tl-card {
+    border: 1px solid var(--line); border-radius: 14px; padding: 1.15rem 1.3rem;
+    background: linear-gradient(180deg, rgba(24, 14, 42, 0.5), rgba(14, 8, 26, 0.4));
+    transition: border-color 0.3s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  }
+  .tl-item:hover .tl-card {
+    border-color: rgba(139, 92, 246, 0.55); transform: translateY(-3px);
+    box-shadow: 0 26px 60px -34px var(--glow-v);
+  }
+  .tl-top { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.75rem; }
+  .tl-logo { height: 34px; width: auto; border-radius: 8px; display: block; flex: 0 0 auto; }
+  .tl-logo.chip-light { background: #fff; padding: 5px 8px; box-sizing: content-box; }
+  .tl-logo.chip-dark { background: #17171a; padding: 5px 8px; box-sizing: content-box; border: 1px solid var(--line); }
+  .tl-mark {
+    width: 34px; height: 34px; display: grid; place-items: center; flex: 0 0 auto;
+    border: 1px solid var(--line); border-radius: 8px; color: var(--v);
+    background: rgba(139, 92, 246, 0.08);
+  }
+  .tl-mark svg { width: 20px; height: 20px; }
+  .tl-cliente { display: block; font-weight: 600; font-size: 1.05rem; color: var(--fg); }
+  .tl-rol {
+    display: block; font-family: var(--mono); font-size: 0.68rem;
+    letter-spacing: 0.05em; text-transform: uppercase; color: var(--v); margin-top: 0.18rem;
+  }
+  .tl-desc { color: var(--fg-2); margin: 0 0 0.85rem; font-size: 0.98rem; }
+  .tl-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tl-tags span {
+    font-family: var(--mono); font-size: 0.66rem; color: var(--fg-2);
+    border: 1px solid var(--line); border-radius: 99px; padding: 0.2rem 0.6rem;
+  }
+  @media (max-width: 48rem) {
+    .trayectoria { padding-top: 5rem; }
+    .tl::before, .tl-item::before { display: none; }
+    .tl-item { grid-template-columns: 1fr; gap: 0.5rem; padding-bottom: 1.6rem; }
+    .tl-when { text-align: left; padding-top: 0; color: var(--v); }
+  }
+
   @media screen {
     /* --- FONDO MORADO: base violeta profunda en vez del negro. --- */
     body {
@@ -3226,6 +3292,72 @@ metrics = model.val()
     <div class="tools">YOLO · seguimiento multiobjeto SORT por cámara · RTSP sobre las cámaras IP existentes · conteo por cruce de línea · OpenCV · Python</div>
   </article>
 
+  <!-- ============ TRAYECTORIA (freelance) ============ -->
+  <section class="trayectoria" id="experiencia" aria-labelledby="tray-titulo">
+    <div class="tray-head">
+      <span class="section-label" id="tray-titulo">Trayectoria</span>
+      <span class="cuenta">Freelance · cobro por proyecto entregado</span>
+    </div>
+    <ol class="tl">
+      <li class="tl-item">
+        <div class="tl-when">Jun 2024 — Jul 2025</div>
+        <div class="tl-card">
+          <div class="tl-top">
+            <img class="tl-logo chip-light" src="assets/logos/st-andrews.png" alt="St. Andrews" loading="lazy" decoding="async">
+            <div class="tl-id">
+              <span class="tl-cliente">St. Andrews · Mussels Chiloé</span>
+              <span class="tl-rol">Freelance · Visión computacional</span>
+            </div>
+          </div>
+          <p class="tl-desc">Conteo y clasificación multicámara en la línea de empaque, corriendo en los equipos de la propia planta.</p>
+          <div class="tl-tags"><span>YOLOv8</span><span>SORT</span><span>OpenCV</span><span>RTSP</span><span>Python</span></div>
+        </div>
+      </li>
+      <li class="tl-item">
+        <div class="tl-when">Feb 2023 — hoy</div>
+        <div class="tl-card">
+          <div class="tl-top">
+            <img class="tl-logo chip-light" src="assets/logos/letsfit.jpg" alt="LetsFit" loading="lazy" decoding="async">
+            <div class="tl-id">
+              <span class="tl-cliente">LetsFit</span>
+              <span class="tl-rol">Freelance · Desarrollo Full Stack</span>
+            </div>
+          </div>
+          <p class="tl-desc">Plataforma de gestión de gimnasio multi-sede: reservas, planes, pagos y comisiones con Row Level Security.</p>
+          <div class="tl-tags"><span>Next.js</span><span>Supabase</span><span>PostgreSQL</span><span>RLS</span><span>Mercado Pago</span></div>
+        </div>
+      </li>
+      <li class="tl-item">
+        <div class="tl-when">Nov 2025 — hoy</div>
+        <div class="tl-card">
+          <div class="tl-top">
+            <span class="tl-logo tl-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#m-marv"/></svg></span>
+            <div class="tl-id">
+              <span class="tl-cliente">Distribuidora El Maravilloso</span>
+              <span class="tl-rol">Freelance · Datos y Full Stack</span>
+            </div>
+          </div>
+          <p class="tl-desc">Punto de venta sin API sincronizado a PostgreSQL, ETL al SII y dashboards de gestión en producción.</p>
+          <div class="tl-tags"><span>PostgreSQL</span><span>ETL</span><span>Supabase</span><span>PWA</span><span>Python</span></div>
+        </div>
+      </li>
+      <li class="tl-item">
+        <div class="tl-when">2026</div>
+        <div class="tl-card">
+          <div class="tl-top">
+            <img class="tl-logo chip-dark" src="assets/logos/exwood.png" alt="Exwood" loading="lazy" decoding="async">
+            <div class="tl-id">
+              <span class="tl-cliente">Exwood · movilidad eléctrica</span>
+              <span class="tl-rol">Freelance · Visión computacional (PoC CORFO)</span>
+            </div>
+          </div>
+          <p class="tl-desc">YOLOv8 afinado con inferencia en GPU local sobre cámara ESP32-S3 para monitoreo de scooters.</p>
+          <div class="tl-tags"><span>YOLOv8</span><span>ESP32-S3</span><span>PyTorch</span><span>Edge</span></div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
   <!-- ============ EN CURSO ============ -->
   <section class="ongoing" id="curso" aria-labelledby="curso-titulo">
     <div class="section-label" id="curso-titulo">EN CURSO</div>
@@ -4162,6 +4294,14 @@ metrics = model.val()
       gsap.fromTo(n, { yPercent: 35 }, {
         yPercent: -35, ease: 'none',
         scrollTrigger: { trigger: caso, start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+    });
+
+    // timeline de trayectoria: cada hito entra desde abajo, escalonado
+    gsap.utils.toArray('.tl-item').forEach(function (it, i) {
+      gsap.from(it, {
+        opacity: 0, y: 26, duration: 0.6, ease: 'power3.out', delay: i * 0.08,
+        scrollTrigger: { trigger: it, start: 'top 88%', once: true }
       });
     });
 
