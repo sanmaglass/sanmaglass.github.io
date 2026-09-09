@@ -2167,7 +2167,27 @@
       transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
     }
     .marca:hover { opacity: 1; filter: grayscale(0); transform: translateY(-2px); }
-    .marca .logo-img { height: 26px; width: auto; display: block; }
+    /* Logos reales (sep-2026). Fondos dispares: UBB y LetsFit vienen sobre
+       claro -> chip blanco; Exwood es verde sobre oscuro -> chip oscuro. El
+       chip unifica la forma. Los que tienen logo no se agrisan. */
+    .marca.tiene-logo { opacity: 1; filter: none; }
+    .marca .logo-img {
+      display: block; width: auto; box-sizing: content-box;
+      height: 30px; border-radius: 10px;
+    }
+    .marca .chip-light {
+      background: #fff; padding: 7px 11px;
+      box-shadow: 0 6px 18px -10px rgba(0, 0, 0, 0.7);
+    }
+    .marca .chip-dark {
+      background: #17171a; padding: 7px 12px;
+      border: 1px solid var(--line);
+    }
+    .marca.tiene-logo:hover .logo-img {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px -12px var(--glow-v);
+    }
+    .marca .logo-img { transition: transform 0.3s ease, box-shadow 0.3s ease; }
     .marca-mark {
       width: 20px; height: 20px; flex: 0 0 auto; display: block;
       color: var(--fg-2); transition: color 0.3s ease, transform 0.3s ease;
@@ -2307,9 +2327,8 @@
   <div class="marcas-inner">
     <span class="marcas-rot">Formación y clientes</span>
     <ul class="marcas-lista">
-      <li class="marca" data-logo="ubb">
-        <svg class="marca-mark"><use href="#m-ubb"/></svg>
-        <span class="marca-txt">Universidad del <b>Bío-Bío</b></span>
+      <li class="marca tiene-logo" data-logo="ubb">
+        <img class="logo-img chip-light" src="assets/logos/ubb.png" alt="Universidad del Bío-Bío" loading="lazy" decoding="async">
       </li>
       <li class="marca" data-logo="st-andrews">
         <svg class="marca-mark"><use href="#m-stad"/></svg>
@@ -2319,13 +2338,11 @@
         <svg class="marca-mark"><use href="#m-marv"/></svg>
         <span class="marca-txt">El <b>Maravilloso</b></span>
       </li>
-      <li class="marca" data-logo="letsfit">
-        <svg class="marca-mark"><use href="#m-fit"/></svg>
-        <span class="marca-txt">Lets<b>Fit</b></span>
+      <li class="marca tiene-logo" data-logo="letsfit">
+        <img class="logo-img chip-light" src="assets/logos/letsfit.jpg" alt="LetsFit" loading="lazy" decoding="async">
       </li>
-      <li class="marca" data-logo="ewood">
-        <svg class="marca-mark"><use href="#m-ewood"/></svg>
-        <span class="marca-txt">e<b>WOOD</b></span>
+      <li class="marca tiene-logo" data-logo="exwood">
+        <img class="logo-img chip-dark" src="assets/logos/exwood.png" alt="Exwood" loading="lazy" decoding="async">
       </li>
     </ul>
   </div>
@@ -2412,11 +2429,11 @@
       </li>
       <li>
         <a href="#caso-05">
-          <span class="ix-logo"><svg class="ix-mark"><use href="#m-ewood"/></svg><span class="ix-brand">e<b>WOOD</b></span></span>
+          <span class="ix-logo"><svg class="ix-mark"><use href="#m-ewood"/></svg><span class="ix-brand"><b>Exwood</b></span></span>
           <span class="ix-num">05</span>
           <span class="ix-thumb"><img src="assets/media/th-05.jpg" alt="" width="340" height="454" loading="lazy" decoding="async"></span>
           <span class="ix-texto">
-            <span class="ix-cliente">EwooD · movilidad eléctrica</span>
+            <span class="ix-cliente">Exwood · movilidad eléctrica</span>
             <span class="ix-titulo">YOLOv8 afinado con inferencia en GPU local sobre cámara ESP32-S3</span>
           </span>
           <span class="ix-meta">
