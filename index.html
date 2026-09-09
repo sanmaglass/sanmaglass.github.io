@@ -2596,11 +2596,22 @@
       pointer-events: none;
     }
 
-    /* --- TIRA DE MARCAS / TRAYECTORIA --- */
+    /* --- TIRA DE MARCAS: FORMACION | CLIENTES (sep-2026) ---
+       Dos grupos separados por un divisor. La formacion (la universidad) NO
+       es un cliente: va sola, rotulada aparte. Cada logo vive en un chip de
+       tamaño identico -> misma caja para todos = igualdad visual pese a que
+       las proporciones originales son dispares (UBB vertical, Maravilloso
+       muy ancho, etc.). El logo se contiene dentro sin deformarse. */
     .marcas { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .marcas-inner {
-      max-width: 74rem; margin: 0 auto; padding: 1.4rem 2rem;
-      display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+      max-width: 74rem; margin: 0 auto; padding: 1.9rem 2rem;
+      display: flex; align-items: stretch; gap: 2.6rem; flex-wrap: wrap;
+    }
+    .marcas-grupo { display: flex; flex-direction: column; gap: 0.95rem; min-width: 0; }
+    .marcas-grupo.clientes { flex: 1; }
+    .marcas-div {
+      width: 1px; align-self: stretch; flex: none;
+      background: linear-gradient(180deg, transparent, var(--line) 20%, var(--line) 80%, transparent);
     }
     .marcas-rot {
       font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.18em;
@@ -2608,48 +2619,41 @@
     }
     .marcas-lista {
       list-style: none; display: flex; align-items: center;
-      gap: 1rem 2.6rem; flex-wrap: wrap; margin: 0; padding: 0;
+      gap: 0.9rem; flex-wrap: wrap; margin: 0; padding: 0;
     }
-    .marca {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      opacity: 0.55; filter: grayscale(1);
-      transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+    /* chip uniforme: TODOS miden lo mismo. Fondos dispares -> el chip blanco
+       o oscuro unifica. El logo llena el area interior y se escala a contain,
+       nunca desborda: width/height 100% le dan tamaño definido (sin esto los
+       <img> en grid conservan su min-width intrinseco y se salen). */
+    .marca-chip {
+      width: 132px; height: 62px; box-sizing: border-box;
+      display: block; padding: 11px 15px;
+      border-radius: 13px; position: relative; overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
     }
-    .marca:hover { opacity: 1; filter: grayscale(0); transform: translateY(-2px); }
-    /* Logos reales (sep-2026). Fondos dispares: UBB y LetsFit vienen sobre
-       claro -> chip blanco; Exwood es verde sobre oscuro -> chip oscuro. El
-       chip unifica la forma. Los que tienen logo no se agrisan. */
-    .marca.tiene-logo { opacity: 1; filter: none; }
-    .marca .logo-img {
-      display: block; width: auto; box-sizing: content-box;
-      height: 30px; border-radius: 10px;
+    .marca-chip img {
+      width: 100%; height: 100%; object-fit: contain;
+      display: block; pointer-events: none;
     }
-    .marca .chip-light {
-      background: #fff; padding: 7px 11px;
-      box-shadow: 0 6px 18px -10px rgba(0, 0, 0, 0.7);
+    .marca-chip.chip-light {
+      background: #fff;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset,
+                  0 8px 22px -12px rgba(0, 0, 0, 0.85);
     }
-    .marca .chip-dark {
-      background: #17171a; padding: 7px 12px;
-      border: 1px solid var(--line);
+    .marca-chip.chip-dark {
+      background: #141417;
+      box-shadow: 0 0 0 1px var(--line) inset;
     }
-    .marca.tiene-logo:hover .logo-img {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 26px -12px var(--glow-v);
+    /* barrido de luz sutil al pasar el mouse, coherente con el resto del sitio */
+    .marca-chip::after {
+      content: ""; position: absolute; inset: 0; border-radius: inherit;
+      background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
+      transform: translateX(-120%); transition: transform 0.6s ease; pointer-events: none;
     }
-    .marca .logo-img { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .marca-mark {
-      width: 20px; height: 20px; flex: 0 0 auto; display: block;
-      color: var(--fg-2); transition: color 0.3s ease, transform 0.3s ease;
-    }
-    .marca:hover .marca-mark { color: var(--v); transform: scale(1.12); }
-    .marca-txt {
-      font-family: var(--sans); font-size: 0.98rem; font-weight: 400;
-      letter-spacing: -0.01em; color: var(--fg-2); white-space: nowrap;
-    }
-    .marca-txt b { font-weight: 600; color: var(--fg); }
-    .marca:hover .marca-txt b {
-      background: var(--grad); -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent; color: transparent;
+    .marca-chip:hover::after { transform: translateX(120%); }
+    .marca-chip:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 30px -14px var(--glow-v), 0 0 0 1px var(--v);
     }
 
     .end .links a { transition: color 0.2s ease; }
@@ -2716,6 +2720,10 @@
     .carrusel-fones .devices-track > .device { max-width: none !important; width: 78vw !important; }
     .indice-lista li { max-width: none !important; }
     .case:nth-of-type(6) .shots > figure { max-width: none !important; }
+    /* marcas: al apilar los grupos, el divisor vertical sobra */
+    .marcas-inner { gap: 1.4rem 2rem; }
+    .marcas-div { display: none; }
+    .marcas-grupo.clientes { flex: 1 1 100%; }
   }
 </style>
 
@@ -2861,30 +2869,38 @@ metrics = model.val()
   </div>
 </header>
 
-<!-- ============ MARCAS / TRAYECTORIA ============
-     Tira de logos: formacion + clientes. Prueba social instantanea.
-     Cada .marca acepta un <img class="logo-img"> cuando llegue el archivo;
-     mientras, muestra el wordmark de texto. En gris, se coloriza al hover. -->
+<!-- ============ MARCAS: FORMACION | CLIENTES ============
+     Dos grupos separados. La universidad es formacion, no cliente: va sola.
+     Los proyectos en produccion van aparte. Cada logo en un chip identico
+     (misma caja) para que se vean iguales pese a proporciones dispares. -->
 <section class="marcas" aria-label="Formación y clientes">
   <div class="marcas-inner">
-    <span class="marcas-rot" data-en="Education &amp; clients">Formación y clientes</span>
-    <ul class="marcas-lista">
-      <li class="marca tiene-logo" data-logo="ubb">
-        <img class="logo-img chip-light" src="assets/logos/ubb.png" alt="Universidad del Bío-Bío" loading="lazy" decoding="async">
-      </li>
-      <li class="marca tiene-logo" data-logo="st-andrews">
-        <img class="logo-img chip-light" src="assets/logos/st-andrews.png" alt="St. Andrews Mussels" loading="lazy" decoding="async">
-      </li>
-      <li class="marca tiene-logo" data-logo="maravilloso">
-        <img class="logo-img chip-light" src="assets/logos/maravilloso.png" alt="El Maravilloso" loading="lazy" decoding="async">
-      </li>
-      <li class="marca tiene-logo" data-logo="letsfit">
-        <img class="logo-img chip-light" src="assets/logos/letsfit.jpg" alt="LetsFit" loading="lazy" decoding="async">
-      </li>
-      <li class="marca tiene-logo" data-logo="exwood">
-        <img class="logo-img chip-dark" src="assets/logos/exwood.png" alt="Exwood" loading="lazy" decoding="async">
-      </li>
-    </ul>
+    <div class="marcas-grupo formacion">
+      <span class="marcas-rot" data-en="Education">Formación</span>
+      <ul class="marcas-lista">
+        <li class="marca-chip chip-light" data-logo="ubb">
+          <img src="assets/logos/ubb.png" alt="Universidad del Bío-Bío" loading="lazy" decoding="async">
+        </li>
+      </ul>
+    </div>
+    <span class="marcas-div" aria-hidden="true"></span>
+    <div class="marcas-grupo clientes">
+      <span class="marcas-rot" data-en="Clients &amp; live projects">Clientes y proyectos en producción</span>
+      <ul class="marcas-lista">
+        <li class="marca-chip chip-light" data-logo="st-andrews">
+          <img src="assets/logos/st-andrews.png" alt="St. Andrews Mussels" loading="lazy" decoding="async">
+        </li>
+        <li class="marca-chip chip-light" data-logo="maravilloso">
+          <img src="assets/logos/maravilloso.png" alt="El Maravilloso" loading="lazy" decoding="async">
+        </li>
+        <li class="marca-chip chip-light" data-logo="letsfit">
+          <img src="assets/logos/letsfit.jpg" alt="LetsFit" loading="lazy" decoding="async">
+        </li>
+        <li class="marca-chip chip-dark" data-logo="exwood">
+          <img src="assets/logos/exwood.png" alt="Exwood" loading="lazy" decoding="async">
+        </li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -4642,7 +4658,7 @@ metrics = model.val()
     });
 
     // la tira de logos se desliza suave al entrar en cuadro
-    gsap.utils.toArray('.marcas .marca').forEach(function (m, i) {
+    gsap.utils.toArray('.marcas .marca-chip').forEach(function (m, i) {
       gsap.from(m, {
         opacity: 0, x: 26, duration: 0.6, ease: 'power3.out', delay: i * 0.06,
         scrollTrigger: { trigger: '.marcas', start: 'top 92%', once: true }
