@@ -4042,13 +4042,11 @@ metrics = model.val()
     /* descubrir de abajo hacia arriba, como si terminara de leerlo */
     var LEE   = { clipPath: 'inset(0% 0% 100% 0%)', yPercent: 8 };
 
-    /* el nombre se parte en letras ANTES de armar la linea de tiempo */
+    /* El nombre NO se parte en letras: el <h1> lleva un degradado recortado
+       (-webkit-background-clip:text). Al envolver cada letra en su propio span,
+       SplitText dejaba los chars sin ese fondo -> nombre transparente/invisible
+       en el navegador. Se anima el h1 entero; el degradado queda intacto. */
     var letras = [];
-    if (typeof SplitText !== 'undefined') {
-      try {
-        letras = SplitText.create('.hero h1', { type: 'chars' }).chars || [];
-      } catch (e) { letras = []; }
-    }
 
     /* --- portada: la imagen se arma, despues se resuelve el nombre ---
        Orden de lectura, no de decoracion: primero se traza la regla de
