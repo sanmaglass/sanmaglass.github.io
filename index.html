@@ -708,6 +708,64 @@
     margin-bottom: 0.9rem;
   }
 
+  /* --- CLIENTE POR CASO (sep-2026) ---
+     Cada caso muestra de quien es el trabajo. Vive al pie de la columna
+     sticky, en un chip identico al de la tira de marcas. */
+  .case-cliente { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1.5rem; }
+  .cc-rot {
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--fg-3);
+  }
+  .cc-chip {
+    width: 116px; height: 52px; box-sizing: border-box; padding: 8px 12px;
+    border-radius: 11px; overflow: hidden; display: block;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  }
+  .cc-chip img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .cc-chip.chip-light { background: #fff; box-shadow: 0 8px 20px -13px rgba(0, 0, 0, 0.85); }
+  .cc-chip.chip-dark  { background: #141417; box-shadow: 0 0 0 1px var(--line) inset; }
+  .cc-chip:hover { transform: translateY(-3px); box-shadow: 0 14px 26px -14px var(--glow-v); }
+
+  /* --- LIGHTBOX (sep-2026) ---
+     Las capturas son de resolucion modesta; estiradas en retina pierden
+     nitidez. Al hacer clic se abren a tamaño nativo sobre un fondo oscuro:
+     se ven a sus pixeles reales, sin reescalar. */
+  .zoomable { cursor: zoom-in; }
+  .lightbox {
+    position: fixed; inset: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    padding: clamp(1rem, 4vw, 3rem);
+    background: rgba(3, 5, 8, 0.82);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    opacity: 0; visibility: hidden; transition: opacity 0.28s ease, visibility 0.28s;
+  }
+  .lightbox.abierto { opacity: 1; visibility: visible; }
+  .lightbox img {
+    max-width: 100%; max-height: 100%;
+    width: auto; height: auto; object-fit: contain;
+    border-radius: 10px; box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.9);
+    transform: scale(0.96); transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    /* nitidez maxima al escalar la captura */
+    image-rendering: -webkit-optimize-contrast;
+  }
+  .lightbox.abierto img { transform: scale(1); }
+  .lb-cerrar {
+    position: absolute; top: 1.1rem; right: 1.2rem; width: 2.6rem; height: 2.6rem;
+    display: grid; place-items: center; cursor: pointer;
+    background: rgba(255, 255, 255, 0.08); border: 1px solid var(--line);
+    border-radius: 50%; color: var(--fg); font-size: 1.4rem; line-height: 1;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .lb-cerrar:hover { background: rgba(255, 255, 255, 0.16); transform: rotate(90deg); }
+  .lb-pista {
+    position: absolute; bottom: 1.1rem; left: 50%; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--fg-3);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lightbox, .lightbox img, .lb-cerrar { transition: none; }
+  }
+
   .case h2 {
     grid-column: text-start / wide-end;
     font-family: var(--display);
@@ -2596,6 +2654,87 @@
       pointer-events: none;
     }
 
+    /* --- COVER FLOW 3D (sep-2026) ---
+       Cards en perspectiva con giro y profundidad, portado a vanilla. El JS
+       pinta los transforms; aca solo el escenario, las cards y los controles. */
+    .cf-band {
+      padding: 3.5rem 1.5rem 3rem;
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .cf-head { max-width: 74rem; margin: 0 auto 1.6rem; }
+    .cf-rot {
+      font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--fg-3);
+    }
+    .cf {
+      position: relative;
+      --cf-card: clamp(210px, 27vw, 340px);
+      perspective: calc(var(--cf-card) * 3);
+      touch-action: pan-y; outline: none;
+      max-width: 74rem; margin: 0 auto;
+    }
+    .cf:focus-visible { box-shadow: 0 0 0 2px var(--v); border-radius: 18px; }
+    .cf-stage {
+      position: relative; margin: 0 auto;
+      height: calc(var(--cf-card) * 0.75);
+      transform-style: preserve-3d;
+      user-select: none; cursor: grab;
+    }
+    .cf-stage:active { cursor: grabbing; }
+    .cf-card {
+      position: absolute; left: 50%; top: 0;
+      width: var(--cf-card); aspect-ratio: 4 / 3;
+      border-radius: 16px; overflow: hidden;
+      background: var(--panel); border: 1px solid var(--line);
+      box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9);
+      will-change: transform, opacity;
+      transition: box-shadow 0.35s ease;
+    }
+    .cf-card img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top center;
+      display: block; pointer-events: none;
+    }
+    .cf-card.activa {
+      box-shadow: 0 40px 75px -25px var(--glow-v), 0 0 0 1px var(--v);
+      cursor: pointer;
+    }
+    /* velo que oscurece las cards laterales, resalta la del centro */
+    .cf-card::after {
+      content: ""; position: absolute; inset: 0;
+      background: rgba(3, 5, 8, 0.5); opacity: 1;
+      transition: opacity 0.35s ease; pointer-events: none;
+    }
+    .cf-card.activa::after { opacity: 0; }
+    .cf-nav {
+      position: absolute; top: calc(var(--cf-card) * 0.375); transform: translateY(-50%);
+      z-index: 200; width: 2.8rem; height: 2.8rem; border-radius: 50%;
+      display: grid; place-items: center; cursor: pointer;
+      background: rgba(21, 23, 26, 0.72); border: 1px solid var(--line);
+      color: var(--fg); font-size: 1.5rem; line-height: 1;
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+      transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
+    }
+    .cf-prev { left: 0.4rem; } .cf-next { right: 0.4rem; }
+    .cf-nav:hover { background: var(--v); color: var(--ink); transform: translateY(-50%) scale(1.08); }
+    .cf-cap { text-align: center; margin: 1.7rem auto 0; max-width: 40rem; min-height: 4.5rem; }
+    .cf-title { font-family: var(--display); font-size: 1.3rem; font-weight: 600; margin: 0; color: var(--fg); }
+    .cf-sub { color: var(--fg-2); font-size: 0.92rem; margin: 0.3rem 0 0.7rem; }
+    .cf-ver {
+      display: inline-block; font-family: var(--mono); font-size: 0.72rem;
+      letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+      background: var(--grad); -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+      transition: opacity 0.2s ease;
+    }
+    .cf-ver:hover { opacity: 0.7; }
+    .cf-dots { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.3rem; flex-wrap: wrap; }
+    .cf-dot {
+      width: 8px; height: 8px; border-radius: 50%; padding: 0; border: none; cursor: pointer;
+      background: var(--fg); opacity: 0.28; transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+    }
+    .cf-dot[aria-current="true"] { opacity: 1; background: var(--v); transform: scale(1.3); }
+
     /* --- TIRA DE MARCAS: FORMACION | CLIENTES (sep-2026) ---
        Dos grupos separados por un divisor. La formacion (la universidad) NO
        es un cliente: va sola, rotulada aparte. Cada logo vive en un chip de
@@ -2869,6 +3008,27 @@ metrics = model.val()
   </div>
 </header>
 
+<!-- ============ COVER FLOW (sep-2026) ============
+     Vitrina 3D de capturas. Efecto portado a vanilla desde un componente
+     React (coverflow-carousel): cards en perspectiva con giro y profundidad,
+     arrastrables, sin dependencias. Las cards las inyecta el JS del final. -->
+<section class="cf-band" aria-label="Pantallas del trabajo">
+  <div class="cf-head">
+    <span class="cf-rot" data-en="Selected screens">Pantallas del trabajo</span>
+  </div>
+  <div class="cf" id="cf" role="region" aria-roledescription="carrusel" aria-label="Capturas de proyectos" tabindex="0">
+    <div class="cf-stage" id="cf-stage"></div>
+    <button type="button" class="cf-nav cf-prev" aria-label="Anterior">&#8249;</button>
+    <button type="button" class="cf-nav cf-next" aria-label="Siguiente">&#8250;</button>
+  </div>
+  <div class="cf-cap">
+    <p class="cf-title" id="cf-title"></p>
+    <p class="cf-sub" id="cf-sub"></p>
+    <a class="cf-ver" id="cf-ver" href="#casos"></a>
+  </div>
+  <div class="cf-dots" id="cf-dots" role="tablist" aria-label="Ir a una captura"></div>
+</section>
+
 <!-- ============ MARCAS: FORMACION | CLIENTES ============
      Dos grupos separados. La universidad es formacion, no cliente: va sola.
      Los proyectos en produccion van aparte. Cada logo en un chip identico
@@ -3022,6 +3182,10 @@ metrics = model.val()
       <span class="num">01</span>
       <span class="carga"><span class="cuenta-n" data-n="13000">13.000</span> kg / día</span>
       <span>Jun 2024 — Jul 2025</span>
+      <span class="case-cliente">
+        <span class="cc-rot" data-en="Client">Cliente</span>
+        <span class="cc-chip chip-light"><img src="assets/logos/st-andrews.png" alt="St. Andrews Mussels" loading="lazy" decoding="async"></span>
+      </span>
     </div>
 
     <h2 data-en="Automatic counting and classification on the packing line">Conteo y clasificación automática en línea de empaque</h2>
@@ -3150,6 +3314,10 @@ metrics = model.val()
       <span class="num">02</span>
       <span class="carga"><span class="cuenta-n" data-n="696">696</span> en 2,93 s</span>
       <span>No desplegado</span>
+      <span class="case-cliente">
+        <span class="cc-rot" data-en="Client">Cliente</span>
+        <span class="cc-chip chip-light"><img src="assets/logos/st-andrews.png" alt="St. Andrews Mussels" loading="lazy" decoding="async"></span>
+      </span>
     </div>
 
     <h2 data-en="Automatic counting of mussel larvae">Conteo automático de larvas de mejillón</h2>
@@ -3218,6 +3386,10 @@ metrics = model.val()
       <span class="num">03</span>
       <span class="carga"><span class="cuenta-n" data-n="78">78</span> ventas / día</span>
       <span>Nov 2025 — hoy</span>
+      <span class="case-cliente">
+        <span class="cc-rot" data-en="Client">Cliente</span>
+        <span class="cc-chip chip-light"><img src="assets/logos/maravilloso.png" alt="El Maravilloso" loading="lazy" decoding="async"></span>
+      </span>
     </div>
 
     <h2 data-en="Point-of-sale integration and tax reporting">Integración de punto de venta y reportería tributaria</h2>
@@ -3327,6 +3499,10 @@ metrics = model.val()
       <span class="num">04</span>
       <span class="carga"><span class="cuenta-n" data-n="2">2</span> sedes · <span class="cuenta-n" data-n="14">14</span> profesionales</span>
       <span>Feb 2023 — hoy</span>
+      <span class="case-cliente">
+        <span class="cc-rot" data-en="Client">Cliente</span>
+        <span class="cc-chip chip-light"><img src="assets/logos/letsfit.jpg" alt="LetsFit" loading="lazy" decoding="async"></span>
+      </span>
     </div>
 
     <h2 data-en="Platform migration and multi-site management system">Migración de plataforma y sistema de gestión multi-sede</h2>
@@ -3421,6 +3597,10 @@ metrics = model.val()
       <span class="num">05</span>
       <span class="carga"><span class="cuenta-n" data-n="9.6">9,6</span> cuadros / s</span>
       <span>2026</span>
+      <span class="case-cliente">
+        <span class="cc-rot" data-en="Client">Cliente</span>
+        <span class="cc-chip chip-dark"><img src="assets/logos/exwood.png" alt="Exwood" loading="lazy" decoding="async"></span>
+      </span>
     </div>
 
     <h2 data-en="Helmet detection on an embedded camera">Detección de casco sobre cámara embebida</h2>
@@ -3523,6 +3703,10 @@ metrics = model.val()
       <span class="num">06</span>
       <span class="carga"><span class="cuenta-n" data-n="5">5</span> cámaras en paralelo</span>
       <span>Feb 2026 — hoy</span>
+      <span class="case-cliente">
+        <span class="cc-rot" data-en="Client">Cliente</span>
+        <span class="cc-chip chip-light"><img src="assets/logos/maravilloso.png" alt="El Maravilloso" loading="lazy" decoding="async"></span>
+      </span>
     </div>
 
     <h2 data-en="People counting by line-crossing over existing CCTV">Conteo de personas por cruce de línea sobre CCTV existente</h2>
@@ -3828,6 +4012,13 @@ metrics = model.val()
 
 </div>
 </main>
+
+<!-- Lightbox: se llena por JS al hacer clic en una captura. -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada">
+  <button type="button" class="lb-cerrar" aria-label="Cerrar">&times;</button>
+  <img alt="">
+  <span class="lb-pista" data-en="Click or Esc to close">Clic o Esc para cerrar</span>
+</div>
 
 <div class="linea-conteo" aria-hidden="true"></div>
 <div class="hud" aria-hidden="true">
@@ -4836,6 +5027,215 @@ metrics = model.val()
       set(document.documentElement.lang === 'en' ? 'es' : 'en');
     });
   });
+})();
+</script>
+
+<!-- LIGHTBOX: clic en una captura -> se abre a resolucion nativa sobre
+     fondo oscuro. Las capturas son de resolucion modesta; asi se ven a sus
+     pixeles reales en vez de estiradas y borrosas dentro del layout. -->
+<script>
+(function () {
+  var lb = document.getElementById('lightbox');
+  if (!lb) return;
+  var lbImg = lb.querySelector('img');
+  var cerrar = lb.querySelector('.lb-cerrar');
+  var ultimoFoco = null;
+
+  // Capturas ampliables: las de los casos y las de los telefonos. Los logos,
+  // el retrato del hero y el fondo tech quedan fuera a proposito.
+  var sel = '.case .det-box img, .case .shots > figure > img, ' +
+            '.carrusel-fones .phone img';
+  document.querySelectorAll(sel).forEach(function (img) {
+    img.classList.add('zoomable');
+    img.addEventListener('click', function (e) {
+      e.stopPropagation();
+      abrir(img);
+    });
+  });
+
+  function abrir(img) {
+    ultimoFoco = document.activeElement;
+    // src ya es la resolucion nativa del archivo; el navegador la muestra 1:1
+    lbImg.src = img.currentSrc || img.src;
+    lbImg.alt = img.alt || '';
+    lb.classList.add('abierto');
+    document.body.style.overflow = 'hidden';
+    cerrar.focus();
+  }
+  function ocultar() {
+    lb.classList.remove('abierto');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+    if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+  }
+
+  lb.addEventListener('click', function (e) { if (e.target !== lbImg) ocultar(); });
+  cerrar.addEventListener('click', ocultar);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && lb.classList.contains('abierto')) ocultar();
+  });
+})();
+</script>
+
+<!-- COVER FLOW 3D: portado del componente React coverflow-carousel a vanilla.
+     Una sola fuente de verdad (pos = indice fraccional del centro); cada card
+     se rota/aleja segun su distancia al centro, con folding para el loop.
+     Arrastrable, con teclado, flechas y puntos. Sin dependencias. -->
+<script>
+(function () {
+  var stage = document.getElementById('cf-stage');
+  if (!stage) return;
+  var frame = document.getElementById('cf');
+  var elTitle = document.getElementById('cf-title');
+  var elSub = document.getElementById('cf-sub');
+  var elVer = document.getElementById('cf-ver');
+  var dots = document.getElementById('cf-dots');
+
+  var slides = [
+    { src: 'assets/media/maravilloso-panel.jpg', t: 'El Maravilloso', s: 'Panel de ventas',        se: 'Sales dashboard',   h: '#caso-03' },
+    { src: 'assets/media/mv-resumen.jpg',         t: 'El Maravilloso', s: 'Resumen en el teléfono', se: 'Mobile summary',    h: '#caso-03' },
+    { src: 'assets/media/letsfit-login.jpg',      t: 'LetsFit',        s: 'Pantalla de acceso',     se: 'Login screen',      h: '#caso-04' },
+    { src: 'assets/media/letsfit-comisiones.jpg', t: 'LetsFit',        s: 'Comisiones por profesional', se: 'Commissions',   h: '#caso-04' },
+    { src: 'assets/media/letsfit-agenda.jpg',     t: 'LetsFit',        s: 'Agenda semanal',         se: 'Weekly schedule',   h: '#caso-04' },
+    { src: 'assets/media/retail-panel.jpg',       t: 'Conteo por CCTV', s: 'Cinco cámaras en línea', se: 'Five live cameras', h: '#caso-06' },
+    { src: 'assets/media/retail-detalle.jpg',     t: 'Conteo por CCTV', s: 'Seguimiento con ID',    se: 'ID tracking',       h: '#caso-06' },
+    { src: 'assets/media/tercera-estacion.jpg',   t: 'St. Andrews',    s: 'Línea de empaque',       se: 'Packing line',      h: '#caso-01' },
+    { src: 'assets/media/conteo-larvas.jpg',      t: 'St. Andrews',    s: 'Conteo de larvas',       se: 'Larvae counting',   h: '#caso-02' },
+    { src: 'assets/media/saferide-camara.jpg',    t: 'Exwood',         s: 'Cámara embebida',        se: 'Embedded camera',   h: '#caso-05' }
+  ];
+
+  // parametros del rake (mismos del componente original)
+  var ROT = 44, DEPTH = 0.6, FALL = 0.56, FADE = 0.1, GAP = 0.06;
+  var count = slides.length;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var cards = slides.map(function (sl) {
+    var c = document.createElement('div');
+    c.className = 'cf-card';
+    c.setAttribute('role', 'group');
+    var img = document.createElement('img');
+    img.src = sl.src; img.alt = sl.t + ' — ' + sl.s;
+    img.loading = 'lazy'; img.decoding = 'async'; img.draggable = false;
+    c.appendChild(img);
+    stage.appendChild(c);
+    return c;
+  });
+
+  // puntos
+  var dotEls = slides.map(function (_, i) {
+    var d = document.createElement('button');
+    d.type = 'button'; d.className = 'cf-dot';
+    d.setAttribute('role', 'tab');
+    d.setAttribute('aria-label', 'Captura ' + (i + 1));
+    d.addEventListener('click', function () { goTo(i); });
+    dots.appendChild(d);
+    return d;
+  });
+
+  var pos = 0, target = 0, width = 0, raf = null, drag = null, moved = false;
+
+  function idxAt(p) { return ((Math.round(p) % count) + count) % count; }
+
+  function paint() {
+    if (!width) return;
+    var pitch = width * (1 + GAP);
+    for (var i = 0; i < count; i++) {
+      var off = i - pos;
+      off = ((off % count) + count) % count;
+      if (off > count / 2) off -= count;
+      var dist = Math.abs(off);
+      var ramp = Math.pow(dist, FALL);
+      var tilt = Math.min(ROT * ramp, 82) * Math.sign(off);
+      var card = cards[i];
+      card.style.transform =
+        'translateX(calc(-50% + ' + (off * pitch) + 'px)) ' +
+        'translateZ(' + (-DEPTH * width * ramp) + 'px) rotateY(' + (-tilt) + 'deg)';
+      var edge = Math.min(1, Math.max(0, count / 2 - dist));
+      card.style.opacity = String(Math.max(0, 1 - FADE * dist) * edge);
+      card.style.zIndex = String(100 - Math.round(dist));
+    }
+  }
+
+  function render() {
+    var i = idxAt(target);
+    var sl = slides[i];
+    var en = document.documentElement.lang === 'en';
+    elTitle.textContent = sl.t;
+    elSub.textContent = en ? sl.se : sl.s;
+    elVer.textContent = (en ? 'View case' : 'Ver caso') + ' →';
+    elVer.setAttribute('href', sl.h);
+    for (var k = 0; k < count; k++) {
+      cards[k].classList.toggle('activa', k === i);
+      dotEls[k].setAttribute('aria-current', k === i ? 'true' : 'false');
+    }
+  }
+
+  function settle(t) {
+    if (raf) cancelAnimationFrame(raf);
+    target = t; render();
+    if (reduce) { pos = target; paint(); return; }
+    (function step() {
+      var rem = target - pos;
+      if (Math.abs(rem) < 0.0004) { pos = target; paint(); raf = null; return; }
+      pos += rem * 0.16; paint();
+      raf = requestAnimationFrame(step);
+    })();
+  }
+
+  function goTo(i) { settle(i + Math.round((target - i) / count) * count); }
+  function nudge(by) { settle(Math.round(target) + by); }
+
+  // arrastre
+  frame.addEventListener('pointerdown', function (e) {
+    if (e.target.closest('.cf-nav')) return;
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    frame.setPointerCapture(e.pointerId);
+    moved = false;
+    drag = { id: e.pointerId, x: e.clientX, pos: pos };
+  });
+  frame.addEventListener('pointermove', function (e) {
+    if (!drag || drag.id !== e.pointerId) return;
+    var pitch = width * (1 + GAP); if (!pitch) return;
+    var d = (e.clientX - drag.x);
+    if (Math.abs(d) > 4) moved = true;
+    pos = drag.pos - d / pitch;
+    render(); paint();
+  });
+  function endDrag(e) {
+    if (!drag || drag.id !== e.pointerId) return;
+    drag = null;
+    settle(Math.round(pos));
+  }
+  frame.addEventListener('pointerup', endDrag);
+  frame.addEventListener('pointercancel', endDrag);
+
+  // clic en una card: si es lateral la centra; si es la del centro va al caso
+  cards.forEach(function (c, i) {
+    c.addEventListener('click', function () {
+      if (moved) return;
+      if (idxAt(target) === i) window.location.hash = slides[i].h;
+      else goTo(i);
+    });
+  });
+
+  frame.querySelector('.cf-prev').addEventListener('click', function () { nudge(-1); });
+  frame.querySelector('.cf-next').addEventListener('click', function () { nudge(1); });
+  frame.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); nudge(-1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); nudge(1); }
+  });
+
+  // el ancho de card manda: se mide y se repinta cuando cambia el viewport
+  function measure() { width = cards[0].offsetWidth; paint(); }
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(measure).observe(frame);
+  } else {
+    window.addEventListener('resize', measure);
+  }
+  // re-render de textos al cambiar idioma (el boton EN cambia html[lang])
+  new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+
+  measure(); render();
 })();
 </script>
 </body>
