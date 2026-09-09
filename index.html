@@ -846,18 +846,21 @@
   .case:nth-of-type(6) .shots { grid-column: auto; margin-top: 4rem; }
 
   .car-flecha {
-    position: absolute; top: calc(50% - 2rem); z-index: 3;
-    width: 2.6rem; height: 2.6rem; border-radius: 50%;
-    border: 1px solid var(--line-2); background: var(--bg); color: var(--fg-1);
-    font-size: 1.3rem; line-height: 1; cursor: pointer;
-    display: grid; place-items: center; padding: 0 0 0.15em;
-    opacity: 0.85; transition: opacity 0.2s ease, transform 0.2s ease;
+    position: absolute; top: calc(50% - 2.5rem); z-index: 4;
+    width: 3.4rem; height: 3.4rem; border-radius: 50%;
+    border: 1px solid rgba(139, 92, 246, 0.5);
+    background: rgba(16, 9, 30, 0.82); color: var(--v);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    font-size: 1.7rem; line-height: 1; cursor: pointer;
+    display: grid; place-items: center; padding: 0 0 0.18em;
+    box-shadow: 0 12px 34px -12px var(--glow-v);
+    transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease, color 0.25s ease;
   }
-  .car-flecha:hover { opacity: 1; transform: scale(1.08); }
-  .car-flecha.izq { left: -0.6rem; }
-  .car-flecha.der { right: -0.6rem; }
-  .car-flecha[hidden] { display: none; }
-  @media (max-width: 700px) { .car-flecha { display: none; } }
+  .car-flecha:hover { background: rgba(139, 92, 246, 0.92); color: #fff; transform: scale(1.1); }
+  .car-flecha.izq { left: 0.6rem; }
+  .car-flecha.der { right: 0.6rem; }
+  .car-flecha[hidden] { opacity: 0; pointer-events: none; transform: scale(0.85); }
+  @media (max-width: 700px) { .car-flecha { width: 3rem; height: 3rem; font-size: 1.5rem; } }
   .case:nth-of-type(6) .shots::-webkit-scrollbar { height: 6px; }
   .case:nth-of-type(6) .shots::-webkit-scrollbar-thumb {
     background: var(--line-2); border-radius: 3px;
@@ -1003,6 +1006,29 @@
   }
 
   .vid-toggle:hover { border-color: var(--fg); }
+
+  /* boton PLAY grande y central (sep-2026): aparece cuando el video esta
+     pausado, para que darle play sea obvio y facil de acertar */
+  .vid-play {
+    position: absolute; inset: 0; margin: auto; z-index: 4;
+    width: 78px; height: 78px; border-radius: 50%; border: none;
+    display: grid; place-items: center; cursor: pointer;
+    background: rgba(139, 92, 246, 0.94); color: #fff;
+    box-shadow: 0 0 0 8px rgba(139, 92, 246, 0.22), 0 22px 55px -14px var(--glow-v);
+    opacity: 0; transform: scale(0.8); pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.25s ease;
+  }
+  .vid-play svg { width: 30px; height: 30px; margin-left: 4px; }
+  .vid-play:hover { background: var(--v); transform: scale(1.08); }
+  .det-box.pausado .vid-play {
+    opacity: 1; transform: scale(1); pointer-events: auto;
+    animation: play-late 2.2s ease-in-out infinite;
+  }
+  @keyframes play-late {
+    0%, 100% { box-shadow: 0 0 0 8px rgba(139, 92, 246, 0.22), 0 22px 55px -14px var(--glow-v); }
+    50%      { box-shadow: 0 0 0 15px rgba(139, 92, 246, 0.06), 0 22px 55px -14px var(--glow-v); }
+  }
+  @media (prefers-reduced-motion: reduce) { .det-box.pausado .vid-play { animation: none; } }
 
   /* solo aparece cuando el video pasa a manejarse con el scroll: si el
      usuario no sabe que la cinta responde a la rueda, el efecto no existe */
@@ -2478,6 +2504,9 @@
   <symbol id="i-down" viewBox="0 0 24 24">
     <path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
   </symbol>
+  <symbol id="i-play" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.87l11-6.5a1 1 0 0 0 0-1.74l-11-6.5A1 1 0 0 0 8 5.5z"/>
+  </symbol>
 </svg>
 
 <!-- FONDO TECH (sep-2026): red neuronal + codigo de entrenamiento YOLO,
@@ -2569,9 +2598,8 @@ metrics = model.val()
       <li class="marca tiene-logo" data-logo="st-andrews">
         <img class="logo-img chip-light" src="assets/logos/st-andrews.png" alt="St. Andrews Mussels" loading="lazy" decoding="async">
       </li>
-      <li class="marca" data-logo="maravilloso">
-        <svg class="marca-mark"><use href="#m-marv"/></svg>
-        <span class="marca-txt">El <b>Maravilloso</b></span>
+      <li class="marca tiene-logo" data-logo="maravilloso">
+        <img class="logo-img chip-light" src="assets/logos/maravilloso.png" alt="El Maravilloso" loading="lazy" decoding="async">
       </li>
       <li class="marca tiene-logo" data-logo="letsfit">
         <img class="logo-img chip-light" src="assets/logos/letsfit.jpg" alt="LetsFit" loading="lazy" decoding="async">
@@ -3331,7 +3359,7 @@ metrics = model.val()
         <div class="tl-when">Nov 2025 — hoy</div>
         <div class="tl-card">
           <div class="tl-top">
-            <span class="tl-logo tl-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#m-marv"/></svg></span>
+            <img class="tl-logo chip-light" src="assets/logos/maravilloso.png" alt="El Maravilloso" loading="lazy" decoding="async">
             <div class="tl-id">
               <span class="tl-cliente">Distribuidora El Maravilloso</span>
               <span class="tl-rol">Freelance · Datos y Full Stack</span>
@@ -3462,11 +3490,6 @@ metrics = model.val()
       <a href="CV-Luis-San-Martin.pdf" download>Descargar CV (PDF)</a>
       <a href="CV-Luis-San-Martin-EN.pdf" download>Download CV (English)</a>
     </div>
-    <p class="avail">
-      <b>Busco</b> puesto de jornada completa como desarrollador de visión computacional o de datos ·
-      Gran Concepción, remoto o híbrido · Egresado de Ingeniería Civil en
-      Automatización, Universidad del Bío-Bío
-    </p>
   </footer>
 
 </div>
@@ -3624,16 +3647,34 @@ metrics = model.val()
   document.querySelectorAll('.vid-toggle').forEach(function (btn) {
     var v = document.getElementById(btn.dataset.target);
     if (!v) return;
+    var caja = v.closest('.det-box');
+
+    /* boton de PLAY grande y central: el de la esquina era chico y dificil
+       de acertar. Este cubre el centro del video, se ve solo cuando esta
+       pausado y late para que se note. */
+    if (caja) {
+      var grande = document.createElement('button');
+      grande.type = 'button';
+      grande.className = 'vid-play';
+      grande.setAttribute('aria-label', 'Reproducir el video');
+      grande.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-play"/></svg>';
+      caja.appendChild(grande);
+      grande.addEventListener('click', function () {
+        var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+      });
+    }
+
+    function sincronizar() {
+      if (caja) caja.classList.toggle('pausado', v.paused);
+      btn.textContent = v.paused ? 'Reproducir' : 'Pausar';
+    }
 
     if (reduced) {
+      if (caja) caja.classList.add('pausado');
       btn.textContent = 'Reproducir';
     } else if ('IntersectionObserver' in window) {
-      /* No arranca hasta estar cerca del viewport. Antes se llamaba play()
-         de una: saferide.mp4 esta a 11.000px de scroll y se descargaba
-         igual a los 512ms de cargada la pagina.
-         Aca SI se puede usar IntersectionObserver: el video tiene tamaño
-         propio y no lo recorta ningun clip-path, que fue lo que provoco el
-         bloqueo mutuo de las imagenes. */
+      /* No arranca hasta estar cerca del viewport. */
+      if (caja) caja.classList.add('pausado');
       btn.textContent = 'Reproducir';
       var mirador = new IntersectionObserver(function (entradas) {
         entradas.forEach(function (e) {
@@ -3646,16 +3687,16 @@ metrics = model.val()
       mirador.observe(v);
     } else {
       var p = v.play();
-      if (p && p.catch) p.catch(function () { btn.textContent = 'Reproducir'; });
+      if (p && p.catch) p.catch(function () {});
     }
 
     btn.addEventListener('click', function () {
-      if (v.paused) { v.play(); btn.textContent = 'Pausar'; }
-      else { v.pause(); btn.textContent = 'Reproducir'; }
+      if (v.paused) { v.play(); } else { v.pause(); }
     });
 
-    v.addEventListener('play',  function () { btn.textContent = 'Pausar'; });
-    v.addEventListener('pause', function () { btn.textContent = 'Reproducir'; });
+    v.addEventListener('play',  sincronizar);
+    v.addEventListener('pause', sincronizar);
+    sincronizar();
   });
 
   /* ===== MOVIMIENTO (GSAP + ScrollTrigger) =====
@@ -3823,6 +3864,28 @@ metrics = model.val()
       fila.addEventListener('scroll', estado, { passive: true });
       window.addEventListener('resize', estado);
       estado();
+
+      /* arrastrar para desplazar: mas intuitivo que rueda o flechas */
+      var down = false, sx = 0, sl = 0, moved = false;
+      fila.style.cursor = 'grab';
+      fila.addEventListener('pointerdown', function (e) {
+        if (e.target.closest('.car-flecha')) return;
+        down = true; moved = false; sx = e.clientX; sl = fila.scrollLeft;
+        fila.style.cursor = 'grabbing';
+        try { fila.setPointerCapture(e.pointerId); } catch (err) {}
+      });
+      fila.addEventListener('pointermove', function (e) {
+        if (!down) return;
+        var dx = e.clientX - sx;
+        if (Math.abs(dx) > 4) moved = true;
+        fila.scrollLeft = sl - dx;
+      });
+      function soltar() { down = false; fila.style.cursor = 'grab'; }
+      fila.addEventListener('pointerup', soltar);
+      fila.addEventListener('pointercancel', soltar);
+      fila.addEventListener('click', function (e) {
+        if (moved) { e.preventDefault(); e.stopPropagation(); }
+      }, true);
     });
 
     /* --- LOS NUMEROS CUENTAN ---
