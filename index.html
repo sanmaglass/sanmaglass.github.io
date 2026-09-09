@@ -2238,6 +2238,57 @@
     .edu-logo { width: 66px; }
   }
 
+  /* --- CARRUSEL DE TELEFONOS ESTILO iPHONE (caso Maravilloso, sep-2026)
+     Antes 4 pantallas aparecian todas de una en un grid. Ahora se deslizan
+     para el lado con flechas y arrastre; cada una en un marco tipo iPhone. --- */
+  .carrusel-fones { grid-column: text-start / wide-end; margin-top: 1rem; }
+  .carrusel-fones .devices-track {
+    display: flex; flex-direction: row; flex-wrap: nowrap;
+    gap: 2.2rem; margin: 3.5rem 0 0; padding: 0.5rem 0.25rem 1.6rem;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin; scrollbar-color: var(--v) transparent;
+  }
+  .carrusel-fones .devices-track::-webkit-scrollbar { height: 8px; }
+  .carrusel-fones .devices-track::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.5); border-radius: 99px; }
+  .carrusel-fones .devices-track::-webkit-scrollbar-track { background: transparent; }
+  .carrusel-fones .devices-track > .device {
+    flex: 0 0 auto; width: clamp(14rem, 62vw, 16.5rem);
+    scroll-snap-align: center; text-align: center; min-width: 0;
+  }
+  /* marco iPhone */
+  .carrusel-fones .device .phone {
+    position: relative; width: 100%;
+    border: none; border-radius: 2.6rem; padding: 0; margin: 0 auto;
+    background: #0a0a0c;
+    box-shadow: 0 0 0 10px #17171b, 0 0 0 12px #313139, 0 34px 66px -26px rgba(0,0,0,0.92);
+    overflow: hidden; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+  .carrusel-fones .device .phone img { display: block; width: 100%; height: auto; border-radius: 2.6rem; }
+  .carrusel-fones .device:hover .phone { transform: translateY(-6px); }
+  .carrusel-fones .phone-isla {
+    position: absolute; top: 0.65rem; left: 50%; transform: translateX(-50%);
+    width: 30%; height: 1.35rem; background: #000; border-radius: 99px; z-index: 3;
+  }
+  .carrusel-fones .device-cap {
+    margin-top: 1.1rem; font-family: var(--mono); font-size: 0.72rem;
+    letter-spacing: 0.04em; color: var(--fg-2);
+  }
+  /* la pista de arrastre y las flechas reusan .carrusel/.car-flecha */
+  .carrusel-fones::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 1.6rem; width: 4rem;
+    background: linear-gradient(to right, transparent, var(--bg));
+    pointer-events: none; transition: opacity 0.25s ease;
+  }
+  .carrusel-fones[data-fin="si"]::after { opacity: 0; }
+  /* pista textual de deslizar, ademas de las flechas */
+  .carrusel-fones .desliza-pista {
+    display: block; text-align: center; margin-top: 0.6rem;
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--v);
+  }
+  .carrusel-fones[data-fin="si"] .desliza-pista { opacity: 0.4; }
+
   /* --- HERO SPLIT (sep-2026): texto a la izquierda, foto grande a la derecha.
      Antes la foto quedaba arriba-izquierda porque el nombre gigante la empujaba.
      Ahora dos columnas centradas verticalmente; la foto es protagonista y
@@ -3083,25 +3134,30 @@ metrics = model.val()
       </figure>
 
       <div>
-        <div class="devices">
-          <div>
-            <div class="phone"><img src="assets/media/mv-login.jpg" alt="" width="640" height="1386" loading="lazy" decoding="async"></div>
-            <div class="device-cap" data-en="App sign-in">Ingreso a la app</div>
+        <div class="carrusel carrusel-fones">
+          <button class="car-flecha izq" type="button" aria-label="Ver pantallas anteriores" hidden>&#8249;</button>
+          <button class="car-flecha der" type="button" aria-label="Ver más pantallas" hidden>&#8250;</button>
+          <div class="shots devices-track">
+            <div class="device">
+              <div class="phone"><span class="phone-isla"></span><img src="assets/media/mv-login.jpg" alt="" width="640" height="1386" loading="lazy" decoding="async"></div>
+              <div class="device-cap" data-en="App sign-in">Ingreso a la app</div>
+            </div>
+            <div class="device">
+              <div class="phone"><span class="phone-isla"></span><img src="assets/media/mv-resumen.jpg" alt="" width="640" height="1386" loading="lazy" decoding="async"></div>
+              <div class="device-cap">Resumen del mes</div>
+            </div>
+            <div class="device">
+              <div class="phone"><span class="phone-isla"></span><img src="assets/media/mv-gastos.jpg" alt="" width="640" height="1386" loading="lazy" decoding="async"></div>
+              <div class="device-cap">Gastos por categoría</div>
+            </div>
+            <div class="device">
+              <div class="phone"><span class="phone-isla"></span><img src="assets/media/mv-abc.jpg" alt="" width="640" height="1386" loading="lazy" decoding="async"></div>
+              <div class="device-cap">Análisis ABC de productos</div>
+            </div>
           </div>
-          <div>
-            <div class="phone"><img src="assets/media/mv-resumen.jpg" alt="" width="640" height="1386" loading="lazy" decoding="async"></div>
-            <div class="device-cap">Resumen del mes</div>
-          </div>
-          <div>
-            <div class="phone"><img src="assets/media/mv-gastos.jpg" alt="" width="640" height="1386" loading="lazy" decoding="async"></div>
-            <div class="device-cap">Gastos por categoría</div>
-          </div>
-          <div>
-            <div class="phone"><img src="assets/media/mv-abc.jpg" alt="" width="640" height="1386" loading="lazy" decoding="async"></div>
-            <div class="device-cap">Análisis ABC de productos</div>
-          </div>
+          <span class="desliza-pista" data-en="drag to see more →">desliza para ver más →</span>
         </div>
-        <figcaption style="text-align:center">
+        <figcaption style="text-align:center" data-en="The same app on the phone: it installs as an app and works offline. All figures in these captures are demo data; the client's data is not published.">
           La misma aplicación en el teléfono: se instala como app y funciona sin conexión. Todas las
           cifras de estas capturas son de demostración; los datos del cliente no se publican.
         </figcaption>
@@ -4015,51 +4071,8 @@ metrics = model.val()
     /* --- LA FILA DE CAPTURAS SE RECORRE ---
        Con scroll lateral y sin senal, la mitad de la gente no descubre que
        hay mas imagenes. Las flechas aparecen solo si de verdad hay desborde. */
-    document.querySelectorAll('.carrusel').forEach(function (car) {
-      var fila = car.querySelector('.shots');
-      var izq = car.querySelector('.car-flecha.izq');
-      var der = car.querySelector('.car-flecha.der');
-      if (!fila || !izq || !der) return;
-
-      function paso() {
-        var f = fila.querySelector('figure');
-        return f ? f.getBoundingClientRect().width + 26 : fila.clientWidth * 0.8;
-      }
-      function estado() {
-        var resto = fila.scrollWidth - fila.clientWidth;
-        if (resto < 8) { izq.hidden = der.hidden = true; car.dataset.fin = 'si'; return; }
-        izq.hidden = fila.scrollLeft < 8;
-        der.hidden = fila.scrollLeft > resto - 8;
-        car.dataset.fin = fila.scrollLeft > resto - 8 ? 'si' : 'no';
-      }
-      izq.addEventListener('click', function () { fila.scrollBy({ left: -paso(), behavior: 'smooth' }); });
-      der.addEventListener('click', function () { fila.scrollBy({ left: paso(), behavior: 'smooth' }); });
-      fila.addEventListener('scroll', estado, { passive: true });
-      window.addEventListener('resize', estado);
-      estado();
-
-      /* arrastrar para desplazar: mas intuitivo que rueda o flechas */
-      var down = false, sx = 0, sl = 0, moved = false;
-      fila.style.cursor = 'grab';
-      fila.addEventListener('pointerdown', function (e) {
-        if (e.target.closest('.car-flecha')) return;
-        down = true; moved = false; sx = e.clientX; sl = fila.scrollLeft;
-        fila.style.cursor = 'grabbing';
-        try { fila.setPointerCapture(e.pointerId); } catch (err) {}
-      });
-      fila.addEventListener('pointermove', function (e) {
-        if (!down) return;
-        var dx = e.clientX - sx;
-        if (Math.abs(dx) > 4) moved = true;
-        fila.scrollLeft = sl - dx;
-      });
-      function soltar() { down = false; fila.style.cursor = 'grab'; }
-      fila.addEventListener('pointerup', soltar);
-      fila.addEventListener('pointercancel', soltar);
-      fila.addEventListener('click', function (e) {
-        if (moved) { e.preventDefault(); e.stopPropagation(); }
-      }, true);
-    });
+    /* el carrusel (flechas + arrastre) se movio a su propio <script> para que
+       funcione SIEMPRE, aun sin GSAP o con reduced-motion */
 
     /* --- LOS NUMEROS CUENTAN ---
        Su oficio es contar; los numeros de la pagina no tienen por que
@@ -4629,6 +4642,63 @@ metrics = model.val()
   }
 })();
 </script>
+<!-- ============================================================
+     CARRUSELES (flechas + arrastre). Independiente de GSAP: corre siempre,
+     incluso con reduced-motion, para que el boton de deslizar sea visible.
+     ============================================================ -->
+<script>
+(function () {
+  document.querySelectorAll('.carrusel').forEach(function (car) {
+    var fila = car.querySelector('.shots');
+    var izq = car.querySelector('.car-flecha.izq');
+    var der = car.querySelector('.car-flecha.der');
+    if (!fila || !izq || !der) return;
+
+    function paso() {
+      var f = fila.querySelector('figure, .device');
+      return f ? f.getBoundingClientRect().width + 35 : fila.clientWidth * 0.8;
+    }
+    function estado() {
+      var resto = fila.scrollWidth - fila.clientWidth;
+      if (resto < 8) { izq.hidden = der.hidden = true; car.dataset.fin = 'si'; return; }
+      izq.hidden = fila.scrollLeft < 8;
+      der.hidden = fila.scrollLeft > resto - 8;
+      car.dataset.fin = fila.scrollLeft > resto - 8 ? 'si' : 'no';
+    }
+    izq.addEventListener('click', function () { fila.scrollBy({ left: -paso(), behavior: 'smooth' }); });
+    der.addEventListener('click', function () { fila.scrollBy({ left: paso(), behavior: 'smooth' }); });
+    fila.addEventListener('scroll', estado, { passive: true });
+    window.addEventListener('resize', estado);
+    estado();
+    // reintento tras cargar imagenes (el scrollWidth cambia al pintarse)
+    window.addEventListener('load', estado);
+    setTimeout(estado, 400);
+
+    /* arrastrar para desplazar */
+    var down = false, sx = 0, sl = 0, moved = false;
+    fila.style.cursor = 'grab';
+    fila.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('.car-flecha')) return;
+      down = true; moved = false; sx = e.clientX; sl = fila.scrollLeft;
+      fila.style.cursor = 'grabbing';
+      try { fila.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    fila.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - sx;
+      if (Math.abs(dx) > 4) moved = true;
+      fila.scrollLeft = sl - dx;
+    });
+    function soltar() { down = false; fila.style.cursor = 'grab'; }
+    fila.addEventListener('pointerup', soltar);
+    fila.addEventListener('pointercancel', soltar);
+    fila.addEventListener('click', function (e) {
+      if (moved) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+  });
+})();
+</script>
+
 <!-- ============================================================
      TOGGLE DE IDIOMA ES/EN (sep-2026). Cada elemento traducible lleva
      data-en con su version en ingles (HTML, para conservar los <b>). Guarda
