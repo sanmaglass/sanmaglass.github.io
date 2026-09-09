@@ -2151,6 +2151,82 @@
     .tl-when { text-align: left; padding-top: 0; color: var(--v); }
   }
 
+  /* --- TESIS DESTACADA (EN CURSO) + EDUCACION (sep-2026) --- */
+  .tesis-card {
+    display: grid; grid-template-columns: 1fr 15rem; gap: 2.4rem;
+    margin-top: 2rem; position: relative; overflow: hidden;
+    border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 18px;
+    padding: 2rem 2.2rem 2rem 2.4rem;
+    background: linear-gradient(180deg, rgba(28, 16, 48, 0.55), rgba(14, 8, 26, 0.5));
+    box-shadow: 0 34px 90px -54px var(--glow-v);
+  }
+  .tesis-card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--grad);
+  }
+  .tesis-eyebrow {
+    display: block; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--v); margin-bottom: 0.9rem;
+  }
+  .tesis-body h3 {
+    font-family: var(--display); font-weight: 700; letter-spacing: -0.03em;
+    font-size: clamp(1.5rem, 3.4vw, 2.35rem); line-height: 1.04; margin: 0 0 1rem; color: var(--fg);
+  }
+  .tesis-body > p { color: var(--fg-2); margin: 0 0 1.2rem; max-width: 54ch; }
+  .tesis-puntos { list-style: none; margin: 0 0 1.3rem; padding: 0; display: grid; gap: 0.7rem; }
+  .tesis-puntos li { position: relative; padding-left: 1.4rem; color: var(--fg-2); font-size: 0.95rem; line-height: 1.5; }
+  .tesis-puntos li::before {
+    content: ""; position: absolute; left: 0; top: 0.5em; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--v); box-shadow: 0 0 10px var(--glow-v);
+  }
+  .tesis-puntos b { color: var(--fg); }
+  .tesis-side { display: flex; flex-direction: column; gap: 1.1rem; border-left: 1px solid var(--line); padding-left: 1.9rem; }
+  .tesis-stat b {
+    display: block; font-family: var(--display); font-weight: 800; letter-spacing: -0.03em;
+    font-size: 2.1rem; line-height: 1; color: var(--v);
+  }
+  .tesis-stat span {
+    display: block; font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.03em;
+    color: var(--fg-3); margin-top: 0.35rem;
+  }
+  @media (max-width: 52rem) {
+    .tesis-card { grid-template-columns: 1fr; gap: 1.5rem; padding: 1.5rem; }
+    .tesis-side {
+      flex-direction: row; flex-wrap: wrap; gap: 1.2rem 2rem;
+      border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 1.3rem;
+    }
+  }
+
+  .edu { display: flex; align-items: center; gap: 1.3rem; margin: 0.4rem 0 1.6rem; }
+  .edu-logo {
+    width: 84px; height: auto; flex: 0 0 auto; box-sizing: content-box;
+    background: #fff; border-radius: 12px; padding: 8px 10px;
+    box-shadow: 0 12px 34px -16px rgba(0, 0, 0, 0.85);
+  }
+  .edu-txt h2 {
+    font-family: var(--display); font-weight: 700; letter-spacing: -0.02em;
+    font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.05; margin: 0; color: var(--fg);
+    text-transform: none;
+  }
+  .edu-esp { margin: 0.45rem 0 0; color: var(--fg-2); font-size: 1.05rem; }
+  .edu-esp b { color: var(--v); }
+  .edu-uni { margin: 0.35rem 0 0; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em; color: var(--fg-3); }
+  .edu-stats {
+    display: flex; flex-wrap: wrap; gap: 1.4rem 2.6rem; margin: 0 0 1.8rem; padding: 1.3rem 0;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .edu-stat b {
+    display: block; font-family: var(--display); font-weight: 800; letter-spacing: -0.04em;
+    font-size: clamp(2.6rem, 6vw, 3.7rem); line-height: 0.88; color: var(--v);
+  }
+  .edu-stat span {
+    display: block; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.03em;
+    color: var(--fg-3); margin-top: 0.5rem; max-width: 12ch;
+  }
+  @media (max-width: 40rem) {
+    .edu { flex-wrap: wrap; gap: 1rem; }
+    .edu-logo { width: 66px; }
+  }
+
   @media screen {
     /* --- FONDO MORADO: base violeta profunda en vez del negro. --- */
     body {
@@ -3386,21 +3462,33 @@ metrics = model.val()
     </ol>
   </section>
 
-  <!-- ============ EN CURSO ============ -->
-  <section class="ongoing" id="curso" aria-labelledby="curso-titulo">
-    <div class="section-label" id="curso-titulo">EN CURSO</div>
-    <div class="grid">
-      <div class="item">
-        <div class="when">2026 · sin cliente · proyecto de título</div>
-        <h3>Detección de elementos de protección personal</h3>
+  <!-- ============ EN CURSO · TESIS ============ -->
+  <section class="ongoing tesis" id="curso" aria-labelledby="curso-titulo">
+    <div class="section-label" id="curso-titulo">En curso · Tesis</div>
+    <article class="tesis-card">
+      <div class="tesis-body">
+        <span class="tesis-eyebrow">Proyecto de título · Ing. Civil en Automatización · UBB · Prof. guía Cristhian Aguilera</span>
+        <h3>Detección de EPP en faena industrial con dataset propio multi-sitio</h3>
         <p>
-          Detección de casco, chaleco y demás EPP en faena industrial. El aporte central del proyecto
-          es el dataset: imágenes capturadas en planta real, en vez de bancos públicos que no
-          representan las condiciones de faena.
+          Detección de <b>casco y chaleco</b> sobre personas en planta. El aporte central de la tesis
+          es el <b>dataset</b>, no el modelo: imágenes capturadas en <b>plantas reales</b> —de varios
+          sitios— en vez de bancos públicos que no representan las condiciones de faena.
         </p>
-        <div class="tools">PyTorch · YOLOv8 · dataset capturado en faena, no de banco público</div>
+        <ul class="tesis-puntos">
+          <li><b>Multi-sitio:</b> 3+ plantas industriales distintas. Los trabajos previos usan una sola planta; ese es el diferenciador.</li>
+          <li><b>Sin clase "sin casco":</b> el cumplimiento se resuelve por lógica geométrica —¿hay casco en el tercio superior de la persona?—, no como un objeto a detectar.</li>
+          <li><b>Split por sitio y sesión,</b> nunca aleatorio, para evitar data leakage y un mAP inflado.</li>
+          <li><b>Experimento central:</b> tres modelos contra el mismo set de prueba real — solo público · solo propio · público + fine-tuning propio.</li>
+        </ul>
+        <div class="tools">PyTorch · YOLOv8 · Roboflow · captura y anotación en terreno · Python</div>
       </div>
-    </div>
+      <aside class="tesis-side">
+        <div class="tesis-stat"><b>3+</b><span>plantas industriales</span></div>
+        <div class="tesis-stat"><b>1.500+</b><span>imágenes propias anotadas</span></div>
+        <div class="tesis-stat"><b>4</b><span>clases: persona · cabeza · casco · chaleco</span></div>
+        <div class="tesis-stat"><b>6.5</b><span>nota del anteproyecto</span></div>
+      </aside>
+    </article>
   </section>
 
   <!-- ============ SOBRE MI ============ -->
@@ -3411,10 +3499,22 @@ metrics = model.val()
     </div>
     <div>
       <div class="section-label" id="sobremi-titulo">SOBRE MÍ</div>
-      <h2>Ingeniería Civil en Automatización</h2>
-      <p>
-        Egresado de la <b>Universidad del Bío-Bío</b>.
-      </p>
+
+      <div class="edu">
+        <img class="edu-logo" src="assets/logos/ubb.png" alt="Universidad del Bío-Bío" loading="lazy" decoding="async">
+        <div class="edu-txt">
+          <h2>Egresado de Ingeniería Civil en Automatización</h2>
+          <p class="edu-esp">especializado en <b>Computer Vision</b></p>
+          <p class="edu-uni">Universidad del Bío-Bío · Gran Concepción, Chile</p>
+        </div>
+      </div>
+
+      <div class="edu-stats">
+        <div class="edu-stat"><b>12</b><span>semestres de carrera</span></div>
+        <div class="edu-stat"><b>+3</b><span>años en producción</span></div>
+        <div class="edu-stat"><b>6</b><span>proyectos con clientes reales</span></div>
+      </div>
+
       <p>
         Llevo más de tres años desarrollando software en producción para clientes de acuicultura,
         distribución y salud. En todos los casos trabajé <b>directo con el dueño de la operación</b>,
