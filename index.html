@@ -2035,6 +2035,17 @@
     z-index: 9999; pointer-events: none;
   }
 
+  /* --- TOGGLE DE IDIOMA ES/EN (sep-2026) --- */
+  .lang-btn {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em;
+    background: transparent; color: var(--fg-2); cursor: pointer;
+    border: 1px solid var(--line-2); border-radius: 6px;
+    padding: 0.3rem 0.55rem; text-transform: uppercase;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .lang-btn:hover { color: var(--fg); border-color: var(--v); background: rgba(139, 92, 246, 0.12); }
+  html[lang="en"] .indice-head::after { content: "drag →"; }
+
   /* --- RAIL SOCIAL + VOLVER ARRIBA + INDICADOR DE SCROLL (sep-2026) --- */
   .rail {
     position: fixed; left: 1.4rem; bottom: 0; z-index: 90;
@@ -2529,16 +2540,17 @@
        portada ya paso, pero anunciarlo dos veces no. -->
   <div class="mark" aria-hidden="true">LUIS SAN MARTÍN</div>
   <div class="links">
-    <a href="#casos">CASOS</a>
-    <a href="#curso">EN CURSO</a>
-    <a href="#sobremi">SOBRE MÍ</a>
+    <a href="#casos" data-en="CASES">CASOS</a>
+    <a href="#curso" data-en="THESIS">EN CURSO</a>
+    <a href="#sobremi" data-en="ABOUT">SOBRE MÍ</a>
     <!-- El CV vive tambien aca porque el de la portada se medía bajo el
          pliegue en 7 de 8 pantallas reales (todos los telefonos, 1366x768
          y 1280x720): el boton mas fuerte del sitio no se veia al llegar.
          En la barra fija esta a un toque desde cualquier punto del scroll.
          El contador lo engancha solo: el rastreo busca a[href$=".pdf"]. -->
     <a class="nav-cv" href="CV-Luis-San-Martin.pdf" download>CV</a>
-    <a class="nav-cta" href="#contacto">CONTACTO</a>
+    <a class="nav-cta" href="#contacto" data-en="CONTACT">CONTACTO</a>
+    <button class="lang-btn" type="button" aria-label="Switch language to English">EN</button>
   </div>
 </nav>
 
@@ -2636,22 +2648,22 @@ metrics = model.val()
         </div>
       </figure>
       <div class="ficha-txt">
-        <p class="saludo">Hola, soy</p>
+        <p class="saludo" data-en="Hi, I'm">Hola, soy</p>
         <h1>Luis San<br>Martín</h1>
       </div>
     </div>
-    <p class="rol">Visión computacional, IA y sistemas de datos</p>
+    <p class="rol" data-en="Computer vision, AI and data systems">Visión computacional, IA y sistemas de datos</p>
     <div class="btns">
       <!-- El CV es lo que una reclutadora necesita llevarse: pasa a ser el
            boton relleno. En esta paleta sin color de acento, el relleno es
            lo mas fuerte que hay. El ingles va como enlace al lado para no
            partir la accion en dos botones que compiten. -->
-      <a class="btn primario descarga" href="CV-Luis-San-Martin.pdf" download>
+      <a class="btn primario descarga" href="CV-Luis-San-Martin.pdf" download data-en="<span class='flecha' aria-hidden='true'></span>Download CV">
         <span class="flecha" aria-hidden="true"></span>Descargar CV
       </a>
-      <a class="btn" href="#casos">Ver los casos</a>
-      <a class="btn" href="#contacto">Contacto</a>
-      <a class="otro-idioma" href="CV-Luis-San-Martin-EN.pdf" download>CV in English</a>
+      <a class="btn" href="#casos" data-en="View the work">Ver los casos</a>
+      <a class="btn" href="#contacto" data-en="Contact">Contacto</a>
+      <a class="otro-idioma" href="CV-Luis-San-Martin-EN.pdf" download data-en="CV en español">CV in English</a>
     </div>
     <a class="scroll-cue" href="#casos" aria-label="Bajar a los casos">
       <span>scroll</span>
@@ -2666,7 +2678,7 @@ metrics = model.val()
      mientras, muestra el wordmark de texto. En gris, se coloriza al hover. -->
 <section class="marcas" aria-label="Formación y clientes">
   <div class="marcas-inner">
-    <span class="marcas-rot">Formación y clientes</span>
+    <span class="marcas-rot" data-en="Education &amp; clients">Formación y clientes</span>
     <ul class="marcas-lista">
       <li class="marca tiene-logo" data-logo="ubb">
         <img class="logo-img chip-light" src="assets/logos/ubb.png" alt="Universidad del Bío-Bío" loading="lazy" decoding="async">
@@ -2693,8 +2705,8 @@ metrics = model.val()
   <!-- ============ INDICE ============ -->
   <section class="indice" id="casos" aria-labelledby="indice-titulo">
     <div class="indice-head">
-      <span class="section-label" id="indice-titulo">Casos</span>
-      <span class="cuenta">Acuicultura · Distribución · Salud</span>
+      <span class="section-label" id="indice-titulo" data-en="Work">Casos</span>
+      <span class="cuenta" data-en="Aquaculture · Distribution · Health">Acuicultura · Distribución · Salud</span>
     </div>
 
     <ol class="indice-lista">
@@ -2713,11 +2725,11 @@ metrics = model.val()
                  no una frase narrativa. Cada uno se verifica contra el detalle
                  del propio caso o contra el inventario de Sobre mi; ninguna
                  herramienta que no este usada de verdad entra aca. -->
-            <span class="ix-titulo">Conteo y clasificación multicámara en 3 estaciones</span>
+            <span class="ix-titulo" data-en="Multi-camera counting and classification across 3 stations">Conteo y clasificación multicámara en 3 estaciones</span>
           </span>
           <span class="ix-meta">
             <span>Jun 2024 — Jul 2025</span>
-            <span class="estado">3 estaciones en producción</span>
+            <span class="estado" data-en="3 stations in production">3 estaciones en producción</span>
           </span>
         </a>
       </li>
@@ -2727,12 +2739,12 @@ metrics = model.val()
           <span class="ix-num">02</span>
           <span class="ix-thumb"><img src="assets/media/th-02.jpg" alt="" width="340" height="376" loading="lazy" decoding="async"></span>
           <span class="ix-texto">
-            <span class="ix-cliente">St. Andrews · laboratorio</span>
-            <span class="ix-titulo">Detección de objetos densos con dataset propio etiquetado</span>
+            <span class="ix-cliente" data-en="St. Andrews · laboratory">St. Andrews · laboratorio</span>
+            <span class="ix-titulo" data-en="Dense object detection with a self-labeled dataset">Detección de objetos densos con dataset propio etiquetado</span>
           </span>
           <span class="ix-meta">
             <span>2024 — 2025</span>
-            <span class="estado">Prueba de concepto validada</span>
+            <span class="estado" data-en="Validated proof of concept">Prueba de concepto validada</span>
           </span>
         </a>
       </li>
@@ -2743,11 +2755,11 @@ metrics = model.val()
           <span class="ix-thumb"><img src="assets/media/th-03.jpg" alt="" width="340" height="124" loading="lazy" decoding="async"></span>
           <span class="ix-texto">
             <span class="ix-cliente">Distribuidora El Maravilloso</span>
-            <span class="ix-titulo">Punto de venta sin API sincronizado a PostgreSQL, con ETL al SII</span>
+            <span class="ix-titulo" data-en="API-less point of sale synced to PostgreSQL, with ETL to the tax service">Punto de venta sin API sincronizado a PostgreSQL, con ETL al SII</span>
           </span>
           <span class="ix-meta">
             <span>Nov 2025 — hoy</span>
-            <span class="estado">En operación</span>
+            <span class="estado" data-en="In operation">En operación</span>
           </span>
         </a>
       </li>
@@ -2758,11 +2770,11 @@ metrics = model.val()
           <span class="ix-thumb"><img src="assets/media/th-04.jpg" alt="" width="340" height="152" loading="lazy" decoding="async"></span>
           <span class="ix-texto">
             <span class="ix-cliente">LetsFit Company</span>
-            <span class="ix-titulo">Migración por scraping a PostgreSQL multi-sede con Row Level Security</span>
+            <span class="ix-titulo" data-en="Scraping-based migration to multi-site PostgreSQL with Row Level Security">Migración por scraping a PostgreSQL multi-sede con Row Level Security</span>
           </span>
           <span class="ix-meta">
             <span>Feb 2023 — hoy</span>
-            <span class="estado">En operación, 2 sedes</span>
+            <span class="estado" data-en="In operation, 2 sites">En operación, 2 sedes</span>
           </span>
         </a>
       </li>
@@ -2772,12 +2784,12 @@ metrics = model.val()
           <span class="ix-num">05</span>
           <span class="ix-thumb"><img src="assets/media/th-05.jpg" alt="" width="340" height="454" loading="lazy" decoding="async"></span>
           <span class="ix-texto">
-            <span class="ix-cliente">Exwood · movilidad eléctrica</span>
-            <span class="ix-titulo">YOLOv8 afinado con inferencia en GPU local sobre cámara ESP32-S3</span>
+            <span class="ix-cliente" data-en="Exwood · electric mobility">Exwood · movilidad eléctrica</span>
+            <span class="ix-titulo" data-en="Fine-tuned YOLOv8 with local-GPU inference on an ESP32-S3 camera">YOLOv8 afinado con inferencia en GPU local sobre cámara ESP32-S3</span>
           </span>
           <span class="ix-meta">
             <span>2026</span>
-            <span class="estado">Prueba de concepto validada</span>
+            <span class="estado" data-en="Validated proof of concept">Prueba de concepto validada</span>
           </span>
         </a>
       </li>
@@ -2788,11 +2800,11 @@ metrics = model.val()
           <span class="ix-thumb"><img src="assets/media/th-06.jpg" alt="" width="340" height="425" loading="lazy" decoding="async"></span>
           <span class="ix-texto">
             <span class="ix-cliente">Distribuidora El Maravilloso</span>
-            <span class="ix-titulo">Conteo por cruce de línea con seguimiento multiobjeto sobre CCTV existente</span>
+            <span class="ix-titulo" data-en="Line-crossing counting with multi-object tracking over existing CCTV">Conteo por cruce de línea con seguimiento multiobjeto sobre CCTV existente</span>
           </span>
           <span class="ix-meta">
             <span>Feb 2026 — hoy</span>
-            <span class="estado">5 cámaras en producción</span>
+            <span class="estado" data-en="5 cameras in production">5 cámaras en producción</span>
           </span>
         </a>
       </li>
@@ -2807,9 +2819,9 @@ metrics = model.val()
       <span>Jun 2024 — Jul 2025</span>
     </div>
 
-    <h2>Conteo y clasificación automática en línea de empaque</h2>
+    <h2 data-en="Automatic counting and classification on the packing line">Conteo y clasificación automática en línea de empaque</h2>
 
-    <p class="context">
+    <p class="context" data-en="St. Andrews is the <b>largest mussel producer in the world</b>. It farms over 1,500 hectares in Chiloé and processes more than 70,000 tonnes a year across two plants.">
       St. Andrews es el <b>mayor productor de mejillones del mundo</b>. Cultiva más de 1.500 hectáreas
       en Chiloé y procesa sobre 70.000 toneladas al año en dos plantas.
     </p>
@@ -2887,7 +2899,7 @@ metrics = model.val()
     </div>
 
     <details class="detalle">
-      <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
+      <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
       <div class="movement">
         <h3>Un operario contando a ojo, 13.000 kg al día</h3>
@@ -2935,9 +2947,9 @@ metrics = model.val()
       <span>No desplegado</span>
     </div>
 
-    <h2>Conteo automático de larvas de mejillón</h2>
+    <h2 data-en="Automatic counting of mussel larvae">Conteo automático de larvas de mejillón</h2>
 
-    <p class="context">
+    <p class="context" data-en="A different project from the packing line, in another area of the company: the laboratory where the larvae that define the seeding are counted.">
       Proyecto distinto al de la línea de empaque, en otra área de la empresa: el laboratorio donde se
       cuentan las larvas que definen la siembra.
     </p>
@@ -2955,7 +2967,7 @@ metrics = model.val()
     </div>
 
     <details class="detalle">
-      <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
+      <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
       <div class="movement">
         <h3>45 minutos bajo lupa por cada muestra</h3>
@@ -3003,9 +3015,9 @@ metrics = model.val()
       <span>Nov 2025 — hoy</span>
     </div>
 
-    <h2>Integración de punto de venta y reportería tributaria</h2>
+    <h2 data-en="Point-of-sale integration and tax reporting">Integración de punto de venta y reportería tributaria</h2>
 
-    <p class="context">
+    <p class="context" data-en="A grocery distributor in Concepción, with its own store and point of sale. It records around <b>78 sales a day</b>.">
       Distribuidora de abarrotes en Concepción, con local y punto de venta propio. Registra alrededor
       de <b>78 ventas diarias</b>.
     </p>
@@ -3044,7 +3056,7 @@ metrics = model.val()
     </div>
 
     <details class="detalle">
-      <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
+      <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
       <div class="movement">
         <h3>Los datos existían pero no salían del mesón</h3>
@@ -3103,9 +3115,9 @@ metrics = model.val()
       <span>Feb 2023 — hoy</span>
     </div>
 
-    <h2>Migración de plataforma y sistema de gestión multi-sede</h2>
+    <h2 data-en="Platform migration and multi-site management system">Migración de plataforma y sistema de gestión multi-sede</h2>
 
-    <p class="context">
+    <p class="context" data-en="A training and physiotherapy center with <b>2 sites</b> in Greater Concepción. It runs on plans, time-slot bookings and professionals who charge per session.">
       Centro de entrenamiento y kinesiología con <b>2 sedes</b> en el Gran Concepción. Opera con
       planes, reservas por horario y profesionales que cobran por sesión.
     </p>
@@ -3135,7 +3147,7 @@ metrics = model.val()
     </div>
 
     <details class="detalle">
-      <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
+      <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
       <div class="movement">
         <h3>170 alumnos encerrados en un sistema arrendado</h3>
@@ -3189,9 +3201,9 @@ metrics = model.val()
       <span>2026</span>
     </div>
 
-    <h2>Detección de casco sobre cámara embebida</h2>
+    <h2 data-en="Helmet detection on an embedded camera">Detección de casco sobre cámara embebida</h2>
 
-    <p class="context">
+    <p class="context" data-en="Monitoring of electric scooters: the system tells apart <b>scooter</b>, <b>helmet on</b> and <b>no helmet</b> from the video of a coin-sized camera. It captures; the model runs on a local GPU.">
       Monitoreo de scooters eléctricos: el sistema distingue <b>scooter</b>, <b>con casco</b> y
       <b>sin casco</b> sobre el video de una cámara del tamaño de una moneda. Ella captura; el
       modelo corre en una GPU local.
@@ -3231,7 +3243,7 @@ metrics = model.val()
     </div>
 
     <details class="detalle">
-      <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
+      <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
       <div class="movement">
         <h3>Tres clases, no dos</h3>
@@ -3291,9 +3303,9 @@ metrics = model.val()
       <span>Feb 2026 — hoy</span>
     </div>
 
-    <h2>Conteo de personas por cruce de línea sobre CCTV existente</h2>
+    <h2 data-en="People counting by line-crossing over existing CCTV">Conteo de personas por cruce de línea sobre CCTV existente</h2>
 
-    <p class="context">
+    <p class="context" data-en="Same client as case 03: a grocery and stationery distributor in Concepción. The system runs on the <b>closed-circuit cameras the store already had</b> installed. Not a single camera or capture device was added.">
       Mismo cliente del caso 03: distribuidora de abarrotes y papelería en Concepción. El sistema
       corre sobre las <b>cámaras de circuito cerrado que el local ya tenía</b> instaladas. No se
       agregó ni una cámara ni un equipo de captura.
@@ -3330,7 +3342,7 @@ metrics = model.val()
     </div>
 
     <details class="detalle">
-      <summary><span class="et">Cómo se hizo</span><span class="mas"></span></summary>
+      <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
       <div class="movement">
         <h3>Contar por cruce, no por presencia</h3>
@@ -3399,8 +3411,8 @@ metrics = model.val()
   <!-- ============ TRAYECTORIA (freelance) ============ -->
   <section class="trayectoria" id="experiencia" aria-labelledby="tray-titulo">
     <div class="tray-head">
-      <span class="section-label" id="tray-titulo">Trayectoria</span>
-      <span class="cuenta">Freelance · cobro por proyecto entregado</span>
+      <span class="section-label" id="tray-titulo" data-en="Experience">Trayectoria</span>
+      <span class="cuenta" data-en="Freelance · paid per delivered project">Freelance · cobro por proyecto entregado</span>
     </div>
     <ol class="tl">
       <li class="tl-item">
@@ -3410,10 +3422,10 @@ metrics = model.val()
             <img class="tl-logo chip-light" src="assets/logos/st-andrews.png" alt="St. Andrews" loading="lazy" decoding="async">
             <div class="tl-id">
               <span class="tl-cliente">St. Andrews · Mussels Chiloé</span>
-              <span class="tl-rol">Freelance · Visión computacional</span>
+              <span class="tl-rol" data-en="Freelance · Computer vision">Freelance · Visión computacional</span>
             </div>
           </div>
-          <p class="tl-desc">Conteo y clasificación multicámara en la línea de empaque, corriendo en los equipos de la propia planta.</p>
+          <p class="tl-desc" data-en="Multi-camera counting and classification on the packing line, running on the plant's own machines.">Conteo y clasificación multicámara en la línea de empaque, corriendo en los equipos de la propia planta.</p>
           <div class="tl-tags"><span>YOLOv8</span><span>SORT</span><span>OpenCV</span><span>RTSP</span><span>Python</span></div>
         </div>
       </li>
@@ -3424,10 +3436,10 @@ metrics = model.val()
             <img class="tl-logo chip-light" src="assets/logos/letsfit.jpg" alt="LetsFit" loading="lazy" decoding="async">
             <div class="tl-id">
               <span class="tl-cliente">LetsFit</span>
-              <span class="tl-rol">Freelance · Desarrollo Full Stack</span>
+              <span class="tl-rol" data-en="Freelance · Full-stack development">Freelance · Desarrollo Full Stack</span>
             </div>
           </div>
-          <p class="tl-desc">Plataforma de gestión de gimnasio multi-sede: reservas, planes, pagos y comisiones con Row Level Security.</p>
+          <p class="tl-desc" data-en="Multi-site gym management platform: bookings, plans, payments and commissions with Row Level Security.">Plataforma de gestión de gimnasio multi-sede: reservas, planes, pagos y comisiones con Row Level Security.</p>
           <div class="tl-tags"><span>Next.js</span><span>Supabase</span><span>PostgreSQL</span><span>RLS</span><span>Mercado Pago</span></div>
         </div>
       </li>
@@ -3438,10 +3450,10 @@ metrics = model.val()
             <img class="tl-logo chip-light" src="assets/logos/maravilloso.png" alt="El Maravilloso" loading="lazy" decoding="async">
             <div class="tl-id">
               <span class="tl-cliente">Distribuidora El Maravilloso</span>
-              <span class="tl-rol">Freelance · Datos y Full Stack</span>
+              <span class="tl-rol" data-en="Freelance · Data &amp; full-stack">Freelance · Datos y Full Stack</span>
             </div>
           </div>
-          <p class="tl-desc">Punto de venta sin API sincronizado a PostgreSQL, ETL al SII y dashboards de gestión en producción.</p>
+          <p class="tl-desc" data-en="API-less point of sale synced to PostgreSQL, ETL to the tax service and management dashboards in production.">Punto de venta sin API sincronizado a PostgreSQL, ETL al SII y dashboards de gestión en producción.</p>
           <div class="tl-tags"><span>PostgreSQL</span><span>ETL</span><span>Supabase</span><span>PWA</span><span>Python</span></div>
         </div>
       </li>
@@ -3451,11 +3463,11 @@ metrics = model.val()
           <div class="tl-top">
             <img class="tl-logo chip-dark" src="assets/logos/exwood.png" alt="Exwood" loading="lazy" decoding="async">
             <div class="tl-id">
-              <span class="tl-cliente">Exwood · movilidad eléctrica</span>
-              <span class="tl-rol">Freelance · Visión computacional (PoC CORFO)</span>
+              <span class="tl-cliente" data-en="Exwood · electric mobility">Exwood · movilidad eléctrica</span>
+              <span class="tl-rol" data-en="Freelance · Computer vision (CORFO PoC)">Freelance · Visión computacional (PoC CORFO)</span>
             </div>
           </div>
-          <p class="tl-desc">YOLOv8 afinado con inferencia en GPU local sobre cámara ESP32-S3 para monitoreo de scooters.</p>
+          <p class="tl-desc" data-en="Fine-tuned YOLOv8 with local-GPU inference on an ESP32-S3 camera for scooter monitoring.">YOLOv8 afinado con inferencia en GPU local sobre cámara ESP32-S3 para monitoreo de scooters.</p>
           <div class="tl-tags"><span>YOLOv8</span><span>ESP32-S3</span><span>PyTorch</span><span>Edge</span></div>
         </div>
       </li>
@@ -3464,29 +3476,29 @@ metrics = model.val()
 
   <!-- ============ EN CURSO · TESIS ============ -->
   <section class="ongoing tesis" id="curso" aria-labelledby="curso-titulo">
-    <div class="section-label" id="curso-titulo">En curso · Tesis</div>
+    <div class="section-label" id="curso-titulo" data-en="In progress · Thesis">En curso · Tesis</div>
     <article class="tesis-card">
       <div class="tesis-body">
-        <span class="tesis-eyebrow">Proyecto de título · Ing. Civil en Automatización · UBB · Prof. guía Cristhian Aguilera</span>
-        <h3>Detección de EPP en faena industrial con dataset propio multi-sitio</h3>
-        <p>
+        <span class="tesis-eyebrow" data-en="Final-year project · Automation Engineering · UBB · Advisor Cristhian Aguilera">Proyecto de título · Ing. Civil en Automatización · UBB · Prof. guía Cristhian Aguilera</span>
+        <h3 data-en="PPE detection on industrial sites with a self-built multi-site dataset">Detección de EPP en faena industrial con dataset propio multi-sitio</h3>
+        <p data-en="Detection of <b>helmet and vest</b> on people at the plant. The thesis's core contribution is the <b>dataset</b>, not the model: images captured in <b>real plants</b> —across several sites— instead of public banks that don't represent field conditions.">
           Detección de <b>casco y chaleco</b> sobre personas en planta. El aporte central de la tesis
           es el <b>dataset</b>, no el modelo: imágenes capturadas en <b>plantas reales</b> —de varios
           sitios— en vez de bancos públicos que no representan las condiciones de faena.
         </p>
         <ul class="tesis-puntos">
-          <li><b>Multi-sitio:</b> 3+ plantas industriales distintas. Los trabajos previos usan una sola planta; ese es el diferenciador.</li>
-          <li><b>Sin clase "sin casco":</b> el cumplimiento se resuelve por lógica geométrica —¿hay casco en el tercio superior de la persona?—, no como un objeto a detectar.</li>
-          <li><b>Split por sitio y sesión,</b> nunca aleatorio, para evitar data leakage y un mAP inflado.</li>
-          <li><b>Experimento central:</b> tres modelos contra el mismo set de prueba real — solo público · solo propio · público + fine-tuning propio.</li>
+          <li data-en="<b>Multi-site:</b> 3+ different industrial plants. Prior work uses a single plant; that's the differentiator."><b>Multi-sitio:</b> 3+ plantas industriales distintas. Los trabajos previos usan una sola planta; ese es el diferenciador.</li>
+          <li data-en="<b>No 'no-helmet' class:</b> compliance is resolved by geometric logic —is there a helmet in the upper third of the person?—, not as an object to detect."><b>Sin clase "sin casco":</b> el cumplimiento se resuelve por lógica geométrica —¿hay casco en el tercio superior de la persona?—, no como un objeto a detectar.</li>
+          <li data-en="<b>Split by site and session,</b> never random, to avoid data leakage and an inflated mAP."><b>Split por sitio y sesión,</b> nunca aleatorio, para evitar data leakage y un mAP inflado.</li>
+          <li data-en="<b>Core experiment:</b> three models against the same real test set — public only · own only · public + own fine-tuning."><b>Experimento central:</b> tres modelos contra el mismo set de prueba real — solo público · solo propio · público + fine-tuning propio.</li>
         </ul>
-        <div class="tools">PyTorch · YOLOv8 · Roboflow · captura y anotación en terreno · Python</div>
+        <div class="tools" data-en="PyTorch · YOLOv8 · Roboflow · field capture and annotation · Python">PyTorch · YOLOv8 · Roboflow · captura y anotación en terreno · Python</div>
       </div>
       <aside class="tesis-side">
-        <div class="tesis-stat"><b>3+</b><span>plantas industriales</span></div>
-        <div class="tesis-stat"><b>1.500+</b><span>imágenes propias anotadas</span></div>
-        <div class="tesis-stat"><b>4</b><span>clases: persona · cabeza · casco · chaleco</span></div>
-        <div class="tesis-stat"><b>6.5</b><span>nota del anteproyecto</span></div>
+        <div class="tesis-stat"><b>3+</b><span data-en="industrial plants">plantas industriales</span></div>
+        <div class="tesis-stat"><b>1.500+</b><span data-en="own annotated images">imágenes propias anotadas</span></div>
+        <div class="tesis-stat"><b>4</b><span data-en="classes: person · head · helmet · vest">clases: persona · cabeza · casco · chaleco</span></div>
+        <div class="tesis-stat"><b>6.5</b><span data-en="proposal grade">nota del anteproyecto</span></div>
       </aside>
     </article>
   </section>
@@ -3498,24 +3510,24 @@ metrics = model.val()
       <img src="assets/media/luis.jpg" alt="Luis San Martín" width="768" height="901" loading="lazy" decoding="async">
     </div>
     <div>
-      <div class="section-label" id="sobremi-titulo">SOBRE MÍ</div>
+      <div class="section-label" id="sobremi-titulo" data-en="About">SOBRE MÍ</div>
 
       <div class="edu">
         <img class="edu-logo" src="assets/logos/ubb.png" alt="Universidad del Bío-Bío" loading="lazy" decoding="async">
         <div class="edu-txt">
-          <h2>Egresado de Ingeniería Civil en Automatización</h2>
-          <p class="edu-esp">especializado en <b>Computer Vision</b></p>
-          <p class="edu-uni">Universidad del Bío-Bío · Gran Concepción, Chile</p>
+          <h2 data-en="Automation Engineering graduate">Egresado de Ingeniería Civil en Automatización</h2>
+          <p class="edu-esp" data-en="specialized in <b>Computer Vision</b>">especializado en <b>Computer Vision</b></p>
+          <p class="edu-uni" data-en="Universidad del Bío-Bío · Greater Concepción, Chile">Universidad del Bío-Bío · Gran Concepción, Chile</p>
         </div>
       </div>
 
       <div class="edu-stats">
-        <div class="edu-stat"><b>12</b><span>semestres de carrera</span></div>
-        <div class="edu-stat"><b>+3</b><span>años en producción</span></div>
-        <div class="edu-stat"><b>6</b><span>proyectos con clientes reales</span></div>
+        <div class="edu-stat"><b>12</b><span data-en="semesters of study">semestres de carrera</span></div>
+        <div class="edu-stat"><b>+3</b><span data-en="years in production">años en producción</span></div>
+        <div class="edu-stat"><b>6</b><span data-en="projects with real clients">proyectos con clientes reales</span></div>
       </div>
 
-      <p>
+      <p data-en="For more than three years I've built production software for clients in aquaculture, distribution and health. In every case I worked <b>directly with the owner of the operation</b>, gathering requirements on-site before writing code.">
         Llevo más de tres años desarrollando software en producción para clientes de acuicultura,
         distribución y salud. En todos los casos trabajé <b>directo con el dueño de la operación</b>,
         levantando los requerimientos en terreno antes de escribir código.
@@ -3523,11 +3535,11 @@ metrics = model.val()
 
       <div class="contacto-directo">
         <span>
-          <span class="et">Teléfono</span>
+          <span class="et" data-en="Phone">Teléfono</span>
           <a href="tel:+56975878696">+56 9 7587 8696</a>
         </span>
         <span>
-          <span class="et">Correo</span>
+          <span class="et" data-en="Email">Correo</span>
           <a href="mailto:sanmaglass@gmail.com">sanmaglass@gmail.com</a>
         </span>
       </div>
@@ -3540,7 +3552,7 @@ metrics = model.val()
        se lee como debilidad y el nombre del proyecto ya es la evidencia. -->
    <div class="inventario">
     <div class="inv-cab">
-      <span class="section-label">Con qué trabajo</span>
+      <span class="section-label" data-en="What I work with">Con qué trabajo</span>
     </div>
 
     <div class="inv-cols">
@@ -3577,8 +3589,8 @@ metrics = model.val()
 
   <!-- ============ CIERRE ============ -->
   <footer class="end" id="contacto" aria-labelledby="contacto-titulo">
-    <h2 id="contacto-titulo">Los repositorios son privados</h2>
-    <p>
+    <h2 id="contacto-titulo" data-en="The repositories are private">Los repositorios son privados</h2>
+    <p data-en="These are clients' systems in operation, so the code isn't mine to publish. I show it in full in a meeting, with the panels and live data, under a confidentiality agreement.">
       Son sistemas en operación de clientes, así que el código no es mío para publicarlo. Lo muestro
       entero en una reunión, con los paneles y los datos en vivo, bajo acuerdo de confidencialidad.
     </p>
@@ -3587,7 +3599,7 @@ metrics = model.val()
       <a href="https://wa.me/56975878696" target="_blank" rel="noopener">WhatsApp +56 9 7587 8696</a>
       <a href="https://www.linkedin.com/in/sanmartinluis/" target="_blank" rel="noopener">linkedin.com/in/sanmartinluis</a>
       <a href="https://github.com/sanmaglass" target="_blank" rel="noopener">github.com/sanmaglass</a>
-      <a href="CV-Luis-San-Martin.pdf" download>Descargar CV (PDF)</a>
+      <a href="CV-Luis-San-Martin.pdf" download data-en="Download CV (PDF)">Descargar CV (PDF)</a>
       <a href="CV-Luis-San-Martin-EN.pdf" download>Download CV (English)</a>
     </div>
   </footer>
@@ -4554,6 +4566,42 @@ metrics = model.val()
       });
     });
   }
+})();
+</script>
+<!-- ============================================================
+     TOGGLE DE IDIOMA ES/EN (sep-2026). Cada elemento traducible lleva
+     data-en con su version en ingles (HTML, para conservar los <b>). Guarda
+     el ES original en memoria, intercambia innerHTML y persiste la eleccion.
+     ============================================================ -->
+<script>
+(function () {
+  var els = [].slice.call(document.querySelectorAll('[data-en]'));
+  els.forEach(function (el) { el._es = el.innerHTML; });
+  var btns = [].slice.call(document.querySelectorAll('.lang-btn'));
+
+  function set(lang) {
+    els.forEach(function (el) {
+      el.innerHTML = (lang === 'en') ? el.getAttribute('data-en') : el._es;
+    });
+    document.documentElement.lang = lang;
+    btns.forEach(function (b) {
+      b.textContent = (lang === 'en') ? 'ES' : 'EN';
+      b.setAttribute('aria-label', (lang === 'en') ? 'Cambiar idioma a español' : 'Switch language to English');
+    });
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem('lang'); } catch (e) {}
+  var urlLang = (location.search.match(/[?&]lang=(en|es)/) || [])[1];
+  if (urlLang) saved = urlLang;
+  if (saved === 'en') set('en');
+
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      set(document.documentElement.lang === 'en' ? 'es' : 'en');
+    });
+  });
 })();
 </script>
 </body>
