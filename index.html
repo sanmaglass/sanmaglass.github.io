@@ -21,6 +21,12 @@
 
 <style>
   @font-face {
+    font-family: 'Unbounded';
+    src: url('assets/fonts/unbounded.woff2') format('woff2');
+    font-weight: 200 900;
+    font-display: swap;
+  }
+  @font-face {
     font-family: 'Fraunces';
     src: url('assets/fonts/fraunces.woff2') format('woff2');
     font-weight: 300 900;
@@ -57,7 +63,7 @@
     --line:   rgba(253, 254, 255, 0.14);
     --line-2: rgba(253, 254, 255, 0.28);
 
-    --display: 'Fraunces', 'Anton', Georgia, 'Times New Roman', serif;
+    --display: 'Unbounded', 'Fraunces', 'Arial Black', sans-serif;
     --sans: 'Geist', 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
     --mono: 'Geist Mono', Consolas, 'SF Mono', ui-monospace, 'Courier New', monospace;
 
@@ -1787,13 +1793,21 @@
      serif de alto contraste: luce en caja mixta y con peso alto, no en
      mayusculas finas. Este bloque va despues de las reglas base y gana por
      orden: sube el peso y quita el uppercase de los titulos. */
-  .hero h1 { font-weight: 600; letter-spacing: -0.02em; }
-  .case h2, .about h2, .end h2, .ongoing h2, .indice h2 {
-    font-weight: 600;
-    text-transform: none;
-    letter-spacing: -0.012em;
+  /* Unbounded es ancha/redondeada: pide MENOS tamaño y tracking negativo para
+     no desbordar. Peso alto = impacto. */
+  .hero h1 {
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    font-size: clamp(2.6rem, 12.5vw, 138px);
+    line-height: 0.9;
   }
-  .case-head .num, .ix-num { font-weight: 700; letter-spacing: -0.01em; }
+  .case h2, .about h2, .end h2, .ongoing h2, .indice h2 {
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+  .case-head .num, .ix-num { font-weight: 800; letter-spacing: -0.02em; }
   .indice-head .section-label { font-family: var(--display); }
 
   /* =====================================================================
@@ -1942,6 +1956,16 @@
 
   @media (max-width: 40rem) {
     .indice-lista li { flex-basis: 86vw; }
+  }
+
+  /* --- BARRA DE PROGRESO DE SCROLL (sep-2026) --- */
+  .scroll-prog {
+    position: fixed; top: 0; left: 0;
+    height: 3px; width: 100%;
+    transform: scaleX(0); transform-origin: 0 50%;
+    background: linear-gradient(90deg, var(--p), var(--v) 55%, var(--b));
+    box-shadow: 0 0 14px var(--glow-v);
+    z-index: 9999; pointer-events: none;
   }
 
   @media screen {
@@ -2330,9 +2354,8 @@
       <li class="marca tiene-logo" data-logo="ubb">
         <img class="logo-img chip-light" src="assets/logos/ubb.png" alt="Universidad del Bío-Bío" loading="lazy" decoding="async">
       </li>
-      <li class="marca" data-logo="st-andrews">
-        <svg class="marca-mark"><use href="#m-stad"/></svg>
-        <span class="marca-txt">St. <b>Andrews</b></span>
+      <li class="marca tiene-logo" data-logo="st-andrews">
+        <img class="logo-img chip-light" src="assets/logos/st-andrews.png" alt="St. Andrews Mussels" loading="lazy" decoding="async">
       </li>
       <li class="marca" data-logo="maravilloso">
         <svg class="marca-mark"><use href="#m-marv"/></svg>
@@ -3928,6 +3951,68 @@
     var r = locked.getBoundingClientRect();
     ring.style.transform = 'translate(' + Math.round(r.left) + 'px,' + Math.round(r.top) + 'px)';
   }, { passive: true });
+})();
+</script>
+
+<!-- ============================================================
+     IMPACTO DE SCROLL (sep-2026). Aditivo y aislado: barra de progreso,
+     parallax del hero y numeros de caso flotando. Todo con gsap.to/scrub
+     sobre elementos que NADIE mas anima, para no pisar los gsap.from().
+     Si GSAP no carga, la barra igual funciona con un listener de scroll.
+     ============================================================ -->
+<script>
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hayGsap = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+
+  var bar = document.createElement('div');
+  bar.className = 'scroll-prog';
+  bar.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(bar);
+
+  if (hayGsap && !reduced) {
+    // barra de progreso ligada al scroll total
+    gsap.to(bar, {
+      scaleX: 1, ease: 'none',
+      scrollTrigger: { start: 0, end: 'max', scrub: 0.3 }
+    });
+
+    // parallax de la portada: la foto y el nombre se mueven a distinta
+    // velocidad al bajar -> profundidad
+    gsap.to('.retrato-hero', {
+      yPercent: 22, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+    });
+    gsap.to('.ficha-txt', {
+      yPercent: -10, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+    });
+
+    // los numeros gigantes de cada caso flotan mientras el caso cruza la pantalla
+    gsap.utils.toArray('.case-head .num').forEach(function (n) {
+      var caso = n.closest('.case');
+      if (!caso) return;
+      gsap.fromTo(n, { yPercent: 35 }, {
+        yPercent: -35, ease: 'none',
+        scrollTrigger: { trigger: caso, start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+    });
+
+    // la tira de logos se desliza suave al entrar en cuadro
+    gsap.utils.toArray('.marcas .marca').forEach(function (m, i) {
+      gsap.from(m, {
+        opacity: 0, x: 26, duration: 0.6, ease: 'power3.out', delay: i * 0.06,
+        scrollTrigger: { trigger: '.marcas', start: 'top 92%', once: true }
+      });
+    });
+  } else {
+    // sin GSAP: barra por scroll nativo
+    var doc = document.documentElement;
+    window.addEventListener('scroll', function () {
+      var max = doc.scrollHeight - doc.clientHeight;
+      bar.style.transform = 'scaleX(' + (max > 0 ? doc.scrollTop / max : 0) + ')';
+    }, { passive: true });
+  }
 })();
 </script>
 
