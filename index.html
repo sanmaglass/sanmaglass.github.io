@@ -1754,7 +1754,7 @@
     line-height: 1.02;
   }
   .case-head .num, .ix-num { font-weight: 800; letter-spacing: -0.02em; }
-  /* --- FONDO TECH: red neuronal + codigo YOLO difuminado (sep-2026) --- */
+  /* --- FONDO TECH: redes neuronales animadas + codigo YOLO colorido (sep-2026) --- */
   .fondo-tech {
     position: fixed; inset: 0; z-index: -2;
     pointer-events: none; overflow: hidden;
@@ -1762,37 +1762,93 @@
     -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 28%, transparent 43%, transparent 57%, #000 72%, #000 100%);
     mask-image: linear-gradient(90deg, #000 0%, #000 28%, transparent 43%, transparent 57%, #000 72%, #000 100%);
   }
-  .fondo-net {
+  .fondo-net-1, .fondo-net-2 {
     position: absolute; left: -3.5rem; top: 50%;
     width: 33rem; height: auto; transform: translateY(-50%);
-    opacity: 0.5;
+    opacity: 0.56;
     filter: drop-shadow(0 0 34px rgba(172, 95, 219, 0.28));
     animation: red-deriva 11s ease-in-out infinite alternate;
   }
-  .fondo-code {
-    position: absolute; margin: 0;
-    font-family: var(--mono); font-size: 12.5px; line-height: 1.75;
-    color: rgba(199, 143, 226, 0.42); white-space: pre;
-    filter: blur(1px); text-shadow: 0 0 16px rgba(172, 95, 219, 0.3);
+  .fondo-net-1 svg, .fondo-net-2 svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .fondo-net-2 {
+    left: auto; top: auto; bottom: -2rem; right: 1rem;
+    width: 15rem; opacity: 0.34;
+    transform: translateY(0) rotate(-9deg) scaleX(-1);
+    animation: red-deriva-2 15s ease-in-out infinite alternate;
+    animation-delay: -4s;
   }
-  .fondo-code b { color: rgba(196, 181, 253, 0.62); font-weight: 400; }
-  .fondo-code i { color: rgba(148, 214, 186, 0.42); font-style: normal; }
-  .fondo-code .cmt { color: rgba(122, 127, 133, 0.5); }
-  .fondo-code-1 { top: 6.5rem; right: -1.5rem; width: 30rem; }
-  .fondo-code-2 { bottom: 5rem; right: 4rem; width: 26rem; opacity: 0.85; }
+  /* nodos: laten al "recibir señal", con retardo por capa para simular una ola L->R */
+  .fn-node-dot {
+    transform-box: fill-box; transform-origin: center;
+    animation: fn-node-glow 2.6s ease-in-out infinite;
+  }
+  .fn-l0 { animation-delay: 0s; }
+  .fn-l1 { animation-delay: .22s; }
+  .fn-l2 { animation-delay: .5s; }
+  .fn-l3 { animation-delay: .78s; }
+  .fn-l4 { animation-delay: 1.02s; }
+  @keyframes fn-node-glow {
+    0%, 100% { transform: scale(1); opacity: .8; }
+    45% { transform: scale(1.55); opacity: 1; filter: drop-shadow(0 0 6px rgba(167,139,250,.95)); }
+  }
+  /* pulsos: puntos de color que viajan por las conexiones, capa a capa */
+  .fn-pulse {
+    offset-rotate: 0deg;
+    animation: fn-travel var(--dur, 2.4s) linear infinite;
+    animation-delay: var(--delay, 0s);
+    filter: drop-shadow(0 0 4px currentColor);
+  }
+  @keyframes fn-travel {
+    0% { offset-distance: 0%; opacity: 0; }
+    8% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
+  /* codigo: syntax highlighting colorido sobre fondo violeta oscuro */
+  .fondo-code-slot { position: absolute; margin: 0; }
+  .fondo-code-slot.fondo-code-1 { top: 6.5rem; right: -1.5rem; width: 30rem; }
+  .fondo-code-slot.fondo-code-2 { bottom: 5rem; right: 4rem; width: 26rem; }
+  .fondo-code {
+    position: absolute; top: 0; left: 0; width: 100%; margin: 0;
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.75;
+    color: #ded0f7; white-space: pre;
+    opacity: 0; transform: translateY(16px);
+    filter: blur(0.4px);
+    text-shadow: 0 0 12px rgba(172, 95, 219, 0.32);
+    transition: opacity 1.1s ease, transform 1.1s ease;
+  }
+  .fondo-code.active { opacity: 0.9; transform: translateY(0); }
+  .fondo-code-slot.fondo-code-2 .fondo-code.active { opacity: 0.85; }
+  .fondo-code .kw  { color: #c084fc; text-shadow: 0 0 10px rgba(192,132,252,.5); }
+  .fondo-code .str { color: #fcd34d; text-shadow: 0 0 10px rgba(252,211,77,.4); }
+  .fondo-code .num { color: #fb923c; text-shadow: 0 0 8px rgba(251,146,60,.4); }
+  .fondo-code .fn  { color: #38bdf8; text-shadow: 0 0 10px rgba(56,189,248,.45); }
+  .fondo-code .cls { color: #34d399; text-shadow: 0 0 10px rgba(52,211,153,.4); }
+  .fondo-code .op  { color: #e9d5ff; }
+  .fondo-code .cmt { color: #7f8499; text-shadow: none; }
   @keyframes red-deriva {
     from { transform: translateY(-50%) translateX(0); }
     to   { transform: translateY(-52%) translateX(12px); }
   }
-  @media (prefers-reduced-motion: reduce) { .fondo-net { animation: none; } }
+  @keyframes red-deriva-2 {
+    from { transform: translateY(0) rotate(-9deg) scaleX(-1) translateX(0); }
+    to   { transform: translateY(-10px) rotate(-9deg) scaleX(-1) translateX(-10px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fondo-net-1, .fondo-net-2 { animation: none; }
+    .fn-node-dot { animation: none; }
+    .fn-pulse { animation: none; opacity: .5; }
+    .fondo-code { transition: none; }
+  }
   @media (max-width: 62rem) {
     .fondo-tech {
       -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 55%);
       mask-image: linear-gradient(90deg, #000 0%, transparent 55%);
     }
-    .fondo-net { left: -13rem; opacity: 0.3; }
-    .fondo-code-1 { right: -10rem; opacity: 0.55; }
-    .fondo-code-2 { display: none; }
+    .fondo-net-1 { left: -13rem; opacity: 0.3; }
+    .fondo-net-2 { display: none; }
+    /* codigo vivo/colorido estorba la lectura en pantallas chicas: se oculta */
+    .fondo-code-slot.fondo-code-1, .fondo-code-slot.fondo-code-2 { display: none; }
   }
 
   /* --- BARRA DE PROGRESO DE SCROLL (sep-2026) --- */
@@ -2652,37 +2708,394 @@
   </symbol>
 </svg>
 
-<!-- FONDO TECH (sep-2026): red neuronal + codigo de entrenamiento YOLO,
-     difuminado y tenue. Fijo, detras de todo, con mascara que despeja la
-     franja central para no pisar la lectura. Puro adorno. -->
+<!-- FONDO TECH (sep-2026): dos redes neuronales SVG inline "trabajando en
+     tiempo real" (pulsos de color viajando por las conexiones + nodos que
+     laten al recibir señal) y 6 snippets de codigo CV/YOLO con syntax
+     highlighting que rotan segun el scroll (cross-fade). Fijo, detras de
+     todo, con mascara que despeja la franja central. Puro adorno. -->
 <div class="fondo-tech" aria-hidden="true">
-  <img class="fondo-net" src="assets/red-neuronal.svg" alt="" width="520" height="620" loading="lazy" decoding="async">
-  <pre class="fondo-code fondo-code-1"><b>from</b> ultralytics <b>import</b> YOLO
+  <div class="fondo-net-1">
+    <svg viewBox="0 0 520 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gNet1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#c4b5fd"/><stop offset="0.6" stop-color="#8b5cf6"/><stop offset="1" stop-color="#7c3aed"/>
+        </linearGradient>
+      </defs>
+      <g stroke="url(#gNet1)" stroke-width="0.8">
+        <line x1="70" y1="103.3" x2="180" y2="68.9" stroke-opacity="0.112"/>
+        <line x1="70" y1="103.3" x2="180" y2="137.8" stroke-opacity="0.084"/>
+        <line x1="70" y1="103.3" x2="180" y2="206.7" stroke-opacity="0.164"/>
+        <line x1="70" y1="103.3" x2="180" y2="275.6" stroke-opacity="0.072"/>
+        <line x1="70" y1="103.3" x2="180" y2="344.4" stroke-opacity="0.146"/>
+        <line x1="70" y1="103.3" x2="180" y2="413.3" stroke-opacity="0.119"/>
+        <line x1="70" y1="103.3" x2="180" y2="482.2" stroke-opacity="0.069"/>
+        <line x1="70" y1="103.3" x2="180" y2="551.1" stroke-opacity="0.141"/>
+        <line x1="70" y1="206.7" x2="180" y2="68.9" stroke-opacity="0.066"/>
+        <line x1="70" y1="206.7" x2="180" y2="137.8" stroke-opacity="0.129"/>
+        <line x1="70" y1="206.7" x2="180" y2="206.7" stroke-opacity="0.071"/>
+        <line x1="70" y1="206.7" x2="180" y2="275.6" stroke-opacity="0.075"/>
+        <line x1="70" y1="206.7" x2="180" y2="344.4" stroke-opacity="0.128"/>
+        <line x1="70" y1="206.7" x2="180" y2="413.3" stroke-opacity="0.192"/>
+        <line x1="70" y1="206.7" x2="180" y2="482.2" stroke-opacity="0.08"/>
+        <line x1="70" y1="206.7" x2="180" y2="551.1" stroke-opacity="0.096"/>
+        <line x1="70" y1="310.0" x2="180" y2="68.9" stroke-opacity="0.16"/>
+        <line x1="70" y1="310.0" x2="180" y2="137.8" stroke-opacity="0.212"/>
+        <line x1="70" y1="310.0" x2="180" y2="206.7" stroke-opacity="0.152"/>
+        <line x1="70" y1="310.0" x2="180" y2="275.6" stroke-opacity="0.123"/>
+        <line x1="70" y1="310.0" x2="180" y2="344.4" stroke-opacity="0.216"/>
+        <line x1="70" y1="310.0" x2="180" y2="413.3" stroke-opacity="0.067"/>
+        <line x1="70" y1="310.0" x2="180" y2="482.2" stroke-opacity="0.197"/>
+        <line x1="70" y1="310.0" x2="180" y2="551.1" stroke-opacity="0.106"/>
+        <line x1="70" y1="413.3" x2="180" y2="68.9" stroke-opacity="0.083"/>
+        <line x1="70" y1="413.3" x2="180" y2="137.8" stroke-opacity="0.079"/>
+        <line x1="70" y1="413.3" x2="180" y2="206.7" stroke-opacity="0.109"/>
+        <line x1="70" y1="413.3" x2="180" y2="275.6" stroke-opacity="0.191"/>
+        <line x1="70" y1="413.3" x2="180" y2="344.4" stroke-opacity="0.089"/>
+        <line x1="70" y1="413.3" x2="180" y2="413.3" stroke-opacity="0.153"/>
+        <line x1="70" y1="413.3" x2="180" y2="482.2" stroke-opacity="0.162"/>
+        <line x1="70" y1="413.3" x2="180" y2="551.1" stroke-opacity="0.12"/>
+        <line x1="70" y1="516.7" x2="180" y2="68.9" stroke-opacity="0.148"/>
+        <line x1="70" y1="516.7" x2="180" y2="137.8" stroke-opacity="0.07"/>
+        <line x1="70" y1="516.7" x2="180" y2="206.7" stroke-opacity="0.07"/>
+        <line x1="70" y1="516.7" x2="180" y2="275.6" stroke-opacity="0.093"/>
+        <line x1="70" y1="516.7" x2="180" y2="344.4" stroke-opacity="0.169"/>
+        <line x1="70" y1="516.7" x2="180" y2="413.3" stroke-opacity="0.128"/>
+        <line x1="70" y1="516.7" x2="180" y2="482.2" stroke-opacity="0.11"/>
+        <line x1="70" y1="516.7" x2="180" y2="551.1" stroke-opacity="0.154"/>
+        <line x1="180" y1="68.9" x2="290" y2="68.9" stroke-opacity="0.133"/>
+        <line x1="180" y1="68.9" x2="290" y2="137.8" stroke-opacity="0.108"/>
+        <line x1="180" y1="68.9" x2="290" y2="206.7" stroke-opacity="0.187"/>
+        <line x1="180" y1="68.9" x2="290" y2="275.6" stroke-opacity="0.172"/>
+        <line x1="180" y1="68.9" x2="290" y2="344.4" stroke-opacity="0.099"/>
+        <line x1="180" y1="68.9" x2="290" y2="413.3" stroke-opacity="0.152"/>
+        <line x1="180" y1="68.9" x2="290" y2="482.2" stroke-opacity="0.144"/>
+        <line x1="180" y1="68.9" x2="290" y2="551.1" stroke-opacity="0.2"/>
+        <line x1="180" y1="137.8" x2="290" y2="68.9" stroke-opacity="0.177"/>
+        <line x1="180" y1="137.8" x2="290" y2="137.8" stroke-opacity="0.106"/>
+        <line x1="180" y1="137.8" x2="290" y2="206.7" stroke-opacity="0.217"/>
+        <line x1="180" y1="137.8" x2="290" y2="275.6" stroke-opacity="0.079"/>
+        <line x1="180" y1="137.8" x2="290" y2="344.4" stroke-opacity="0.127"/>
+        <line x1="180" y1="137.8" x2="290" y2="413.3" stroke-opacity="0.181"/>
+        <line x1="180" y1="137.8" x2="290" y2="482.2" stroke-opacity="0.084"/>
+        <line x1="180" y1="137.8" x2="290" y2="551.1" stroke-opacity="0.138"/>
+        <line x1="180" y1="206.7" x2="290" y2="68.9" stroke-opacity="0.066"/>
+        <line x1="180" y1="206.7" x2="290" y2="137.8" stroke-opacity="0.167"/>
+        <line x1="180" y1="206.7" x2="290" y2="206.7" stroke-opacity="0.182"/>
+        <line x1="180" y1="206.7" x2="290" y2="275.6" stroke-opacity="0.152"/>
+        <line x1="180" y1="206.7" x2="290" y2="344.4" stroke-opacity="0.2"/>
+        <line x1="180" y1="206.7" x2="290" y2="413.3" stroke-opacity="0.11"/>
+        <line x1="180" y1="206.7" x2="290" y2="482.2" stroke-opacity="0.171"/>
+        <line x1="180" y1="206.7" x2="290" y2="551.1" stroke-opacity="0.155"/>
+        <line x1="180" y1="275.6" x2="290" y2="68.9" stroke-opacity="0.153"/>
+        <line x1="180" y1="275.6" x2="290" y2="137.8" stroke-opacity="0.133"/>
+        <line x1="180" y1="275.6" x2="290" y2="206.7" stroke-opacity="0.194"/>
+        <line x1="180" y1="275.6" x2="290" y2="275.6" stroke-opacity="0.211"/>
+        <line x1="180" y1="275.6" x2="290" y2="344.4" stroke-opacity="0.136"/>
+        <line x1="180" y1="275.6" x2="290" y2="413.3" stroke-opacity="0.166"/>
+        <line x1="180" y1="275.6" x2="290" y2="482.2" stroke-opacity="0.07"/>
+        <line x1="180" y1="275.6" x2="290" y2="551.1" stroke-opacity="0.172"/>
+        <line x1="180" y1="344.4" x2="290" y2="68.9" stroke-opacity="0.164"/>
+        <line x1="180" y1="344.4" x2="290" y2="137.8" stroke-opacity="0.219"/>
+        <line x1="180" y1="344.4" x2="290" y2="206.7" stroke-opacity="0.192"/>
+        <line x1="180" y1="344.4" x2="290" y2="275.6" stroke-opacity="0.106"/>
+        <line x1="180" y1="344.4" x2="290" y2="344.4" stroke-opacity="0.122"/>
+        <line x1="180" y1="344.4" x2="290" y2="413.3" stroke-opacity="0.167"/>
+        <line x1="180" y1="344.4" x2="290" y2="482.2" stroke-opacity="0.064"/>
+        <line x1="180" y1="344.4" x2="290" y2="551.1" stroke-opacity="0.134"/>
+        <line x1="180" y1="413.3" x2="290" y2="68.9" stroke-opacity="0.087"/>
+        <line x1="180" y1="413.3" x2="290" y2="137.8" stroke-opacity="0.079"/>
+        <line x1="180" y1="413.3" x2="290" y2="206.7" stroke-opacity="0.069"/>
+        <line x1="180" y1="413.3" x2="290" y2="275.6" stroke-opacity="0.183"/>
+        <line x1="180" y1="413.3" x2="290" y2="344.4" stroke-opacity="0.081"/>
+        <line x1="180" y1="413.3" x2="290" y2="413.3" stroke-opacity="0.1"/>
+        <line x1="180" y1="413.3" x2="290" y2="482.2" stroke-opacity="0.123"/>
+        <line x1="180" y1="413.3" x2="290" y2="551.1" stroke-opacity="0.199"/>
+        <line x1="180" y1="482.2" x2="290" y2="68.9" stroke-opacity="0.073"/>
+        <line x1="180" y1="482.2" x2="290" y2="137.8" stroke-opacity="0.132"/>
+        <line x1="180" y1="482.2" x2="290" y2="206.7" stroke-opacity="0.148"/>
+        <line x1="180" y1="482.2" x2="290" y2="275.6" stroke-opacity="0.201"/>
+        <line x1="180" y1="482.2" x2="290" y2="344.4" stroke-opacity="0.191"/>
+        <line x1="180" y1="482.2" x2="290" y2="413.3" stroke-opacity="0.198"/>
+        <line x1="180" y1="482.2" x2="290" y2="482.2" stroke-opacity="0.105"/>
+        <line x1="180" y1="482.2" x2="290" y2="551.1" stroke-opacity="0.126"/>
+        <line x1="180" y1="551.1" x2="290" y2="68.9" stroke-opacity="0.117"/>
+        <line x1="180" y1="551.1" x2="290" y2="137.8" stroke-opacity="0.201"/>
+        <line x1="180" y1="551.1" x2="290" y2="206.7" stroke-opacity="0.213"/>
+        <line x1="180" y1="551.1" x2="290" y2="275.6" stroke-opacity="0.084"/>
+        <line x1="180" y1="551.1" x2="290" y2="344.4" stroke-opacity="0.088"/>
+        <line x1="180" y1="551.1" x2="290" y2="413.3" stroke-opacity="0.097"/>
+        <line x1="180" y1="551.1" x2="290" y2="482.2" stroke-opacity="0.097"/>
+        <line x1="180" y1="551.1" x2="290" y2="551.1" stroke-opacity="0.138"/>
+        <line x1="290" y1="68.9" x2="400" y2="88.6" stroke-opacity="0.154"/>
+        <line x1="290" y1="68.9" x2="400" y2="177.1" stroke-opacity="0.102"/>
+        <line x1="290" y1="68.9" x2="400" y2="265.7" stroke-opacity="0.061"/>
+        <line x1="290" y1="68.9" x2="400" y2="354.3" stroke-opacity="0.127"/>
+        <line x1="290" y1="68.9" x2="400" y2="442.9" stroke-opacity="0.119"/>
+        <line x1="290" y1="68.9" x2="400" y2="531.4" stroke-opacity="0.151"/>
+        <line x1="290" y1="137.8" x2="400" y2="88.6" stroke-opacity="0.212"/>
+        <line x1="290" y1="137.8" x2="400" y2="177.1" stroke-opacity="0.17"/>
+        <line x1="290" y1="137.8" x2="400" y2="265.7" stroke-opacity="0.142"/>
+        <line x1="290" y1="137.8" x2="400" y2="354.3" stroke-opacity="0.159"/>
+        <line x1="290" y1="137.8" x2="400" y2="442.9" stroke-opacity="0.168"/>
+        <line x1="290" y1="137.8" x2="400" y2="531.4" stroke-opacity="0.069"/>
+        <line x1="290" y1="206.7" x2="400" y2="88.6" stroke-opacity="0.204"/>
+        <line x1="290" y1="206.7" x2="400" y2="177.1" stroke-opacity="0.185"/>
+        <line x1="290" y1="206.7" x2="400" y2="265.7" stroke-opacity="0.2"/>
+        <line x1="290" y1="206.7" x2="400" y2="354.3" stroke-opacity="0.188"/>
+        <line x1="290" y1="206.7" x2="400" y2="442.9" stroke-opacity="0.123"/>
+        <line x1="290" y1="206.7" x2="400" y2="531.4" stroke-opacity="0.124"/>
+        <line x1="290" y1="275.6" x2="400" y2="88.6" stroke-opacity="0.077"/>
+        <line x1="290" y1="275.6" x2="400" y2="177.1" stroke-opacity="0.161"/>
+        <line x1="290" y1="275.6" x2="400" y2="265.7" stroke-opacity="0.07"/>
+        <line x1="290" y1="275.6" x2="400" y2="354.3" stroke-opacity="0.071"/>
+        <line x1="290" y1="275.6" x2="400" y2="442.9" stroke-opacity="0.093"/>
+        <line x1="290" y1="275.6" x2="400" y2="531.4" stroke-opacity="0.086"/>
+        <line x1="290" y1="344.4" x2="400" y2="88.6" stroke-opacity="0.114"/>
+        <line x1="290" y1="344.4" x2="400" y2="177.1" stroke-opacity="0.068"/>
+        <line x1="290" y1="344.4" x2="400" y2="265.7" stroke-opacity="0.06"/>
+        <line x1="290" y1="344.4" x2="400" y2="354.3" stroke-opacity="0.084"/>
+        <line x1="290" y1="344.4" x2="400" y2="442.9" stroke-opacity="0.076"/>
+        <line x1="290" y1="344.4" x2="400" y2="531.4" stroke-opacity="0.118"/>
+        <line x1="290" y1="413.3" x2="400" y2="88.6" stroke-opacity="0.064"/>
+        <line x1="290" y1="413.3" x2="400" y2="177.1" stroke-opacity="0.2"/>
+        <line x1="290" y1="413.3" x2="400" y2="265.7" stroke-opacity="0.158"/>
+        <line x1="290" y1="413.3" x2="400" y2="354.3" stroke-opacity="0.084"/>
+        <line x1="290" y1="413.3" x2="400" y2="442.9" stroke-opacity="0.1"/>
+        <line x1="290" y1="413.3" x2="400" y2="531.4" stroke-opacity="0.116"/>
+        <line x1="290" y1="482.2" x2="400" y2="88.6" stroke-opacity="0.118"/>
+        <line x1="290" y1="482.2" x2="400" y2="177.1" stroke-opacity="0.08"/>
+        <line x1="290" y1="482.2" x2="400" y2="265.7" stroke-opacity="0.196"/>
+        <line x1="290" y1="482.2" x2="400" y2="354.3" stroke-opacity="0.219"/>
+        <line x1="290" y1="482.2" x2="400" y2="442.9" stroke-opacity="0.135"/>
+        <line x1="290" y1="482.2" x2="400" y2="531.4" stroke-opacity="0.137"/>
+        <line x1="290" y1="551.1" x2="400" y2="88.6" stroke-opacity="0.074"/>
+        <line x1="290" y1="551.1" x2="400" y2="177.1" stroke-opacity="0.076"/>
+        <line x1="290" y1="551.1" x2="400" y2="265.7" stroke-opacity="0.115"/>
+        <line x1="290" y1="551.1" x2="400" y2="354.3" stroke-opacity="0.102"/>
+        <line x1="290" y1="551.1" x2="400" y2="442.9" stroke-opacity="0.193"/>
+        <line x1="290" y1="551.1" x2="400" y2="531.4" stroke-opacity="0.086"/>
+        <line x1="400" y1="88.6" x2="470" y2="155.0" stroke-opacity="0.064"/>
+        <line x1="400" y1="88.6" x2="470" y2="310.0" stroke-opacity="0.212"/>
+        <line x1="400" y1="88.6" x2="470" y2="465.0" stroke-opacity="0.145"/>
+        <line x1="400" y1="177.1" x2="470" y2="155.0" stroke-opacity="0.083"/>
+        <line x1="400" y1="177.1" x2="470" y2="310.0" stroke-opacity="0.147"/>
+        <line x1="400" y1="177.1" x2="470" y2="465.0" stroke-opacity="0.064"/>
+        <line x1="400" y1="265.7" x2="470" y2="155.0" stroke-opacity="0.144"/>
+        <line x1="400" y1="265.7" x2="470" y2="310.0" stroke-opacity="0.217"/>
+        <line x1="400" y1="265.7" x2="470" y2="465.0" stroke-opacity="0.198"/>
+        <line x1="400" y1="354.3" x2="470" y2="155.0" stroke-opacity="0.171"/>
+        <line x1="400" y1="354.3" x2="470" y2="310.0" stroke-opacity="0.102"/>
+        <line x1="400" y1="354.3" x2="470" y2="465.0" stroke-opacity="0.119"/>
+        <line x1="400" y1="442.9" x2="470" y2="155.0" stroke-opacity="0.087"/>
+        <line x1="400" y1="442.9" x2="470" y2="310.0" stroke-opacity="0.184"/>
+        <line x1="400" y1="442.9" x2="470" y2="465.0" stroke-opacity="0.145"/>
+        <line x1="400" y1="531.4" x2="470" y2="155.0" stroke-opacity="0.185"/>
+        <line x1="400" y1="531.4" x2="470" y2="310.0" stroke-opacity="0.113"/>
+        <line x1="400" y1="531.4" x2="470" y2="465.0" stroke-opacity="0.096"/>
+      </g>
+      <g class="fn-nodes">
+        <circle cx="70" cy="103.3" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l0" cx="70" cy="103.3" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="70" cy="206.7" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l0" cx="70" cy="206.7" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="70" cy="310.0" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l0" cx="70" cy="310.0" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="70" cy="413.3" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l0" cx="70" cy="413.3" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="70" cy="516.7" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l0" cx="70" cy="516.7" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="180" cy="68.9" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l1" cx="180" cy="68.9" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="180" cy="137.8" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l1" cx="180" cy="137.8" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="180" cy="206.7" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l1" cx="180" cy="206.7" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="180" cy="275.6" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l1" cx="180" cy="275.6" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="180" cy="344.4" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l1" cx="180" cy="344.4" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="180" cy="413.3" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l1" cx="180" cy="413.3" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="180" cy="482.2" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l1" cx="180" cy="482.2" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="180" cy="551.1" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l1" cx="180" cy="551.1" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="290" cy="68.9" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l2" cx="290" cy="68.9" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="290" cy="137.8" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l2" cx="290" cy="137.8" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="290" cy="206.7" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l2" cx="290" cy="206.7" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="290" cy="275.6" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l2" cx="290" cy="275.6" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="290" cy="344.4" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l2" cx="290" cy="344.4" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="290" cy="413.3" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l2" cx="290" cy="413.3" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="290" cy="482.2" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l2" cx="290" cy="482.2" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="290" cy="551.1" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l2" cx="290" cy="551.1" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="400" cy="88.6" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l3" cx="400" cy="88.6" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="400" cy="177.1" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l3" cx="400" cy="177.1" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="400" cy="265.7" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l3" cx="400" cy="265.7" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="400" cy="354.3" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l3" cx="400" cy="354.3" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="400" cy="442.9" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l3" cx="400" cy="442.9" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="400" cy="531.4" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l3" cx="400" cy="531.4" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="470" cy="155.0" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l4" cx="470" cy="155.0" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="470" cy="310.0" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l4" cx="470" cy="310.0" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+        <circle cx="470" cy="465.0" r="7" fill="#0e0a1a" stroke="url(#gNet1)" stroke-width="1.4" stroke-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l4" cx="470" cy="465.0" r="2.4" fill="#a78bfa" fill-opacity="0.9"/>
+      </g>
+      <g class="fn-pulses-1">
+        <circle class="fn-pulse" r="2.6" fill="#38bdf8" style="offset-path:path('M70,103.3 L180,68.9'); --dur:2.2s; --delay:0s;"/>
+        <circle class="fn-pulse" r="2.6" fill="#34d399" style="offset-path:path('M70,310.0 L180,206.7'); --dur:2.5s; --delay:.4s;"/>
+        <circle class="fn-pulse" r="2.6" fill="#fcd34d" style="offset-path:path('M70,516.7 L180,551.1'); --dur:2.3s; --delay:.8s;"/>
+        <circle class="fn-pulse" r="2.6" fill="#38bdf8" style="offset-path:path('M180,68.9 L290,137.8'); --dur:2.4s; --delay:.5s;"/>
+        <circle class="fn-pulse" r="2.6" fill="#34d399" style="offset-path:path('M180,275.6 L290,344.4'); --dur:2.2s; --delay:.9s;"/>
+        <circle class="fn-pulse" r="2.6" fill="#fcd34d" style="offset-path:path('M180,551.1 L290,482.2'); --dur:2.6s; --delay:1.3s;"/>
+        <circle class="fn-pulse" r="2.6" fill="#38bdf8" style="offset-path:path('M290,137.8 L400,177.1'); --dur:2.3s; --delay:1s;"/>
+        <circle class="fn-pulse" r="2.6" fill="#34d399" style="offset-path:path('M290,344.4 L400,354.3'); --dur:2.5s; --delay:1.4s;"/>
+        <circle class="fn-pulse" r="2.6" fill="#fcd34d" style="offset-path:path('M290,551.1 L400,531.4'); --dur:2.2s; --delay:1.8s;"/>
+        <circle class="fn-pulse" r="2.6" fill="#38bdf8" style="offset-path:path('M400,88.6 L470,155.0'); --dur:2.4s; --delay:1.5s;"/>
+        <circle class="fn-pulse" r="2.6" fill="#34d399" style="offset-path:path('M400,265.7 L470,310.0'); --dur:2.2s; --delay:1.9s;"/>
+        <circle class="fn-pulse" r="2.6" fill="#fcd34d" style="offset-path:path('M400,531.4 L470,465.0'); --dur:2.6s; --delay:2.3s;"/>
+      </g>
+    </svg>
+  </div>
 
-model = YOLO(<i>"yolov8n.pt"</i>)
+  <div class="fondo-net-2">
+    <svg viewBox="0 0 520 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gNet2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#c4b5fd"/><stop offset="0.6" stop-color="#8b5cf6"/><stop offset="1" stop-color="#7c3aed"/>
+        </linearGradient>
+      </defs>
+      <g stroke="url(#gNet2)" stroke-width="0.9" stroke-opacity="0.16">
+        <line x1="70" y1="103.3" x2="180" y2="206.7"/><line x1="70" y1="206.7" x2="180" y2="137.8"/>
+        <line x1="70" y1="310.0" x2="180" y2="344.4"/><line x1="70" y1="413.3" x2="180" y2="482.2"/>
+        <line x1="70" y1="516.7" x2="180" y2="413.3"/>
+        <line x1="180" y1="68.9" x2="290" y2="137.8"/><line x1="180" y1="137.8" x2="290" y2="206.7"/>
+        <line x1="180" y1="275.6" x2="290" y2="344.4"/><line x1="180" y1="413.3" x2="290" y2="482.2"/>
+        <line x1="180" y1="482.2" x2="290" y2="413.3"/><line x1="180" y1="551.1" x2="290" y2="482.2"/>
+        <line x1="290" y1="137.8" x2="400" y2="177.1"/><line x1="290" y1="206.7" x2="400" y2="265.7"/>
+        <line x1="290" y1="344.4" x2="400" y2="354.3"/><line x1="290" y1="413.3" x2="400" y2="442.9"/>
+        <line x1="290" y1="551.1" x2="400" y2="531.4"/>
+        <line x1="400" y1="88.6" x2="470" y2="155.0"/><line x1="400" y1="177.1" x2="470" y2="155.0"/>
+        <line x1="400" y1="265.7" x2="470" y2="310.0"/><line x1="400" y1="442.9" x2="470" y2="465.0"/>
+      </g>
+      <g class="fn-nodes">
+        <circle class="fn-node-dot fn-l0" cx="70" cy="103.3" r="3.2" fill="#a78bfa" fill-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l0" cx="70" cy="310.0" r="3.2" fill="#a78bfa" fill-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l0" cx="70" cy="516.7" r="3.2" fill="#a78bfa" fill-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l1" cx="180" cy="68.9" r="3.2" fill="#a78bfa" fill-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l1" cx="180" cy="275.6" r="3.2" fill="#a78bfa" fill-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l1" cx="180" cy="482.2" r="3.2" fill="#a78bfa" fill-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l2" cx="290" cy="137.8" r="3.2" fill="#a78bfa" fill-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l2" cx="290" cy="413.3" r="3.2" fill="#a78bfa" fill-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l3" cx="400" cy="177.1" r="3.2" fill="#a78bfa" fill-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l3" cx="400" cy="442.9" r="3.2" fill="#a78bfa" fill-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l4" cx="470" cy="155.0" r="3.2" fill="#a78bfa" fill-opacity="0.85"/>
+        <circle class="fn-node-dot fn-l4" cx="470" cy="465.0" r="3.2" fill="#a78bfa" fill-opacity="0.85"/>
+      </g>
+      <g class="fn-pulses-2">
+        <circle class="fn-pulse" r="3" fill="#fcd34d" style="offset-path:path('M70,206.7 L180,137.8'); --dur:2.1s; --delay:-.2s;"/>
+        <circle class="fn-pulse" r="3" fill="#38bdf8" style="offset-path:path('M70,413.3 L180,482.2'); --dur:2.4s; --delay:.3s;"/>
+        <circle class="fn-pulse" r="3" fill="#34d399" style="offset-path:path('M180,137.8 L290,206.7'); --dur:2.2s; --delay:.7s;"/>
+        <circle class="fn-pulse" r="3" fill="#fcd34d" style="offset-path:path('M180,482.2 L290,413.3'); --dur:2.5s; --delay:1.1s;"/>
+        <circle class="fn-pulse" r="3" fill="#38bdf8" style="offset-path:path('M290,206.7 L400,265.7'); --dur:2.3s; --delay:1.5s;"/>
+        <circle class="fn-pulse" r="3" fill="#34d399" style="offset-path:path('M290,413.3 L400,442.9'); --dur:2.1s; --delay:1.9s;"/>
+        <circle class="fn-pulse" r="3" fill="#fcd34d" style="offset-path:path('M400,177.1 L470,155.0'); --dur:2.4s; --delay:2.2s;"/>
+        <circle class="fn-pulse" r="3" fill="#38bdf8" style="offset-path:path('M400,442.9 L470,465.0'); --dur:2.2s; --delay:2.6s;"/>
+      </g>
+    </svg>
+  </div>
 
-results = model.train(
-    data=<i>"mejillones.yaml"</i>,
-    epochs=<i>100</i>,
-    imgsz=<i>640</i>,
-    batch=<i>16</i>,
-    device=<i>0</i>,
-    optimizer=<i>"AdamW"</i>,
-    lr0=<i>0.001</i>,
-    patience=<i>25</i>,
+  <div class="fondo-code-slot fondo-code-1">
+    <pre class="fondo-code active"><span class="kw">from</span> ultralytics <span class="kw">import</span> <span class="cls">YOLO</span>
+
+<span class="cls">model</span> = <span class="cls">YOLO</span>(<span class="str">"yolov8n.pt"</span>)
+
+results = model.<span class="fn">train</span>(
+    data=<span class="str">"mejillones.yaml"</span>,
+    epochs=<span class="num">100</span>,
+    imgsz=<span class="num">640</span>,
+    batch=<span class="num">16</span>,
+    device=<span class="num">0</span>,
+    optimizer=<span class="str">"AdamW"</span>,
+    lr0=<span class="num">0.001</span>,
+    patience=<span class="num">25</span>,
 )
 
-metrics = model.val()
-<b>print</b>(metrics.box.map)   <span class="cmt"># mAP50-95</span></pre>
-  <pre class="fondo-code fondo-code-2"><b>for</b> frame <b>in</b> stream:
-    dets = model.track(frame, persist=<b>True</b>)
-    <b>for</b> box <b>in</b> dets[<i>0</i>].boxes:
-        cls  = <b>int</b>(box.cls)
-        conf = <b>float</b>(box.conf)
-        x1,y1,x2,y2 = box.xyxy[<i>0</i>]
-        <b>if</b> conf > <i>0.5</i>:
-            count[cls] += <i>1</i>
-            draw(x1,y1,x2,y2, LABELS[cls])</pre>
+metrics = model.<span class="fn">val</span>()
+<span class="fn">print</span>(metrics.box.map)   <span class="cmt"># mAP50-95</span></pre>
+    <pre class="fondo-code"><span class="cmt"># mejillones.yaml</span>
+path: ./dataset
+train: images/train
+val: images/val
+nc: <span class="num">3</span>
+names: [<span class="str">"mejillon"</span>, <span class="str">"concha"</span>, <span class="str">"vacio"</span>]
+
+augment = <span class="fn">dict</span>(
+    hsv_h=<span class="num">0.015</span>, hsv_s=<span class="num">0.7</span>, hsv_v=<span class="num">0.4</span>,
+    degrees=<span class="num">10.0</span>, translate=<span class="num">0.1</span>,
+    scale=<span class="num">0.5</span>, fliplr=<span class="num">0.5</span>,
+    mosaic=<span class="num">1.0</span>, mixup=<span class="num">0.15</span>,
+)</pre>
+    <pre class="fondo-code"><span class="kw">from</span> ultralytics <span class="kw">import</span> <span class="cls">YOLO</span>
+
+model = <span class="cls">YOLO</span>(<span class="str">"best.pt"</span>)
+metrics = model.<span class="fn">val</span>(data=<span class="str">"mejillones.yaml"</span>)
+
+<span class="fn">print</span>(<span class="str">f"mAP50:    {metrics.box.map50:.3f}"</span>)
+<span class="fn">print</span>(<span class="str">f"mAP50-95: {metrics.box.map:.3f}"</span>)
+<span class="fn">print</span>(<span class="str">f"precision:{metrics.box.p.mean():.3f}"</span>)
+
+model.<span class="fn">export</span>(format=<span class="str">"onnx"</span>, imgsz=<span class="num">640</span>, half=<span class="kw">True</span>)</pre>
+  </div>
+
+  <div class="fondo-code-slot fondo-code-2">
+    <pre class="fondo-code active"><span class="kw">for</span> frame <span class="kw">in</span> stream:
+    dets = model.<span class="fn">track</span>(frame, persist=<span class="kw">True</span>)
+    <span class="kw">for</span> box <span class="kw">in</span> dets[<span class="num">0</span>].boxes:
+        cls  = <span class="fn">int</span>(box.cls)
+        conf = <span class="fn">float</span>(box.conf)
+        x1,y1,x2,y2 = box.xyxy[<span class="num">0</span>]
+        <span class="kw">if</span> conf > <span class="num">0.5</span>:
+            count[cls] += <span class="num">1</span>
+            <span class="fn">draw</span>(x1,y1,x2,y2, LABELS[cls])</pre>
+    <pre class="fondo-code"><span class="cmt"># ESP32-S3 + ONNX Runtime (edge)</span>
+<span class="kw">import</span> onnxruntime <span class="kw">as</span> ort
+
+sess = ort.<span class="fn">InferenceSession</span>(<span class="str">"yolov8n.onnx"</span>, providers=[<span class="str">"CPUExecutionProvider"</span>])
+
+<span class="kw">def</span> <span class="fn">infer</span>(frame):
+    inp = preprocess(frame, size=<span class="num">320</span>)
+    out = sess.<span class="fn">run</span>(<span class="kw">None</span>, {<span class="str">"images"</span>: inp})
+    boxes = decode(out, conf_thres=<span class="num">0.45</span>)
+    <span class="kw">return</span> nms(boxes, iou_thres=<span class="num">0.5</span>)
+
+fps = <span class="num">1000</span> / latency_ms
+<span class="fn">print</span>(<span class="str">f"edge fps: {fps:.1f}"</span>)</pre>
+    <pre class="fondo-code">best_map = <span class="num">0.0</span>
+<span class="kw">for</span> epoch <span class="kw">in</span> <span class="fn">range</span>(epochs):
+    train_one_epoch(model, loader_train)
+    metrics = validate(model, loader_val)
+
+    <span class="kw">if</span> metrics.map > best_map:
+        best_map = metrics.map
+        save(model, <span class="str">"best.pt"</span>)
+
+    <span class="fn">print</span>(<span class="str">f"[{epoch:03d}] mAP={metrics.map:.3f} loss={metrics.loss:.3f}"</span>)</pre>
+  </div>
 </div>
 
 <header class="hero">
@@ -4848,6 +5261,42 @@ metrics = model.val()
   new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 
   measure(); render();
+})();
+</script>
+
+<!-- FONDO CODIGO: rotacion por scroll (sep-2026). Script independiente y
+     minimo (no toca el bloque GSAP): cada .fondo-code-slot tiene varios
+     snippets .fondo-code apilados; segun el progreso de scroll de la pagina
+     se activa uno distinto por slot, con cross-fade via CSS (clase .active).
+     Throttle con requestAnimationFrame. Respeta prefers-reduced-motion. -->
+<script>
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var slots = Array.prototype.slice.call(document.querySelectorAll('.fondo-code-slot'));
+  if (!slots.length) return;
+  var data = slots.map(function (slot) {
+    return { items: Array.prototype.slice.call(slot.querySelectorAll('.fondo-code')) };
+  });
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var max = (document.documentElement.scrollHeight - window.innerHeight) || 1;
+    var progress = Math.min(1, Math.max(0, window.scrollY / max));
+    data.forEach(function (slot) {
+      var n = slot.items.length;
+      if (!n) return;
+      var idx = Math.min(n - 1, Math.floor(progress * n));
+      slot.items.forEach(function (el, i) {
+        el.classList.toggle('active', i === idx);
+      });
+    });
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
 })();
 </script>
 </body>
