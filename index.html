@@ -1648,7 +1648,6 @@
     .nav { padding: 0.7rem 1.25rem; }
     .nav .mark { font-size: 0.72rem; }
     .nav .links { flex-wrap: nowrap; gap: 0 1rem; }
-    .nav .links a[href="#curso"],
     .nav .links a[href="#sobremi"] { display: none; }
     /* el CV NO se esconde en el telefono: es justo donde mas falta hacia */
     .nav .links a.nav-cv { padding: 0.3rem 0.6rem; font-size: 0.62rem; }
@@ -2734,61 +2733,41 @@
 
   /* ===================== TECNOLOGIAS (grilla interactiva) ===================== */
   .tech { margin-top: 3rem; }
-  .tech-filtros { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0 1.9rem; }
-  .tech-cat {
-    font: 500 0.84rem/1 var(--sans); letter-spacing: 0.01em;
-    padding: 0.58rem 1.05rem; border-radius: 999px; cursor: pointer;
-    color: var(--fg-2); background: transparent; border: 1px solid var(--line-2);
-    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-  }
-  .tech-cat:hover { color: var(--fg); border-color: var(--v); }
-  .tech-cat.is-on { color: var(--ink); background: var(--v); border-color: var(--v); }
 
-  .tech-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(138px, 1fr));
-    gap: 1.6rem 1rem;
+  /* ===== MARQUEE: fila de tecnologias que se desliza sola y se puede arrastrar ===== */
+  .tech-marquee {
+    position: relative; margin-top: 1.7rem; overflow: hidden; cursor: grab;
+    touch-action: pan-y;
+    -webkit-mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
   }
-  /* sin caja: logo centrado en color de marca + nombre en color. Armonioso. */
-  .tech-item {
-    position: relative; display: flex; flex-direction: column; align-items: center;
-    text-align: center; gap: 0.5rem; padding: 0.5rem 0.3rem;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  .tech-marquee.dragging { cursor: grabbing; }
+  .tech-track { display: flex; gap: 0.85rem; width: max-content; will-change: transform; }
+  .tech-pill {
+    display: inline-flex; align-items: center; gap: 0.6rem; flex: none;
+    padding: 0.68rem 1.15rem; border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: color-mix(in srgb, var(--c) 6%, transparent);
+    transition: border-color 0.25s ease, background 0.25s ease;
+    user-select: none; -webkit-user-select: none;
   }
-  .tech-item:hover { transform: translateY(-5px); }
+  .tech-pill:hover {
+    border-color: color-mix(in srgb, var(--c) 55%, transparent);
+    background: color-mix(in srgb, var(--c) 13%, transparent);
+  }
   .tech-logo {
-    width: 48px; height: 48px; margin: 0 auto; flex: none;
+    width: 24px; height: 24px; flex: none;
     background: var(--c, var(--fg-2));
     -webkit-mask: var(--logo) center / contain no-repeat;
     mask: var(--logo) center / contain no-repeat;
-    filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0));
-    transition: transform 0.3s ease, filter 0.3s ease;
   }
-  .tech-item:hover .tech-logo {
-    transform: scale(1.16) rotate(-2deg);
-    filter: drop-shadow(0 6px 16px var(--c));
-  }
-  .tech-name { font-weight: 600; font-size: 0.98rem; color: var(--c, var(--fg)); letter-spacing: 0.005em; }
-  .tech-where { font: 400 0.74rem/1.3 var(--mono); color: var(--fg-3); letter-spacing: 0.01em; }
+  .tech-name { font-weight: 600; font-size: 0.94rem; color: var(--fg); white-space: nowrap; letter-spacing: 0.005em; }
   /* monograma para tecnologias sin logo de marca */
-  .tech-item--mono .tech-logo {
+  .tech-pill--mono .tech-logo {
     background: none; -webkit-mask: none; mask: none;
     display: flex; align-items: center; justify-content: center;
-    font: 700 0.9rem/1 var(--mono); color: var(--c, var(--v));
-    border: 1.5px solid var(--c, var(--line-2)); border-radius: 11px;
-    filter: none;
-  }
-  .tech-item--mono:hover .tech-logo { transform: scale(1.1); filter: drop-shadow(0 6px 16px var(--c)); }
-  .tech-item[hidden] { display: none; }
-  /* entrada escalonada (solo si el JS marca .anim; sin JS, se ven igual) */
-  .tech-grid.anim .tech-item { opacity: 0; transform: translateY(14px); }
-  .tech-grid.anim .tech-item.in {
-    opacity: 1; transform: none;
-    transition: opacity 0.45s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .tech-grid.anim .tech-item { opacity: 1; transform: none; }
-    .tech-item:hover { transform: none; }
-    .tech-item:hover .tech-logo { transform: none; }
+    font: 700 0.6rem/1 var(--mono); color: var(--c, var(--v));
+    border: 1.5px solid var(--c, var(--line-2)); border-radius: 7px;
   }
 </style>
 
@@ -2805,7 +2784,6 @@
   <div class="mark" aria-hidden="true">LUIS SAN MARTÍN</div>
   <div class="links">
     <a href="#casos" data-en="PROJECTS">PROYECTOS</a>
-    <a href="#curso" data-en="THESIS">EN CURSO</a>
     <a href="#sobremi" data-en="ABOUT">SOBRE MÍ</a>
     <!-- El CV vive tambien aca porque el de la portada se medía bajo el
          pliegue en 7 de 8 pantallas reales (todos los telefonos, 1366x768
@@ -3988,6 +3966,40 @@ fps = <span class="num">1000</span> / latency_ms
     <div class="tools">YOLO · seguimiento multiobjeto SORT por cámara · RTSP sobre las cámaras IP existentes · conteo por cruce de línea · OpenCV · Python</div>
   </article>
 
+  <!-- ============ TECNOLOGIAS ============ -->
+  <section class="tech" aria-label="Tecnologías">
+    <div class="inv-cab">
+      <span class="section-label" data-en="Technologies">Tecnologías</span>
+    </div>
+
+    <div class="tech-marquee" id="tech-marquee" aria-label="Tecnologías">
+      <div class="tech-track" id="tech-track">
+        <span class="tech-pill" style="--logo:url(assets/tech/ultralytics.svg);--c:#2FE0C0"><span class="tech-logo"></span><span class="tech-name">YOLOv8</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/pytorch.svg);--c:#F0805E"><span class="tech-logo"></span><span class="tech-name">PyTorch</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/python.svg);--c:#7CB6E8"><span class="tech-logo"></span><span class="tech-name">Python</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/opencv.svg);--c:#45C4F0"><span class="tech-logo"></span><span class="tech-name">OpenCV</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/roboflow.svg);--c:#E879F9"><span class="tech-logo"></span><span class="tech-name">Roboflow</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/onnx.svg);--c:#6AA6FF"><span class="tech-logo"></span><span class="tech-name">ONNX</span></span>
+        <span class="tech-pill tech-pill--mono" style="--c:#C4B5FD"><span class="tech-logo" aria-hidden="true">SORT</span><span class="tech-name">SORT</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/nvidia.svg);--c:#9BDB4A"><span class="tech-logo"></span><span class="tech-name">DeepStream</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/nvidia.svg);--c:#9BDB4A"><span class="tech-logo"></span><span class="tech-name">TensorRT</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/nvidia.svg);--c:#9BDB4A"><span class="tech-logo"></span><span class="tech-name">NVIDIA</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/postgresql.svg);--c:#8FB0F7"><span class="tech-logo"></span><span class="tech-name">PostgreSQL</span></span>
+        <span class="tech-pill tech-pill--mono" style="--c:#F9A34B"><span class="tech-logo" aria-hidden="true">Fb</span><span class="tech-name">Firebird</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/typescript.svg);--c:#6BA6E8"><span class="tech-logo"></span><span class="tech-name">TypeScript</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/fastapi.svg);--c:#2DD4BF"><span class="tech-logo"></span><span class="tech-name">FastAPI</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/nextdotjs.svg);--c:#EDE9F4"><span class="tech-logo"></span><span class="tech-name">Next.js</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/supabase.svg);--c:#4FE0A0"><span class="tech-logo"></span><span class="tech-name">Supabase</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/pandas.svg);--c:#F07AC0"><span class="tech-logo"></span><span class="tech-name">pandas</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/docker.svg);--c:#5BB4F5"><span class="tech-logo"></span><span class="tech-name">Docker</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/linux.svg);--c:#FCD34D"><span class="tech-logo"></span><span class="tech-name">Linux</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/jupyter.svg);--c:#F58A4B"><span class="tech-logo"></span><span class="tech-name">Jupyter</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/githubactions.svg);--c:#6FB0FF"><span class="tech-logo"></span><span class="tech-name">GitHub Actions</span></span>
+        <span class="tech-pill" style="--logo:url(assets/tech/cplusplus.svg);--c:#6BA6E0"><span class="tech-logo"></span><span class="tech-name">C++</span></span>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ TRAYECTORIA (freelance) ============ -->
   <section class="trayectoria" id="experiencia" aria-labelledby="tray-titulo">
     <div class="tray-head">
@@ -4054,35 +4066,6 @@ fps = <span class="num">1000</span> / latency_ms
     </ol>
   </section>
 
-  <!-- ============ EN CURSO · TESIS ============ -->
-  <section class="ongoing tesis" id="curso" aria-labelledby="curso-titulo">
-    <div class="section-label" id="curso-titulo" data-en="In progress · Thesis">En curso · Tesis</div>
-    <article class="tesis-card">
-      <div class="tesis-body">
-        <span class="tesis-eyebrow" data-en="Final-year project · Automation Engineering · UBB · Advisor Cristhian Aguilera">Proyecto de título · Ing. Civil en Automatización · UBB · Prof. guía Cristhian Aguilera</span>
-        <h3 data-en="PPE detection on industrial sites with a self-built multi-site dataset">Detección de EPP en faena industrial con dataset propio multi-sitio</h3>
-        <p data-en="Detection of <b>helmet and vest</b> on people at the plant. The thesis's core contribution is the <b>dataset</b>, not the model: images captured in <b>real plants</b> —across several sites— instead of public banks that don't represent field conditions.">
-          Detección de <b>casco y chaleco</b> sobre personas en planta. El aporte central de la tesis
-          es el <b>dataset</b>, no el modelo: imágenes capturadas en <b>plantas reales</b> —de varios
-          sitios— en vez de bancos públicos que no representan las condiciones de faena.
-        </p>
-        <ul class="tesis-puntos">
-          <li data-en="<b>Multi-site:</b> 3+ different industrial plants. Prior work uses a single plant; that's the differentiator."><b>Multi-sitio:</b> 3+ plantas industriales distintas. Los trabajos previos usan una sola planta; ese es el diferenciador.</li>
-          <li data-en="<b>No 'no-helmet' class:</b> compliance is resolved by geometric logic —is there a helmet in the upper third of the person?—, not as an object to detect."><b>Sin clase "sin casco":</b> el cumplimiento se resuelve por lógica geométrica —¿hay casco en el tercio superior de la persona?—, no como un objeto a detectar.</li>
-          <li data-en="<b>Split by site and session,</b> never random, to avoid data leakage and an inflated mAP."><b>Split por sitio y sesión,</b> nunca aleatorio, para evitar data leakage y un mAP inflado.</li>
-          <li data-en="<b>Core experiment:</b> three models against the same real test set — public only · own only · public + own fine-tuning."><b>Experimento central:</b> tres modelos contra el mismo set de prueba real — solo público · solo propio · público + fine-tuning propio.</li>
-        </ul>
-        <div class="tools" data-en="PyTorch · YOLOv8 · Roboflow · field capture and annotation · Python">PyTorch · YOLOv8 · Roboflow · captura y anotación en terreno · Python</div>
-      </div>
-      <aside class="tesis-side">
-        <div class="tesis-stat"><b>3+</b><span data-en="industrial plants">plantas industriales</span></div>
-        <div class="tesis-stat"><b>1.500+</b><span data-en="own annotated images">imágenes propias anotadas</span></div>
-        <div class="tesis-stat"><b>4</b><span data-en="classes: person · head · helmet · vest">clases: persona · cabeza · casco · chaleco</span></div>
-        <div class="tesis-stat"><b>6.5</b><span data-en="proposal grade">nota del anteproyecto</span></div>
-      </aside>
-    </article>
-  </section>
-
   <!-- ============ SOBRE MI ============ -->
   <section class="about" id="sobremi" aria-labelledby="sobremi-titulo">
    <div class="grid-persona">
@@ -4095,16 +4078,14 @@ fps = <span class="num">1000</span> / latency_ms
       <div class="edu">
         <img class="edu-logo" src="assets/logos/ubb.png" alt="Universidad del Bío-Bío" loading="lazy" decoding="async">
         <div class="edu-txt">
-          <h2 data-en="Automation Engineering graduate">Egresado de Ingeniería Civil en Automatización</h2>
-          <p class="edu-esp" data-en="specialized in <b>Computer Vision</b>">especializado en <b>Computer Vision</b></p>
+          <h2 data-en="Automation Engineering thesis student">Tesista de Ingeniería Civil en Automatización</h2>
+          <p class="edu-esp" data-en="Thesis: <b>PPE detection in industrial environments through Computer Vision</b>">Tesis: <b>Detección de EPP en ambientes industriales a través de Computer Vision</b></p>
           <p class="edu-uni" data-en="Universidad del Bío-Bío · Greater Concepción, Chile">Universidad del Bío-Bío · Gran Concepción, Chile</p>
         </div>
       </div>
 
       <div class="edu-stats">
-        <div class="edu-stat"><b>12</b><span data-en="semesters of study">semestres de carrera</span></div>
-        <div class="edu-stat"><b>+3</b><span data-en="years in production">años en producción</span></div>
-        <div class="edu-stat"><b>6</b><span data-en="projects with real clients">proyectos con clientes reales</span></div>
+        <div class="edu-stat"><b>12</b><span data-en="semesters of duration">semestres de duración</span></div>
       </div>
 
       <p data-en="For more than three years I've built production software for clients in aquaculture, distribution and health. In every case I worked <b>directly with the owner of the operation</b>, gathering requirements on-site before writing code.">
@@ -4126,63 +4107,6 @@ fps = <span class="num">1000</span> / latency_ms
     </div>
    </div>
 
-  <!-- Ni parrafo ni lista de palabras sueltas: cada fila dice DONDE se uso,
-       y ese donde es verificable contra un caso de esta misma pagina. Una
-       herramienta sin un lugar donde la uso no entra. Sin conteos: "1 caso"
-       se lee como debilidad y el nombre del proyecto ya es la evidencia. -->
-   <div class="tech">
-    <div class="inv-cab">
-      <span class="section-label" data-en="Technologies I work with">Tecnologías que manejo</span>
-    </div>
-
-    <div class="tech-filtros" role="tablist" aria-label="Filtrar por categoría">
-      <button type="button" class="tech-cat is-on" data-cat="all" data-en="All">Todo</button>
-      <button type="button" class="tech-cat" data-cat="cv" data-en="Vision &amp; AI">Visión &amp; IA</button>
-      <button type="button" class="tech-cat" data-cat="nvidia" data-en="NVIDIA · Edge">NVIDIA · Edge</button>
-      <button type="button" class="tech-cat" data-cat="data" data-en="Data &amp; Backend">Datos &amp; Backend</button>
-      <button type="button" class="tech-cat" data-cat="ops" data-en="Tools &amp; Ops">Herramientas &amp; Ops</button>
-    </div>
-
-    <div class="tech-grid" id="tech-grid">
-      <!-- Visión & IA -->
-      <article class="tech-item" data-cat="cv" style="--logo:url(assets/tech/ultralytics.svg);--c:#2FE0C0"><span class="tech-logo"></span><span class="tech-name">YOLOv8</span><span class="tech-where" data-en="in-line counting">conteo en línea</span></article>
-      <article class="tech-item" data-cat="cv" style="--logo:url(assets/tech/pytorch.svg);--c:#F0805E"><span class="tech-logo"></span><span class="tech-name">PyTorch</span><span class="tech-where" data-en="training">entrenamiento</span></article>
-      <article class="tech-item" data-cat="cv" style="--logo:url(assets/tech/opencv.svg);--c:#45C4F0"><span class="tech-logo"></span><span class="tech-name">OpenCV</span><span class="tech-where" data-en="video pipeline">pipeline de video</span></article>
-      <article class="tech-item" data-cat="cv" style="--logo:url(assets/tech/roboflow.svg);--c:#E879F9"><span class="tech-logo"></span><span class="tech-name">Roboflow</span><span class="tech-where" data-en="labeling">etiquetado</span></article>
-      <article class="tech-item" data-cat="cv" style="--logo:url(assets/tech/onnx.svg);--c:#6AA6FF"><span class="tech-logo"></span><span class="tech-name">ONNX</span><span class="tech-where" data-en="edge export">export a edge</span></article>
-      <article class="tech-item tech-item--mono" data-cat="cv" style="--c:#C4B5FD"><span class="tech-logo" aria-hidden="true">SORT</span><span class="tech-name">SORT</span><span class="tech-where" data-en="multi-object tracking">seguimiento multiobjeto</span></article>
-
-      <!-- NVIDIA · Edge -->
-      <article class="tech-item" data-cat="nvidia" style="--logo:url(assets/tech/nvidia.svg);--c:#9BDB4A"><span class="tech-logo"></span><span class="tech-name">NVIDIA</span><span class="tech-where" data-en="GPU acceleration">aceleración GPU</span></article>
-      <article class="tech-item" data-cat="nvidia" style="--logo:url(assets/tech/nvidia.svg);--c:#9BDB4A"><span class="tech-logo"></span><span class="tech-name">DeepStream</span><span class="tech-where" data-en="multi-camera pipelines">pipelines multi-cámara</span></article>
-      <article class="tech-item" data-cat="nvidia" style="--logo:url(assets/tech/nvidia.svg);--c:#9BDB4A"><span class="tech-logo"></span><span class="tech-name">TensorRT</span><span class="tech-where" data-en="inference optimization">optimización de inferencia</span></article>
-      <article class="tech-item" data-cat="nvidia" style="--logo:url(assets/tech/nvidia.svg);--c:#9BDB4A"><span class="tech-logo"></span><span class="tech-name">CUDA</span><span class="tech-where" data-en="parallel compute">cómputo paralelo</span></article>
-      <article class="tech-item" data-cat="nvidia" style="--logo:url(assets/tech/nvidia.svg);--c:#9BDB4A"><span class="tech-logo"></span><span class="tech-name">Jetson</span><span class="tech-where" data-en="edge compute">cómputo edge</span></article>
-      <article class="tech-item" data-cat="nvidia" style="--logo:url(assets/tech/espressif.svg);--c:#FF6B60"><span class="tech-logo"></span><span class="tech-name">ESP32-S3</span><span class="tech-where" data-en="embedded camera">cámara embebida</span></article>
-
-      <!-- Datos & Backend -->
-      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/python.svg);--c:#7CB6E8"><span class="tech-logo"></span><span class="tech-name">Python</span><span class="tech-where" data-en="everywhere">transversal</span></article>
-      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/postgresql.svg);--c:#8FB0F7"><span class="tech-logo"></span><span class="tech-name">PostgreSQL</span><span class="tech-where" data-en="Row Level Security">Row Level Security</span></article>
-      <article class="tech-item tech-item--mono" data-cat="data" style="--c:#F9A34B"><span class="tech-logo" aria-hidden="true">Fb</span><span class="tech-name">Firebird</span><span class="tech-where" data-en="POS source">origen del POS</span></article>
-      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/typescript.svg);--c:#6BA6E8"><span class="tech-logo"></span><span class="tech-name">TypeScript</span><span class="tech-where" data-en="web apps">apps web</span></article>
-      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/fastapi.svg);--c:#2DD4BF"><span class="tech-logo"></span><span class="tech-name">FastAPI</span><span class="tech-where" data-en="APIs">APIs</span></article>
-      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/nextdotjs.svg);--c:#EDE9F4"><span class="tech-logo"></span><span class="tech-name">Next.js</span><span class="tech-where" data-en="dashboards">dashboards</span></article>
-      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/supabase.svg);--c:#4FE0A0"><span class="tech-logo"></span><span class="tech-name">Supabase</span><span class="tech-where" data-en="auth + data">auth + datos</span></article>
-      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/numpy.svg);--c:#6AC4E4"><span class="tech-logo"></span><span class="tech-name">NumPy</span><span class="tech-where" data-en="numeric">numérico</span></article>
-      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/pandas.svg);--c:#F07AC0"><span class="tech-logo"></span><span class="tech-name">pandas</span><span class="tech-where" data-en="reporting">reportería</span></article>
-
-      <!-- Herramientas & Ops -->
-      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/vscode.svg);--c:#4FB0F0"><span class="tech-logo"></span><span class="tech-name">VS Code</span><span class="tech-where" data-en="daily IDE">IDE diario</span></article>
-      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/cursor.svg);--c:#D6BCFA"><span class="tech-logo"></span><span class="tech-name">Cursor</span><span class="tech-where" data-en="AI pair">par con IA</span></article>
-      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/jupyter.svg);--c:#F58A4B"><span class="tech-logo"></span><span class="tech-name">Jupyter</span><span class="tech-where" data-en="experiments">experimentos</span></article>
-      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/googlecolab.svg);--c:#FBB829"><span class="tech-logo"></span><span class="tech-name">Colab</span><span class="tech-where" data-en="cloud training">entrenar en nube</span></article>
-      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/docker.svg);--c:#5BB4F5"><span class="tech-logo"></span><span class="tech-name">Docker</span><span class="tech-where" data-en="deploy">despliegue</span></article>
-      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/linux.svg);--c:#FCD34D"><span class="tech-logo"></span><span class="tech-name">Linux</span><span class="tech-where" data-en="cron + monitoring">cron + monitoreo</span></article>
-      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/git.svg);--c:#F5734F"><span class="tech-logo"></span><span class="tech-name">Git</span><span class="tech-where" data-en="version control">control de versiones</span></article>
-      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/githubactions.svg);--c:#6FB0FF"><span class="tech-logo"></span><span class="tech-name">GitHub Actions</span><span class="tech-where" data-en="CI/CD">CI/CD</span></article>
-      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/cplusplus.svg);--c:#6BA6E0"><span class="tech-logo"></span><span class="tech-name">C++</span><span class="tech-where" data-en="embedded firmware">firmware embebido</span></article>
-    </div>
-   </div>
   </section>
 
   <!-- ============ CIERRE ============ -->
@@ -4193,8 +4117,7 @@ fps = <span class="num">1000</span> / latency_ms
       entero en una reunión, con los paneles y los datos en vivo, bajo acuerdo de confidencialidad.
     </p>
     <div class="end-cta">
-      <a class="btn primario" href="https://wa.me/56975878696?text=Hola%20Luis%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20agendar%20una%20reuni%C3%B3n." target="_blank" rel="noopener" data-en="Let's talk on WhatsApp">Conversemos por WhatsApp</a>
-      <a class="btn" href="mailto:sanmaglass@gmail.com?subject=Reuni%C3%B3n%20desde%20el%20portafolio" data-en="Schedule a meeting">Agendar una reunión</a>
+      <a class="btn primario" href="mailto:sanmaglass@gmail.com?subject=Reuni%C3%B3n%20desde%20el%20portafolio" data-en="Schedule a meeting">Agendar una reunión</a>
     </div>
     <div class="links">
       <a href="mailto:sanmaglass@gmail.com">sanmaglass@gmail.com</a>
@@ -5472,40 +5395,64 @@ fps = <span class="num">1000</span> / latency_ms
 </script>
 
 <script>
-/* ===== TECNOLOGIAS: filtro por categoria + entrada escalonada ===== */
+/* ===== TECNOLOGIAS: marquee que se desliza solo + arrastrar/swipe + pausa en hover ===== */
 (function () {
-  var grid = document.getElementById('tech-grid');
-  if (!grid) return;
-  var items = Array.prototype.slice.call(grid.querySelectorAll('.tech-item'));
-  var cats  = Array.prototype.slice.call(document.querySelectorAll('.tech-cat'));
+  var marquee = document.getElementById('tech-marquee');
+  var track = document.getElementById('tech-track');
+  if (!marquee || !track) return;
+
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { marquee.style.overflowX = 'auto'; return; } /* sin motion: scroll manual */
 
-  /* entrada: los oculto (via .anim) y los revelo escalonado al entrar en viewport */
-  if (!reduce && 'IntersectionObserver' in window) {
-    grid.classList.add('anim');
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        items.forEach(function (it, i) {
-          setTimeout(function () { it.classList.add('in'); }, i * 26);
-        });
-        io.disconnect();
-      });
-    }, { threshold: 0.12 });
-    io.observe(grid);
+  /* duplico la secuencia una vez para loop sin costura */
+  var originals = Array.prototype.slice.call(track.children);
+  originals.forEach(function (node) { track.appendChild(node.cloneNode(true)); });
+
+  var seqWidth = 0;
+  function measure() {
+    var firstClone = track.children[originals.length];
+    seqWidth = firstClone ? firstClone.offsetLeft : track.scrollWidth / 2;
   }
+  measure();
+  window.addEventListener('resize', measure, { passive: true });
 
-  /* filtro por categoria */
-  cats.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      cats.forEach(function (b) { b.classList.remove('is-on'); });
-      btn.classList.add('is-on');
-      var c = btn.getAttribute('data-cat');
-      items.forEach(function (it) {
-        it.hidden = !(c === 'all' || it.getAttribute('data-cat') === c);
-      });
-    });
+  var offset = 0;
+  var speed = 0.035;      /* px por ms (~35 px/s), calmado */
+  var paused = false;     /* hover */
+  var dragging = false;
+  var startX = 0, startOffset = 0, lastT = null;
+
+  function wrap(x) { return ((x % seqWidth) + seqWidth) % seqWidth; }
+
+  function frame(t) {
+    if (lastT == null) lastT = t;
+    var dt = t - lastT; lastT = t;
+    if (!paused && !dragging && seqWidth > 0) offset = wrap(offset + speed * dt);
+    track.style.transform = 'translateX(' + (-offset) + 'px)';
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* pausa al pasar el mouse */
+  marquee.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') paused = true; });
+  marquee.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') paused = false; });
+
+  /* arrastrar / swipe de lado */
+  marquee.addEventListener('pointerdown', function (e) {
+    dragging = true; startX = e.clientX; startOffset = offset;
+    marquee.classList.add('dragging');
+    try { marquee.setPointerCapture(e.pointerId); } catch (_) {}
   });
+  marquee.addEventListener('pointermove', function (e) {
+    if (!dragging || seqWidth <= 0) return;
+    offset = wrap(startOffset - (e.clientX - startX));
+  });
+  function endDrag() {
+    if (!dragging) return;
+    dragging = false; marquee.classList.remove('dragging');
+  }
+  marquee.addEventListener('pointerup', endDrag);
+  marquee.addEventListener('pointercancel', endDrag);
 })();
 </script>
 </body>
