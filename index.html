@@ -2731,6 +2731,64 @@
   /* portada transparente para que el fondo-tech (codigo) se vea. Va al final
      para ganarle a la regla de paño morado que la pintaba opaca. */
   .hero { background: transparent !important; }
+
+  /* ===================== TECNOLOGIAS (grilla interactiva) ===================== */
+  .tech { margin-top: 3rem; }
+  .tech-filtros { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0 1.9rem; }
+  .tech-cat {
+    font: 500 0.84rem/1 var(--sans); letter-spacing: 0.01em;
+    padding: 0.58rem 1.05rem; border-radius: 999px; cursor: pointer;
+    color: var(--fg-2); background: transparent; border: 1px solid var(--line-2);
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+  .tech-cat:hover { color: var(--fg); border-color: var(--v); }
+  .tech-cat.is-on { color: var(--ink); background: var(--v); border-color: var(--v); }
+
+  .tech-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+    gap: 0.85rem;
+  }
+  .tech-item {
+    position: relative; display: flex; flex-direction: column; gap: 0.55rem;
+    padding: 1.1rem 1.15rem; border-radius: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--line);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, background 0.25s ease;
+  }
+  .tech-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--v);
+    background: rgba(255, 255, 255, 0.09);
+  }
+  .tech-logo {
+    width: 34px; height: 34px; display: block; flex: none;
+    background: var(--fg-2);
+    -webkit-mask: var(--logo) center / contain no-repeat;
+    mask: var(--logo) center / contain no-repeat;
+    transition: background 0.25s ease, transform 0.3s ease;
+  }
+  .tech-item:hover .tech-logo { background: var(--fg); transform: scale(1.09) rotate(-2deg); }
+  .tech-name { font-weight: 600; font-size: 1rem; color: var(--fg); }
+  .tech-where { font: 400 0.8rem/1.35 var(--mono); color: var(--fg-3); letter-spacing: 0.01em; }
+  /* monograma para tecnologias sin logo de marca */
+  .tech-item--mono .tech-logo {
+    background: none; -webkit-mask: none; mask: none;
+    display: flex; align-items: center; justify-content: center;
+    font: 700 0.82rem/1 var(--mono); color: var(--v);
+    border: 1px solid var(--line-2); border-radius: 9px;
+  }
+  .tech-item[hidden] { display: none; }
+  /* entrada escalonada (solo si el JS marca .anim; sin JS, se ven igual) */
+  .tech-grid.anim .tech-item { opacity: 0; transform: translateY(14px); }
+  .tech-grid.anim .tech-item.in {
+    opacity: 1; transform: none;
+    transition: opacity 0.45s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tech-grid.anim .tech-item { opacity: 1; transform: none; }
+    .tech-item:hover { transform: none; }
+    .tech-item:hover .tech-logo { transform: none; }
+  }
 </style>
 
 <!-- La mira de deteccion como icono de pestaña. Va en SVG embebido:
@@ -4071,39 +4129,57 @@ fps = <span class="num">1000</span> / latency_ms
        y ese donde es verificable contra un caso de esta misma pagina. Una
        herramienta sin un lugar donde la uso no entra. Sin conteos: "1 caso"
        se lee como debilidad y el nombre del proyecto ya es la evidencia. -->
-   <div class="inventario">
+   <div class="tech">
     <div class="inv-cab">
-      <span class="section-label" data-en="What I work with">Con qué trabajo</span>
+      <span class="section-label" data-en="Technologies I work with">Tecnologías que manejo</span>
     </div>
 
-    <div class="inv-cols">
-      <div class="inv-grupo">
-        <h3>Visión computacional</h3>
-        <div class="fila"><span class="q">YOLOv8</span></div>
-        <div class="fila"><span class="q">OpenCV</span></div>
-        <div class="fila"><span class="q">PyTorch</span></div>
-        <div class="fila"><span class="q">Seguimiento multiobjeto</span><span class="d">SORT</span></div>
-        <div class="fila"><span class="q">Datasets propios</span><span class="d">etiquetados en terreno</span></div>
-        <div class="fila"><span class="q">Cámaras IP en vivo</span><span class="d">RTSP</span></div>
-        <div class="fila"><span class="q">Cámara embebida</span><span class="d">XIAO ESP32-S3 Sense</span></div>
-      </div>
+    <div class="tech-filtros" role="tablist" aria-label="Filtrar por categoría">
+      <button type="button" class="tech-cat is-on" data-cat="all" data-en="All">Todo</button>
+      <button type="button" class="tech-cat" data-cat="cv" data-en="Vision &amp; AI">Visión &amp; IA</button>
+      <button type="button" class="tech-cat" data-cat="nvidia" data-en="NVIDIA · Edge">NVIDIA · Edge</button>
+      <button type="button" class="tech-cat" data-cat="data" data-en="Data &amp; Backend">Datos &amp; Backend</button>
+      <button type="button" class="tech-cat" data-cat="ops" data-en="Tools &amp; Ops">Herramientas &amp; Ops</button>
+    </div>
 
-      <div class="inv-grupo">
-        <h3>Datos</h3>
-        <div class="fila"><span class="q">Python</span></div>
-        <div class="fila"><span class="q">PostgreSQL</span><span class="d">con Row Level Security</span></div>
-        <div class="fila"><span class="q">Firebird</span></div>
-        <div class="fila"><span class="q">ETL y scraping autenticado</span></div>
-        <div class="fila"><span class="q">TypeScript</span></div>
-      </div>
+    <div class="tech-grid" id="tech-grid">
+      <!-- Visión & IA -->
+      <article class="tech-item" data-cat="cv" style="--logo:url(assets/tech/ultralytics.svg)"><span class="tech-logo"></span><span class="tech-name">YOLOv8</span><span class="tech-where" data-en="in-line counting">conteo en línea</span></article>
+      <article class="tech-item" data-cat="cv" style="--logo:url(assets/tech/pytorch.svg)"><span class="tech-logo"></span><span class="tech-name">PyTorch</span><span class="tech-where" data-en="training">entrenamiento</span></article>
+      <article class="tech-item" data-cat="cv" style="--logo:url(assets/tech/opencv.svg)"><span class="tech-logo"></span><span class="tech-name">OpenCV</span><span class="tech-where" data-en="video pipeline">pipeline de video</span></article>
+      <article class="tech-item" data-cat="cv" style="--logo:url(assets/tech/roboflow.svg)"><span class="tech-logo"></span><span class="tech-name">Roboflow</span><span class="tech-where" data-en="labeling">etiquetado</span></article>
+      <article class="tech-item" data-cat="cv" style="--logo:url(assets/tech/onnx.svg)"><span class="tech-logo"></span><span class="tech-name">ONNX</span><span class="tech-where" data-en="edge export">export a edge</span></article>
+      <article class="tech-item tech-item--mono" data-cat="cv"><span class="tech-logo" aria-hidden="true">SORT</span><span class="tech-name">SORT</span><span class="tech-where" data-en="multi-object tracking">seguimiento multiobjeto</span></article>
 
-      <div class="inv-grupo destacado">
-        <h3>Despliegue y operación</h3>
-        <div class="fila"><span class="q">Entrenamiento en la nube</span><span class="d">Google Colab</span></div>
-        <div class="fila"><span class="q">Inferencia local, on-premise</span><span class="d">en la GPU del propio cliente</span></div>
-        <div class="fila"><span class="q">Linux, cron y monitoreo</span><span class="d">dos sistemas operando hoy</span></div>
-        <div class="fila"><span class="q">Docker · GitHub Actions</span><span class="d">integración continua</span></div>
-      </div>
+      <!-- NVIDIA · Edge -->
+      <article class="tech-item" data-cat="nvidia" style="--logo:url(assets/tech/nvidia.svg)"><span class="tech-logo"></span><span class="tech-name">NVIDIA</span><span class="tech-where" data-en="GPU acceleration">aceleración GPU</span></article>
+      <article class="tech-item" data-cat="nvidia" style="--logo:url(assets/tech/nvidia.svg)"><span class="tech-logo"></span><span class="tech-name">DeepStream</span><span class="tech-where" data-en="multi-camera pipelines">pipelines multi-cámara</span></article>
+      <article class="tech-item" data-cat="nvidia" style="--logo:url(assets/tech/nvidia.svg)"><span class="tech-logo"></span><span class="tech-name">TensorRT</span><span class="tech-where" data-en="inference optimization">optimización de inferencia</span></article>
+      <article class="tech-item" data-cat="nvidia" style="--logo:url(assets/tech/nvidia.svg)"><span class="tech-logo"></span><span class="tech-name">CUDA</span><span class="tech-where" data-en="parallel compute">cómputo paralelo</span></article>
+      <article class="tech-item" data-cat="nvidia" style="--logo:url(assets/tech/nvidia.svg)"><span class="tech-logo"></span><span class="tech-name">Jetson</span><span class="tech-where" data-en="edge compute">cómputo edge</span></article>
+      <article class="tech-item" data-cat="nvidia" style="--logo:url(assets/tech/espressif.svg)"><span class="tech-logo"></span><span class="tech-name">ESP32-S3</span><span class="tech-where" data-en="embedded camera">cámara embebida</span></article>
+
+      <!-- Datos & Backend -->
+      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/python.svg)"><span class="tech-logo"></span><span class="tech-name">Python</span><span class="tech-where" data-en="everywhere">transversal</span></article>
+      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/postgresql.svg)"><span class="tech-logo"></span><span class="tech-name">PostgreSQL</span><span class="tech-where" data-en="Row Level Security">Row Level Security</span></article>
+      <article class="tech-item tech-item--mono" data-cat="data"><span class="tech-logo" aria-hidden="true">Fb</span><span class="tech-name">Firebird</span><span class="tech-where" data-en="POS source">origen del POS</span></article>
+      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/typescript.svg)"><span class="tech-logo"></span><span class="tech-name">TypeScript</span><span class="tech-where" data-en="web apps">apps web</span></article>
+      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/fastapi.svg)"><span class="tech-logo"></span><span class="tech-name">FastAPI</span><span class="tech-where" data-en="APIs">APIs</span></article>
+      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/nextdotjs.svg)"><span class="tech-logo"></span><span class="tech-name">Next.js</span><span class="tech-where" data-en="dashboards">dashboards</span></article>
+      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/supabase.svg)"><span class="tech-logo"></span><span class="tech-name">Supabase</span><span class="tech-where" data-en="auth + data">auth + datos</span></article>
+      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/numpy.svg)"><span class="tech-logo"></span><span class="tech-name">NumPy</span><span class="tech-where" data-en="numeric">numérico</span></article>
+      <article class="tech-item" data-cat="data" style="--logo:url(assets/tech/pandas.svg)"><span class="tech-logo"></span><span class="tech-name">pandas</span><span class="tech-where" data-en="reporting">reportería</span></article>
+
+      <!-- Herramientas & Ops -->
+      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/vscode.svg)"><span class="tech-logo"></span><span class="tech-name">VS Code</span><span class="tech-where" data-en="daily IDE">IDE diario</span></article>
+      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/cursor.svg)"><span class="tech-logo"></span><span class="tech-name">Cursor</span><span class="tech-where" data-en="AI pair">par con IA</span></article>
+      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/jupyter.svg)"><span class="tech-logo"></span><span class="tech-name">Jupyter</span><span class="tech-where" data-en="experiments">experimentos</span></article>
+      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/googlecolab.svg)"><span class="tech-logo"></span><span class="tech-name">Colab</span><span class="tech-where" data-en="cloud training">entrenar en nube</span></article>
+      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/docker.svg)"><span class="tech-logo"></span><span class="tech-name">Docker</span><span class="tech-where" data-en="deploy">despliegue</span></article>
+      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/linux.svg)"><span class="tech-logo"></span><span class="tech-name">Linux</span><span class="tech-where" data-en="cron + monitoring">cron + monitoreo</span></article>
+      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/git.svg)"><span class="tech-logo"></span><span class="tech-name">Git</span><span class="tech-where" data-en="version control">control de versiones</span></article>
+      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/githubactions.svg)"><span class="tech-logo"></span><span class="tech-name">GitHub Actions</span><span class="tech-where" data-en="CI/CD">CI/CD</span></article>
+      <article class="tech-item" data-cat="ops" style="--logo:url(assets/tech/cplusplus.svg)"><span class="tech-logo"></span><span class="tech-name">C++</span><span class="tech-where" data-en="embedded firmware">firmware embebido</span></article>
     </div>
    </div>
   </section>
@@ -5391,6 +5467,44 @@ fps = <span class="num">1000</span> / latency_ms
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   update();
+})();
+</script>
+
+<script>
+/* ===== TECNOLOGIAS: filtro por categoria + entrada escalonada ===== */
+(function () {
+  var grid = document.getElementById('tech-grid');
+  if (!grid) return;
+  var items = Array.prototype.slice.call(grid.querySelectorAll('.tech-item'));
+  var cats  = Array.prototype.slice.call(document.querySelectorAll('.tech-cat'));
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* entrada: los oculto (via .anim) y los revelo escalonado al entrar en viewport */
+  if (!reduce && 'IntersectionObserver' in window) {
+    grid.classList.add('anim');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        items.forEach(function (it, i) {
+          setTimeout(function () { it.classList.add('in'); }, i * 26);
+        });
+        io.disconnect();
+      });
+    }, { threshold: 0.12 });
+    io.observe(grid);
+  }
+
+  /* filtro por categoria */
+  cats.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      cats.forEach(function (b) { b.classList.remove('is-on'); });
+      btn.classList.add('is-on');
+      var c = btn.getAttribute('data-cat');
+      items.forEach(function (it) {
+        it.hidden = !(c === 'all' || it.getAttribute('data-cat') === c);
+      });
+    });
+  });
 })();
 </script>
 </body>
