@@ -2643,10 +2643,31 @@
      animacion. Va al final para ganarle a las reglas de arriba.
      ======================================================================= */
 
-  /* fuera todo lo que difumina, brilla o se mueve */
+  /* fuera lo que difumina/deriva; el codigo de colores SI se queda (en la portada) */
   body { background: #ffffff !important; }
-  body::before, body::after, .spot, .fondo-tech { display: none !important; }
+  body::after, .spot { display: none !important; }
   .grid-bg { display: none !important; }
+  /* capa morada solida fija DETRAS del fondo-tech: rellena la franja central que
+     la mascara del fondo-tech deja transparente (si no, se ve el blanco del body). */
+  body::before {
+    display: block !important; content: "" !important;
+    position: fixed !important; inset: 0 !important; z-index: -3 !important;
+    background: #4e2e7a !important; filter: none !important; animation: none !important;
+  }
+
+  /* el fondo-tech (codigo Python a color + red neuronal) vuelve, pintando la
+     portada morada. Es fijo detras: los panos opacos de abajo lo tapan al
+     scrollear, asi que solo se ve en el hero. */
+  .fondo-tech { display: block !important; background: #4e2e7a; z-index: -2; }
+  /* cada bloque de codigo sobre una tarjeta oscura translucida: los colores
+     resaltan sobre el morado sin volver al fondo negro. */
+  .fondo-code {
+    background: rgba(12, 5, 26, 0.72) !important;
+    padding: 0.9rem 1.1rem !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(220, 198, 255, 0.14) !important;
+  }
+  .fondo-code.active { opacity: 1 !important; }
   /* nada de glows ni degradados de acento */
   :root { --glow-v: transparent; --glow-m: transparent; --glow-g: transparent; }
 
@@ -2707,6 +2728,10 @@
     -webkit-text-fill-color: var(--v) !important;
     color: var(--v) !important;
   }
+
+  /* portada transparente para que el fondo-tech (codigo) se vea. Va al final
+     para ganarle a la regla de paño morado que la pintaba opaca. */
+  .hero { background: transparent !important; }
 </style>
 
 <!-- La mira de deteccion como icono de pestaña. Va en SVG embebido:
