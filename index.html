@@ -2659,15 +2659,14 @@
      portada morada. Es fijo detras: los panos opacos de abajo lo tapan al
      scrollear, asi que solo se ve en el hero. */
   .fondo-tech { display: block !important; background: #4e2e7a; z-index: -2; }
-  /* cada bloque de codigo sobre una tarjeta oscura translucida: los colores
-     resaltan sobre el morado sin volver al fondo negro. */
+  /* el codigo es PARTE DEL FONDO: texto de color directo sobre el morado, sin
+     caja ni tarjeta, sutil como textura. */
   .fondo-code {
-    background: rgba(12, 5, 26, 0.72) !important;
-    padding: 0.9rem 1.1rem !important;
-    border-radius: 12px !important;
-    border: 1px solid rgba(220, 198, 255, 0.14) !important;
+    background: none !important;
+    padding: 0 !important;
+    border: 0 !important;
   }
-  .fondo-code.active { opacity: 1 !important; }
+  .fondo-code.active { opacity: 0.55 !important; }
   /* nada de glows ni degradados de acento */
   :root { --glow-v: transparent; --glow-m: transparent; --glow-g: transparent; }
 
