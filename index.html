@@ -2637,6 +2637,76 @@
     .marcas-div { display: none; }
     .marcas-grupo.clientes { flex: 1 1 100%; }
   }
+
+  /* =======================================================================
+     PAÑOS SÓLIDOS — morado y blanco, horizontales, SIN gradiente / neon /
+     animacion. Va al final para ganarle a las reglas de arriba.
+     ======================================================================= */
+
+  /* fuera todo lo que difumina, brilla o se mueve */
+  body { background: #ffffff !important; }
+  body::before, body::after, .spot, .fondo-tech { display: none !important; }
+  .grid-bg { display: none !important; }
+  /* nada de glows ni degradados de acento */
+  :root { --glow-v: transparent; --glow-m: transparent; --glow-g: transparent; }
+
+  /* --- PAÑO MORADO: hero + carrusel, trayectoria, sobre mi --- */
+  .hero, .cf-band, .trayectoria, .about {
+    background: #4e2e7a !important;
+    --fg:   #ffffff;
+    --fg-2: #e3d9f2;
+    --fg-3: #bcaeda;
+    --line:   rgba(255, 255, 255, 0.20);
+    --line-2: rgba(255, 255, 255, 0.32);
+    --v: #dcc6ff;            /* acento claro sobre morado */
+    --b: #dcc6ff;
+    --p: #dcc6ff;
+    --m: #dcc6ff;
+    --grad: #dcc6ff;         /* solido, no degradado */
+    --grad-anim: #dcc6ff;
+    --ink: #2a1745;          /* texto sobre boton de acento claro */
+    color: #ffffff;
+  }
+
+  /* --- PAÑO BLANCO: marcas, casos, tesis, contacto --- */
+  main, .marcas, .ongoing.tesis, .end {
+    background: #ffffff !important;
+    --fg:   #17181d;
+    --fg-2: #4b5058;
+    --fg-3: #7c828b;
+    --line:   rgba(23, 24, 29, 0.12);
+    --line-2: rgba(23, 24, 29, 0.22);
+    --v: #6b3fa0;            /* acento morado oscuro sobre blanco */
+    --b: #543189;
+    --p: #6b3fa0;
+    --m: #6b3fa0;
+    --grad: #6b3fa0;
+    --grad-anim: #6b3fa0;
+    --ink: #ffffff;          /* texto sobre boton de acento oscuro */
+    color: #17181d;
+  }
+
+  /* los divisores/bandas que agregue antes ya no van: corte solido y limpio */
+  .marcas::before, .marcas::after,
+  .case:first-of-type::before, .case:first-of-type::after,
+  .trayectoria::before, .trayectoria::after,
+  .ongoing.tesis::before, .ongoing.tesis::after,
+  .about::before, .about::after,
+  .end::before, .end::after { display: none !important; }
+
+  /* acento solido (sin barrido de luz ni glow ni degradado) en botones/etiquetas */
+  .btn.primario {
+    background: var(--v) !important;
+    color: var(--ink) !important;
+    border-color: var(--v) !important;
+    box-shadow: none !important;
+  }
+  .btn.primario::after { display: none !important; }
+  .section-label, .case-head .num {
+    background: none !important;
+    -webkit-text-fill-color: var(--v) !important;
+    color: var(--v) !important;
+  }
 </style>
 
 <!-- La mira de deteccion como icono de pestaña. Va en SVG embebido:
