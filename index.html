@@ -2561,6 +2561,11 @@
     .edu-txt h2 { font-size: clamp(1.25rem, 6.5vw, 1.9rem) !important; }
     .context, .tools, .movement p, .tl-desc, .tesis-body p, .about p,
     figcaption, .tl-cliente { overflow-wrap: anywhere; max-width: 100% !important; }
+    /* .tools trae white-space:nowrap + overflow-x:auto de la version de
+       escritorio (linea de tecnologias deslizable). En el telefono no hay
+       pista visual de que se puede arrastrar: el texto se veia cortado al
+       ancho de la pantalla. Que envuelva como parrafo normal. */
+    .tools { white-space: normal !important; overflow-x: visible !important; }
     .serie { flex-wrap: wrap; }
     .about > .grid-persona { grid-template-columns: 1fr !important; }
     .tesis-card { grid-template-columns: 1fr !important; }
