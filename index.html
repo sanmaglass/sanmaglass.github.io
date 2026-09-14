@@ -4046,6 +4046,79 @@ fps = <span class="num">1000</span> / latency_ms
     <div class="tools">PostgreSQL con Row Level Security por sede · migraciones versionadas · TypeScript · scraping para la migración · Python</div>
   </article>
 
+  <!-- ============ GRUPO: AGENTES Y AUTOMATIZACION (sep-2026) ============
+       Sistemas que corren solos: bots, scrapers y crons. No son casos de
+       CV/IA con timeline; van en tarjetas anchas con captura HD (una recreada
+       con datos de ejemplo para el Contador, que no tiene UI publica). -->
+  <style>
+    .agentes { grid-column: full; margin-top: 6rem; }
+    .agentes-inner { max-width: 74rem; margin: 0 auto; padding: 0 2rem; }
+    .agentes .section-label { display: block; margin-bottom: 2.4rem; }
+    .agentes-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
+      gap: 1.8rem;
+    }
+    .agente-card {
+      display: flex; flex-direction: column;
+      border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+      background: rgba(172, 95, 219, 0.04); text-decoration: none; color: inherit;
+      transition: transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s, box-shadow .35s;
+    }
+    a.agente-card:hover {
+      transform: translateY(-6px); border-color: rgba(172, 95, 219, 0.55);
+      box-shadow: 0 30px 70px -34px rgba(172,95,219,0.55), 0 0 0 1px rgba(172,95,219,0.25);
+    }
+    .agente-shot { display: block; background: #0a0b10; border-bottom: 1px solid var(--line); overflow: hidden; }
+    .agente-shot img {
+      display: block; width: 100%; height: 260px; object-fit: cover; object-position: top center;
+      transition: transform .6s cubic-bezier(.2,.7,.2,1);
+    }
+    a.agente-card:hover .agente-shot img { transform: scale(1.035); }
+    .agente-body { padding: 1.4rem 1.5rem 1.6rem; display: flex; flex-direction: column; gap: 0.55rem; }
+    .agente-name { font-family: var(--display); font-weight: 600; font-size: 1.3rem; }
+    .agente-desc { color: var(--fg-2); font-size: 1rem; line-height: 1.55; }
+    .agente-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .agente-chips span {
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.03em;
+      color: var(--fg-3); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px;
+    }
+    .agente-go { margin-top: 0.7rem; font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.04em; color: #ac5fdb;
+      transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+    a.agente-card:hover .agente-go { transform: translateX(4px); }
+    @media (max-width: 640px) { .agentes-inner { padding: 0 1.25rem; } .agente-shot img { height: 210px; } }
+  </style>
+  <section class="agentes" id="agentes" aria-label="Agentes y automatización">
+    <div class="agentes-inner">
+      <span class="section-label" data-en="Agents &amp; automation">Agentes y automatización</span>
+      <div class="agentes-grid">
+
+        <article class="agente-card">
+          <span class="agente-shot">
+            <img src="assets/media/agente-contador.png" alt="Agente Contador: conversación de WhatsApp con el F29 calculado y el log del pipeline SII" loading="lazy" decoding="async" width="1400" height="1045">
+          </span>
+          <div class="agente-body">
+            <span class="agente-name">Agente Contador</span>
+            <span class="agente-desc" data-en="A cron logs into Chile's tax authority (SII), downloads the purchase/sales ledger, computes the F29 return (VAT + provisional tax + carryover) and warns the due date over WhatsApp. Multi-company, business-day aware, zero manual work.">Un cron entra al SII, descarga el registro de compra/venta, calcula el F29 (IVA + PPM + remanente) y avisa el vencimiento por WhatsApp. Multi-empresa, corre el plazo a día hábil con feriados, cero intervención manual.</span>
+            <div class="agente-chips" aria-hidden="true"><span>Python</span><span>SII</span><span>WhatsApp</span><span>EC2</span><span>cron</span></div>
+          </div>
+        </article>
+
+        <a class="agente-card" href="https://genmarket.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <span class="agente-shot">
+            <img src="assets/media/web-genmarket.png" alt="Generative Market: marketplace de herramientas de IA con ejemplo de transformación de imagen" loading="lazy" decoding="async" width="1280" height="900">
+          </span>
+          <div class="agente-body">
+            <span class="agente-name">Generative Market</span>
+            <span class="agente-desc" data-en="A marketplace of AI tools: transform images, generate ads and lipsynced video. Pay per use, no subscription.">Marketplace de herramientas de IA: transforma imágenes, genera avisos y video con lipsync. Pagas por uso, sin suscripción.</span>
+            <div class="agente-chips" aria-hidden="true"><span>React</span><span>Vite</span><span>IA generativa</span><span>PWA</span></div>
+            <span class="agente-go" data-en="Visit genmarket →">Visitar genmarket →</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ============ TECNOLOGIAS ============ -->
   <section class="tech" aria-label="Tecnologías">
     <div class="inv-cab">
