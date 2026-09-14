@@ -1861,24 +1861,26 @@
   .fondo-code-slot { position: absolute; margin: 0; }
   .fondo-code-slot.fondo-code-1 { top: 6.5rem; right: -1.5rem; width: 30rem; }
   .fondo-code-slot.fondo-code-2 { bottom: 5rem; right: 4rem; width: 26rem; }
+  /* Paleta MATE y cohesiva, sin glow por token (los neones se leian "IA/junior").
+     Comentarios en itálica, contraste bajo: el codigo es textura de fondo, no un
+     cartel arcoiris. */
   .fondo-code {
     position: absolute; top: 0; left: 0; width: 100%; margin: 0;
-    font-family: var(--mono); font-size: 12.5px; line-height: 1.75;
-    color: #ded0f7; white-space: pre;
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.85;
+    color: #a7a1b8; white-space: pre;
     opacity: 0; transform: translateY(16px);
-    filter: blur(0.4px);
-    text-shadow: 0 0 12px rgba(172, 95, 219, 0.32);
+    text-shadow: none;
     transition: opacity 1.1s ease, transform 1.1s ease;
   }
-  .fondo-code.active { opacity: 0.9; transform: translateY(0); }
-  .fondo-code-slot.fondo-code-2 .fondo-code.active { opacity: 0.85; }
-  .fondo-code .kw  { color: #c084fc; text-shadow: 0 0 10px rgba(192,132,252,.5); }
-  .fondo-code .str { color: #fcd34d; text-shadow: 0 0 10px rgba(252,211,77,.4); }
-  .fondo-code .num { color: #fb923c; text-shadow: 0 0 8px rgba(251,146,60,.4); }
-  .fondo-code .fn  { color: #38bdf8; text-shadow: 0 0 10px rgba(56,189,248,.45); }
-  .fondo-code .cls { color: #34d399; text-shadow: 0 0 10px rgba(52,211,153,.4); }
-  .fondo-code .op  { color: #e9d5ff; }
-  .fondo-code .cmt { color: #7f8499; text-shadow: none; }
+  .fondo-code.active { opacity: 0.7; transform: translateY(0); }
+  .fondo-code-slot.fondo-code-2 .fondo-code.active { opacity: 0.62; }
+  .fondo-code .kw  { color: #b28ad9; }
+  .fondo-code .str { color: #8fb4a4; }
+  .fondo-code .num { color: #c99a76; }
+  .fondo-code .fn  { color: #7ba0c4; }
+  .fondo-code .cls { color: #83bda3; }
+  .fondo-code .op  { color: #8a85a0; }
+  .fondo-code .cmt { color: #676579; font-style: italic; }
   @keyframes red-deriva {
     from { transform: translateY(-50%) translateX(0); }
     to   { transform: translateY(-52%) translateX(12px); }
