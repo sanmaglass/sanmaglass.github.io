@@ -4070,10 +4070,10 @@ fps = <span class="num">1000</span> / latency_ms
     }
     .agente-shot { display: block; background: #0a0b10; border-bottom: 1px solid var(--line); overflow: hidden; }
     .agente-shot img {
-      display: block; width: 100%; height: 260px; object-fit: cover; object-position: top center;
+      display: block; width: 100%; height: auto;
       transition: transform .6s cubic-bezier(.2,.7,.2,1);
     }
-    a.agente-card:hover .agente-shot img { transform: scale(1.035); }
+    a.agente-card:hover .agente-shot img { transform: scale(1.02); }
     .agente-body { padding: 1.4rem 1.5rem 1.6rem; display: flex; flex-direction: column; gap: 0.55rem; }
     .agente-name { font-family: var(--display); font-weight: 600; font-size: 1.3rem; }
     .agente-desc { color: var(--fg-2); font-size: 1rem; line-height: 1.55; }
@@ -4085,7 +4085,7 @@ fps = <span class="num">1000</span> / latency_ms
     .agente-go { margin-top: 0.7rem; font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.04em; color: #ac5fdb;
       transition: transform .35s cubic-bezier(.2,.7,.2,1); }
     a.agente-card:hover .agente-go { transform: translateX(4px); }
-    @media (max-width: 640px) { .agentes-inner { padding: 0 1.25rem; } .agente-shot img { height: 210px; } }
+    @media (max-width: 640px) { .agentes-inner { padding: 0 1.25rem; } }
   </style>
   <section class="agentes" id="agentes" aria-label="Agentes y automatización">
     <div class="agentes-inner">
@@ -5366,7 +5366,7 @@ fps = <span class="num">1000</span> / latency_ms
   // Una card por proyecto/caso. La imagen es la portada; al pinchar el
   // centro se abre el caso completo (#caso-XX), que trae el resto de capturas.
   var slides = [
-    { src: 'assets/media/maravilloso-panel.jpg', t: 'El Maravilloso', s: 'Panel de ventas',        se: 'Sales dashboard',   h: '#caso-03' },
+    { src: 'assets/media/mv-resumen-demo.jpg',   t: 'El Maravilloso', s: 'Resumen del negocio',    se: 'Business summary',   h: '#caso-03' },
     { src: 'assets/media/letsfit-login.jpg',      t: 'LetsFit',        s: 'Pantalla de acceso',     se: 'Login screen',      h: '#caso-04' },
     { src: 'assets/media/retail-detalle.jpg',     t: 'Conteo por CCTV', s: 'Seguimiento con ID',    se: 'ID tracking',       h: '#caso-06' },
     { src: 'assets/media/segunda-estacion.jpg',   t: 'St. Andrews',    s: 'Línea de empaque',       se: 'Packing line',      h: '#caso-01' },
