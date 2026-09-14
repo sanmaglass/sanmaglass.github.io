@@ -3325,8 +3325,83 @@ fps = <span class="num">1000</span> / latency_ms
   </div>
 </section>
 
+<!-- ============ PAGINAS WEB (sep-2026) ============
+     Seccion propia para sitios publicados (no casos de CV/IA). Grilla de
+     tarjetas con miniatura en marco de navegador; cada una abre el sitio. -->
+<style>
+  .webs { padding: 4.5rem 2rem 1rem; }
+  .webs-inner { max-width: 74rem; margin: 0 auto; }
+  .webs .section-label { display: block; margin-bottom: 2rem; }
+  .webs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+    gap: 1.6rem;
+  }
+  .web-card {
+    display: flex; flex-direction: column;
+    text-decoration: none; color: inherit;
+    border: 1px solid var(--line); border-radius: 16px;
+    overflow: hidden; background: rgba(172, 95, 219, 0.04);
+    transition: transform .35s cubic-bezier(.2,.7,.2,1),
+                border-color .35s, box-shadow .35s;
+  }
+  .web-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(172, 95, 219, 0.55);
+    box-shadow: 0 26px 60px -30px rgba(172,95,219,0.5), 0 0 0 1px rgba(172,95,219,0.25);
+  }
+  .web-shot { display: block; position: relative; background: #0b0e12; }
+  .web-bar {
+    display: flex; gap: 6px; align-items: center;
+    padding: 9px 12px; border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.03);
+  }
+  .web-bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(172,95,219,0.45); }
+  .web-bar i:nth-child(2) { background: rgba(172,95,219,0.28); }
+  .web-bar i:nth-child(3) { background: rgba(172,95,219,0.16); }
+  .web-shot img {
+    display: block; width: 100%; height: 200px;
+    object-fit: cover; object-position: top center;
+    transition: transform .5s cubic-bezier(.2,.7,.2,1);
+  }
+  .web-card:hover .web-shot img { transform: scale(1.03); }
+  .web-body { padding: 1.15rem 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .web-name { font-family: var(--display); font-weight: 600; font-size: 1.15rem; }
+  .web-desc { color: var(--fg-2); font-size: 0.95rem; line-height: 1.5; }
+  .web-go {
+    margin-top: 0.5rem; font-family: var(--mono); font-size: 0.8rem;
+    letter-spacing: 0.04em; color: #ac5fdb;
+    transition: transform .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .web-card:hover .web-go { transform: translateX(4px); }
+  @media (max-width: 640px) { .webs { padding: 3.5rem 1.25rem 0.5rem; } .web-shot img { height: 170px; } }
+</style>
+<section class="webs" aria-label="Páginas web">
+  <div class="webs-inner">
+    <span class="section-label" data-en="Web pages">Páginas web</span>
+    <div class="webs-grid">
+      <a class="web-card" href="https://petifly.cl" target="_blank" rel="noopener noreferrer">
+        <span class="web-shot">
+          <span class="web-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+          <img src="assets/media/web-petifly.png" alt="Petifly — delivery de productos para mascotas en el Gran Concepción" loading="lazy" decoding="async">
+        </span>
+        <span class="web-body">
+          <span class="web-name">Petifly</span>
+          <span class="web-desc" data-en="Pet food and accessories delivery from local stores in Greater Concepción. Part of every purchase goes to shelters.">Delivery de alimento y accesorios para mascotas desde tiendas locales del Gran Concepción. Parte de cada compra va a refugios.</span>
+          <span class="web-go" data-en="Visit petifly.cl →">Visitar petifly.cl →</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <main>
 <div class="wrap">
+
+  <!-- ============ GRUPO: VISION COMPUTACIONAL ============ -->
+  <div class="grupo-cabecera">
+    <span class="section-label" data-en="Computer vision">Vision computacional</span>
+  </div>
 
   <!-- ============ 01 ============ -->
   <article class="case" id="caso-01">
@@ -3532,10 +3607,238 @@ fps = <span class="num">1000</span> / latency_ms
     <div class="tools">PyTorch · detección de objetos pequeños y densos · dataset propio etiquetado en planta · OpenCV</div>
   </article>
 
+  <!-- ============ 05 ============ -->
+  <article class="case" id="caso-05">
+    <div class="case-head">
+      <span class="num">03</span>
+      <span class="carga"><span class="cuenta-n" data-n="9.6">9,6</span> cuadros / s</span>
+      <span>2026</span>
+      <span class="case-cliente">
+        <span class="cc-rot" data-en="Client">Cliente</span>
+        <span class="cc-chip chip-dark"><img src="assets/logos/exwood.png" alt="Exwood" loading="lazy" decoding="async"></span>
+      </span>
+    </div>
+
+    <h2 data-en="Helmet detection on an embedded camera">Detección de casco sobre cámara embebida</h2>
+
+    <p class="context" data-en="Monitoring of electric scooters: the system tells apart <b>scooter</b>, <b>helmet on</b> and <b>no helmet</b> from the video of a coin-sized camera. It captures; the model runs on a local GPU.">
+      Monitoreo de scooters eléctricos: el sistema distingue <b>scooter</b>, <b>con casco</b> y
+      <b>sin casco</b> sobre el video de una cámara del tamaño de una moneda. Ella captura; el
+      modelo corre en una GPU local.
+    </p>
+
+    <div class="shots">
+      <figure>
+        <div class="serie"><span class="n">EN VIVO</span><span class="de">/ 02</span>
+          <span class="que">detectando</span></div>
+        <div class="det-box" data-mira="9,6 cuadros/s">
+          <span class="det-label">SafeRide · modelo propio afinado · 9,6 cuadros/s</span>
+          <video id="vid-saferide" src="assets/media/saferide.mp4" poster="assets/media/saferide-poster.jpg"
+                 loop muted playsinline preload="metadata"
+                 aria-label="El sistema marca en rojo a una persona sin casco, en vivo"></video>
+          <button type="button" class="vid-toggle" data-target="vid-saferide"
+                  aria-label="Pausar o reanudar el video">Pausar</button>
+        </div>
+        <figcaption>
+          La cámara apunta al desarrollador y el sistema lo marca <b>sin casco</b>, en vivo, a 9,6
+          cuadros por segundo. Es una prueba sobre sí mismo: no hay usuarios de terceros grabados.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <div class="serie"><span class="n">EL HARDWARE</span><span class="de">/ 02</span>
+          <span class="que">del tamaño de una moneda</span></div>
+        <div class="det-box" data-mira="XIAO ESP32-S3 Sense">
+          <span class="det-label">XIAO ESP32-S3 Sense + OV2640</span>
+          <img src="assets/media/saferide-camara.jpg" alt="La cámara embebida sostenida en la mano, con el registro del sistema corriendo detrás en el monitor" width="1200" height="900" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          Esa es toda la cámara: <b>captura</b> y manda el video. Detrás, el registro del sistema
+          corriendo — <b>la inferencia va en una GPU local</b>, no en la placa. La restricción del
+          proyecto era el costo de lo que se monta en el scooter, no dónde corre el modelo.
+        </figcaption>
+      </figure>
+    </div>
+
+    <details class="detalle">
+      <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
+      <div class="movements">
+      <div class="movement">
+        <h3>Tres clases, no dos</h3>
+        <div class="body">
+          <p>
+            El modelo distingue <b>scooter</b>, <b>casco</b> y <b>sin casco</b>. Separar el vehículo
+            de la persona permite contar cuántos circulan y qué proporción va protegida, que es
+            el dato que sirve para decidir, en vez de una alarma suelta.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Afinado sobre 12.321 imágenes</h3>
+        <div class="body">
+          <p>
+            YOLOv8 afinado durante <b>80 épocas</b> a 640 píxeles. Medido contra el conjunto de
+            prueba: <b>mAP@50 de 85,5%</b>, precisión 85,0% y recall 80,9%.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>La clase que peor anda es la que más importa</h3>
+        <div class="body">
+          <p>
+            En la matriz de confusión, <b>scooter</b> acierta 0,99 y <b>casco</b> 0,86, pero
+            <b>sin casco</b> se queda en 0,65: se confunde con el fondo. Es justo la clase que
+            justifica el sistema, así que el trabajo pendiente no es subir el promedio sino esa
+            clase, con más ejemplos reales de cabezas descubiertas en movimiento.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Entrenado en la nube, corriendo en el borde</h3>
+        <div class="body">
+          <p>
+            El entrenamiento se hizo en la nube y la inferencia corre <b>en una GPU local</b> sobre el
+            video que entrega la placa. La placa es barata y va montada en el scooter; el cómputo
+            queda en tierra. Es el mismo criterio de los otros casos: <b>el modelo termina donde está
+            el problema</b>, no en un servidor remoto.
+          </p>
+        </div>
+      </div>
+    </div>
+    </details>
+
+    <div class="tools">YOLOv8 afinado · 3 clases · XIAO ESP32-S3 Sense + OV2640 para la captura · inferencia sobre GPU local · PyTorch · OpenCV · Python</div>
+  </article>
+
+  <!-- ============ 06 ============ -->
+  <article class="case" id="caso-06">
+    <div class="case-head">
+      <span class="num">04</span>
+      <span class="carga"><span class="cuenta-n" data-n="5">5</span> cámaras en paralelo</span>
+      <span>Feb 2026 — hoy</span>
+      <span class="case-cliente">
+        <span class="cc-rot" data-en="Client">Cliente</span>
+        <span class="cc-chip chip-light"><img src="assets/logos/maravilloso.png" alt="El Maravilloso" loading="lazy" decoding="async"></span>
+      </span>
+    </div>
+
+    <h2 data-en="People counting by line-crossing over existing CCTV">Conteo de personas por cruce de línea sobre CCTV existente</h2>
+
+    <p class="context" data-en="Same client as case 05: a grocery and stationery distributor in Concepción. The system runs on the <b>closed-circuit cameras the store already had</b> installed. Not a single camera or capture device was added.">
+      Mismo cliente del caso 05: distribuidora de abarrotes y papelería en Concepción. El sistema
+      corre sobre las <b>cámaras de circuito cerrado que el local ya tenía</b> instaladas. No se
+      agregó ni una cámara ni un equipo de captura.
+    </p>
+
+    <div class="carrusel">
+      <button class="car-flecha izq" type="button" aria-label="Ver capturas anteriores" hidden>&#8249;</button>
+      <button class="car-flecha der" type="button" aria-label="Ver más capturas" hidden>&#8250;</button>
+    <div class="shots">
+      <figure>
+        <div class="det-box" data-mira="5 cámaras en línea">
+          <span class="det-label">Panel · conteo y registro de cruces</span>
+          <img src="assets/media/retail-panel.jpg" alt="Panel del sistema: las cinco cámaras en línea, el conteo de entradas y salidas, y el registro de cruces con hora e identificador" width="1040" height="1300" loading="lazy" decoding="async">
+        </div>
+        <figcaption>Cámaras en línea, entradas y salidas, y cada cruce con su hora.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="det-box" data-mira="Persona #420 · 85%">
+          <span class="det-label">Seguimiento · identificador y confianza</span>
+          <img src="assets/media/retail-detalle.jpg" alt="Primer plano de una persona detectada dentro de su recuadro de seguimiento, con su identificador y el porcentaje de confianza" width="1040" height="1300" loading="lazy" decoding="async">
+        </div>
+        <figcaption>Cada persona lleva un identificador que sobrevive a las oclusiones.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="det-box" data-mira="cruce de línea">
+          <span class="det-label">CAM 5 · acceso · línea de conteo</span>
+          <img src="assets/media/retail-lineas.jpg" alt="La cámara del acceso con la línea de conteo verde cruzando el pasillo de entrada" width="1040" height="1300" loading="lazy" decoding="async">
+        </div>
+        <figcaption>La línea verde cruza el acceso: un sentido suma, el otro resta.</figcaption>
+      </figure>
+    </div>
+    </div>
+
+    <details class="detalle">
+      <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
+      <div class="movements">
+      <div class="movement">
+        <h3>Contar por cruce, no por presencia</h3>
+        <div class="body">
+          <p>
+            Sobre cada escena va dibujada <b>su propia línea</b>, calibrada a mano sobre la imagen
+            real de esa cámara. Quien la cruza en un sentido suma una entrada; en el otro, una
+            salida. Contar personas presentes en el cuadro no serviría: alguien parado frente a la
+            góndola sumaría en cada cuadro.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>El sub-stream, no el de máxima calidad</h3>
+        <div class="body">
+          <p>
+            El sistema toma el <b>sub-stream H.264</b> de cada cámara en vez del principal en H.265
+            a 1080p. Aguanta mejor la red del local y para el modelo da lo mismo: la detección
+            trabaja a 640x360. Pedir más resolución habría sumado caídas de conexión sin sumar
+            aciertos.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Un seguidor por cámara, no uno solo para todas</h3>
+        <div class="body">
+          <p>
+            Cada canal tiene su propio seguimiento multiobjeto, con una <b>tolerancia de 45 cuadros</b>
+            antes de dar por perdida a una persona. Esa holgura es la que sostiene el identificador
+            cuando alguien queda tapado detrás de una góndola y reaparece dos segundos después.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Detección en lote</h3>
+        <div class="body">
+          <p>
+            Las cámaras que necesitan inferencia se agrupan y se procesan <b>en una sola pasada</b>,
+            en vez de una llamada por canal. Y si el ciclo corre más rápido que la cámara, reutiliza
+            el resultado anterior en lugar de detectar dos veces sobre el mismo cuadro.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Pensado para quedarse prendido</h3>
+        <div class="body">
+          <p>
+            En cada ciclo se descartan las etiquetas de las personas que ya salieron de escena: sin
+            eso la memoria crece indefinidamente y el sistema se cae a los días. Aparte, un hilo
+            liviano consulta el grabador cada 30 segundos para marcar cámaras caídas <b>sin frenar
+            el video</b>. La diferencia entre una demo y algo que queda corriendo está en esos dos
+            detalles, no en el modelo.
+          </p>
+        </div>
+      </div>
+      </div>
+    </details>
+
+    <div class="tools">YOLO · seguimiento multiobjeto SORT por cámara · RTSP sobre las cámaras IP existentes · conteo por cruce de línea · OpenCV · Python</div>
+  </article>
+
+  <!-- ============ GRUPO: DESARROLLO DE SOFTWARE ============ -->
+  <div class="grupo-cabecera grupo-cabecera--sw">
+    <span class="section-label" data-en="Software development">Desarrollo de software</span>
+  </div>
+
   <!-- ============ 03 ============ -->
   <article class="case" id="caso-03">
     <div class="case-head">
-      <span class="num">03</span>
+      <span class="num">05</span>
       <span class="carga"><span class="cuenta-n" data-n="78">78</span> ventas / día</span>
       <span>Nov 2025 — hoy</span>
       <span class="case-cliente">
@@ -3648,7 +3951,7 @@ fps = <span class="num">1000</span> / latency_ms
   <!-- ============ 04 ============ -->
   <article class="case" id="caso-04">
     <div class="case-head">
-      <span class="num">04</span>
+      <span class="num">06</span>
       <span class="carga"><span class="cuenta-n" data-n="2">2</span> sedes · <span class="cuenta-n" data-n="14">14</span> profesionales</span>
       <span>Feb 2023 — hoy</span>
       <span class="case-cliente">
@@ -3741,229 +4044,6 @@ fps = <span class="num">1000</span> / latency_ms
     </details>
 
     <div class="tools">PostgreSQL con Row Level Security por sede · migraciones versionadas · TypeScript · scraping para la migración · Python</div>
-  </article>
-
-  <!-- ============ 05 ============ -->
-  <article class="case" id="caso-05">
-    <div class="case-head">
-      <span class="num">05</span>
-      <span class="carga"><span class="cuenta-n" data-n="9.6">9,6</span> cuadros / s</span>
-      <span>2026</span>
-      <span class="case-cliente">
-        <span class="cc-rot" data-en="Client">Cliente</span>
-        <span class="cc-chip chip-dark"><img src="assets/logos/exwood.png" alt="Exwood" loading="lazy" decoding="async"></span>
-      </span>
-    </div>
-
-    <h2 data-en="Helmet detection on an embedded camera">Detección de casco sobre cámara embebida</h2>
-
-    <p class="context" data-en="Monitoring of electric scooters: the system tells apart <b>scooter</b>, <b>helmet on</b> and <b>no helmet</b> from the video of a coin-sized camera. It captures; the model runs on a local GPU.">
-      Monitoreo de scooters eléctricos: el sistema distingue <b>scooter</b>, <b>con casco</b> y
-      <b>sin casco</b> sobre el video de una cámara del tamaño de una moneda. Ella captura; el
-      modelo corre en una GPU local.
-    </p>
-
-    <div class="shots">
-      <figure>
-        <div class="serie"><span class="n">EN VIVO</span><span class="de">/ 02</span>
-          <span class="que">detectando</span></div>
-        <div class="det-box" data-mira="9,6 cuadros/s">
-          <span class="det-label">SafeRide · modelo propio afinado · 9,6 cuadros/s</span>
-          <video id="vid-saferide" src="assets/media/saferide.mp4" poster="assets/media/saferide-poster.jpg"
-                 loop muted playsinline preload="metadata"
-                 aria-label="El sistema marca en rojo a una persona sin casco, en vivo"></video>
-          <button type="button" class="vid-toggle" data-target="vid-saferide"
-                  aria-label="Pausar o reanudar el video">Pausar</button>
-        </div>
-        <figcaption>
-          La cámara apunta al desarrollador y el sistema lo marca <b>sin casco</b>, en vivo, a 9,6
-          cuadros por segundo. Es una prueba sobre sí mismo: no hay usuarios de terceros grabados.
-        </figcaption>
-      </figure>
-
-      <figure>
-        <div class="serie"><span class="n">EL HARDWARE</span><span class="de">/ 02</span>
-          <span class="que">del tamaño de una moneda</span></div>
-        <div class="det-box" data-mira="XIAO ESP32-S3 Sense">
-          <span class="det-label">XIAO ESP32-S3 Sense + OV2640</span>
-          <img src="assets/media/saferide-camara.jpg" alt="La cámara embebida sostenida en la mano, con el registro del sistema corriendo detrás en el monitor" width="1200" height="900" loading="lazy" decoding="async">
-        </div>
-        <figcaption>
-          Esa es toda la cámara: <b>captura</b> y manda el video. Detrás, el registro del sistema
-          corriendo — <b>la inferencia va en una GPU local</b>, no en la placa. La restricción del
-          proyecto era el costo de lo que se monta en el scooter, no dónde corre el modelo.
-        </figcaption>
-      </figure>
-    </div>
-
-    <details class="detalle">
-      <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
-      <div class="movements">
-      <div class="movement">
-        <h3>Tres clases, no dos</h3>
-        <div class="body">
-          <p>
-            El modelo distingue <b>scooter</b>, <b>casco</b> y <b>sin casco</b>. Separar el vehículo
-            de la persona permite contar cuántos circulan y qué proporción va protegida, que es
-            el dato que sirve para decidir, en vez de una alarma suelta.
-          </p>
-        </div>
-      </div>
-
-      <div class="movement">
-        <h3>Afinado sobre 12.321 imágenes</h3>
-        <div class="body">
-          <p>
-            YOLOv8 afinado durante <b>80 épocas</b> a 640 píxeles. Medido contra el conjunto de
-            prueba: <b>mAP@50 de 85,5%</b>, precisión 85,0% y recall 80,9%.
-          </p>
-        </div>
-      </div>
-
-      <div class="movement">
-        <h3>La clase que peor anda es la que más importa</h3>
-        <div class="body">
-          <p>
-            En la matriz de confusión, <b>scooter</b> acierta 0,99 y <b>casco</b> 0,86, pero
-            <b>sin casco</b> se queda en 0,65: se confunde con el fondo. Es justo la clase que
-            justifica el sistema, así que el trabajo pendiente no es subir el promedio sino esa
-            clase, con más ejemplos reales de cabezas descubiertas en movimiento.
-          </p>
-        </div>
-      </div>
-
-      <div class="movement">
-        <h3>Entrenado en la nube, corriendo en el borde</h3>
-        <div class="body">
-          <p>
-            El entrenamiento se hizo en la nube y la inferencia corre <b>en una GPU local</b> sobre el
-            video que entrega la placa. La placa es barata y va montada en el scooter; el cómputo
-            queda en tierra. Es el mismo criterio de los otros casos: <b>el modelo termina donde está
-            el problema</b>, no en un servidor remoto.
-          </p>
-        </div>
-      </div>
-    </div>
-    </details>
-
-    <div class="tools">YOLOv8 afinado · 3 clases · XIAO ESP32-S3 Sense + OV2640 para la captura · inferencia sobre GPU local · PyTorch · OpenCV · Python</div>
-  </article>
-
-  <!-- ============ 06 ============ -->
-  <article class="case" id="caso-06">
-    <div class="case-head">
-      <span class="num">06</span>
-      <span class="carga"><span class="cuenta-n" data-n="5">5</span> cámaras en paralelo</span>
-      <span>Feb 2026 — hoy</span>
-      <span class="case-cliente">
-        <span class="cc-rot" data-en="Client">Cliente</span>
-        <span class="cc-chip chip-light"><img src="assets/logos/maravilloso.png" alt="El Maravilloso" loading="lazy" decoding="async"></span>
-      </span>
-    </div>
-
-    <h2 data-en="People counting by line-crossing over existing CCTV">Conteo de personas por cruce de línea sobre CCTV existente</h2>
-
-    <p class="context" data-en="Same client as case 03: a grocery and stationery distributor in Concepción. The system runs on the <b>closed-circuit cameras the store already had</b> installed. Not a single camera or capture device was added.">
-      Mismo cliente del caso 03: distribuidora de abarrotes y papelería en Concepción. El sistema
-      corre sobre las <b>cámaras de circuito cerrado que el local ya tenía</b> instaladas. No se
-      agregó ni una cámara ni un equipo de captura.
-    </p>
-
-    <div class="carrusel">
-      <button class="car-flecha izq" type="button" aria-label="Ver capturas anteriores" hidden>&#8249;</button>
-      <button class="car-flecha der" type="button" aria-label="Ver más capturas" hidden>&#8250;</button>
-    <div class="shots">
-      <figure>
-        <div class="det-box" data-mira="5 cámaras en línea">
-          <span class="det-label">Panel · conteo y registro de cruces</span>
-          <img src="assets/media/retail-panel.jpg" alt="Panel del sistema: las cinco cámaras en línea, el conteo de entradas y salidas, y el registro de cruces con hora e identificador" width="1040" height="1300" loading="lazy" decoding="async">
-        </div>
-        <figcaption>Cámaras en línea, entradas y salidas, y cada cruce con su hora.</figcaption>
-      </figure>
-
-      <figure>
-        <div class="det-box" data-mira="Persona #420 · 85%">
-          <span class="det-label">Seguimiento · identificador y confianza</span>
-          <img src="assets/media/retail-detalle.jpg" alt="Primer plano de una persona detectada dentro de su recuadro de seguimiento, con su identificador y el porcentaje de confianza" width="1040" height="1300" loading="lazy" decoding="async">
-        </div>
-        <figcaption>Cada persona lleva un identificador que sobrevive a las oclusiones.</figcaption>
-      </figure>
-
-      <figure>
-        <div class="det-box" data-mira="cruce de línea">
-          <span class="det-label">CAM 5 · acceso · línea de conteo</span>
-          <img src="assets/media/retail-lineas.jpg" alt="La cámara del acceso con la línea de conteo verde cruzando el pasillo de entrada" width="1040" height="1300" loading="lazy" decoding="async">
-        </div>
-        <figcaption>La línea verde cruza el acceso: un sentido suma, el otro resta.</figcaption>
-      </figure>
-    </div>
-    </div>
-
-    <details class="detalle">
-      <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
-      <div class="movements">
-      <div class="movement">
-        <h3>Contar por cruce, no por presencia</h3>
-        <div class="body">
-          <p>
-            Sobre cada escena va dibujada <b>su propia línea</b>, calibrada a mano sobre la imagen
-            real de esa cámara. Quien la cruza en un sentido suma una entrada; en el otro, una
-            salida. Contar personas presentes en el cuadro no serviría: alguien parado frente a la
-            góndola sumaría en cada cuadro.
-          </p>
-        </div>
-      </div>
-
-      <div class="movement">
-        <h3>El sub-stream, no el de máxima calidad</h3>
-        <div class="body">
-          <p>
-            El sistema toma el <b>sub-stream H.264</b> de cada cámara en vez del principal en H.265
-            a 1080p. Aguanta mejor la red del local y para el modelo da lo mismo: la detección
-            trabaja a 640x360. Pedir más resolución habría sumado caídas de conexión sin sumar
-            aciertos.
-          </p>
-        </div>
-      </div>
-
-      <div class="movement">
-        <h3>Un seguidor por cámara, no uno solo para todas</h3>
-        <div class="body">
-          <p>
-            Cada canal tiene su propio seguimiento multiobjeto, con una <b>tolerancia de 45 cuadros</b>
-            antes de dar por perdida a una persona. Esa holgura es la que sostiene el identificador
-            cuando alguien queda tapado detrás de una góndola y reaparece dos segundos después.
-          </p>
-        </div>
-      </div>
-
-      <div class="movement">
-        <h3>Detección en lote</h3>
-        <div class="body">
-          <p>
-            Las cámaras que necesitan inferencia se agrupan y se procesan <b>en una sola pasada</b>,
-            en vez de una llamada por canal. Y si el ciclo corre más rápido que la cámara, reutiliza
-            el resultado anterior en lugar de detectar dos veces sobre el mismo cuadro.
-          </p>
-        </div>
-      </div>
-
-      <div class="movement">
-        <h3>Pensado para quedarse prendido</h3>
-        <div class="body">
-          <p>
-            En cada ciclo se descartan las etiquetas de las personas que ya salieron de escena: sin
-            eso la memoria crece indefinidamente y el sistema se cae a los días. Aparte, un hilo
-            liviano consulta el grabador cada 30 segundos para marcar cámaras caídas <b>sin frenar
-            el video</b>. La diferencia entre una demo y algo que queda corriendo está en esos dos
-            detalles, no en el modelo.
-          </p>
-        </div>
-      </div>
-      </div>
-    </details>
-
-    <div class="tools">YOLO · seguimiento multiobjeto SORT por cámara · RTSP sobre las cámaras IP existentes · conteo por cruce de línea · OpenCV · Python</div>
   </article>
 
   <!-- ============ TECNOLOGIAS ============ -->
@@ -5210,15 +5290,13 @@ fps = <span class="num">1000</span> / latency_ms
   var elVer = document.getElementById('cf-ver');
   var dots = document.getElementById('cf-dots');
 
+  // Una card por proyecto/caso. La imagen es la portada; al pinchar el
+  // centro se abre el caso completo (#caso-XX), que trae el resto de capturas.
   var slides = [
     { src: 'assets/media/maravilloso-panel.jpg', t: 'El Maravilloso', s: 'Panel de ventas',        se: 'Sales dashboard',   h: '#caso-03' },
-    { src: 'assets/media/mv-resumen-demo.jpg',         t: 'El Maravilloso', s: 'Resumen en el teléfono', se: 'Mobile summary',    h: '#caso-03' },
     { src: 'assets/media/letsfit-login.jpg',      t: 'LetsFit',        s: 'Pantalla de acceso',     se: 'Login screen',      h: '#caso-04' },
-    { src: 'assets/media/letsfit-comisiones-demo.jpg', t: 'LetsFit',        s: 'Comisiones por profesional', se: 'Commissions',   h: '#caso-04' },
-    { src: 'assets/media/letsfit-agenda-demo.jpg',     t: 'LetsFit',        s: 'Agenda semanal',         se: 'Weekly schedule',   h: '#caso-04' },
-    { src: 'assets/media/retail-panel.jpg',       t: 'Conteo por CCTV', s: 'Cinco cámaras en línea', se: 'Five live cameras', h: '#caso-06' },
     { src: 'assets/media/retail-detalle.jpg',     t: 'Conteo por CCTV', s: 'Seguimiento con ID',    se: 'ID tracking',       h: '#caso-06' },
-    { src: 'assets/media/tercera-estacion.jpg',   t: 'St. Andrews',    s: 'Línea de empaque',       se: 'Packing line',      h: '#caso-01' },
+    { src: 'assets/media/segunda-estacion.jpg',   t: 'St. Andrews',    s: 'Línea de empaque',       se: 'Packing line',      h: '#caso-01' },
     { src: 'assets/media/conteo-larvas.jpg',      t: 'St. Andrews',    s: 'Conteo de larvas',       se: 'Larvae counting',   h: '#caso-02' },
     { src: 'assets/media/saferide-camara.jpg',    t: 'Exwood',         s: 'Cámara embebida',        se: 'Embedded camera',   h: '#caso-05' }
   ];
