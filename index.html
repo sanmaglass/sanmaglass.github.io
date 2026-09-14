@@ -851,7 +851,7 @@
             mask: linear-gradient(90deg, transparent 0, #000 2.4rem, #000 calc(100% - 2.8rem), transparent 100%);
   }
   .carrusel--film > .shots > figure {
-    flex: 0 0 clamp(16rem, 62vw, 22rem);
+    flex: 0 0 clamp(20rem, 66vw, 33rem);
     min-width: 0;
     margin: 0;
     scroll-snap-align: start;
@@ -871,7 +871,8 @@
   }
   .carrusel--film figcaption { padding: 0 0.2rem; }
   @media (max-width: 640px) {
-    .carrusel--film > .shots > figure { flex-basis: 80vw; }
+    .carrusel--film > .shots > figure { flex-basis: 88vw; }
+    .carrusel--film > .shots { gap: 1rem; padding: 0 1.1rem 0.4rem; }
   }
 
   .det-box { position: relative; border: 1px solid var(--line-2); background: #000; }
