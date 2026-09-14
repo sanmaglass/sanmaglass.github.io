@@ -4047,9 +4047,10 @@ fps = <span class="num">1000</span> / latency_ms
   </article>
 
   <!-- ============ GRUPO: AGENTES Y AUTOMATIZACION (sep-2026) ============
-       Sistemas que corren solos: bots, scrapers y crons. No son casos de
-       CV/IA con timeline; van en tarjetas anchas con captura HD (una recreada
-       con datos de ejemplo para el Contador, que no tiene UI publica). -->
+       Las dos áreas del bot de WhatsApp del VPS. Contador: captura real de la
+       conversación (datos en vivo del SII, empresa propia). Marketing: pieza
+       real (placa + reel) generada por crear_pieza, mostrada en dos "teléfonos"
+       estilo carrusel; el reel es un <video> que reproduce en la página. -->
   <style>
     .agentes { grid-column: full; margin-top: 6rem; }
     .agentes-inner { max-width: 74rem; margin: 0 auto; padding: 0 2rem; }
@@ -4069,11 +4070,32 @@ fps = <span class="num">1000</span> / latency_ms
       box-shadow: 0 30px 70px -34px rgba(172,95,219,0.55), 0 0 0 1px rgba(172,95,219,0.25);
     }
     .agente-shot { display: block; background: #0a0b10; border-bottom: 1px solid var(--line); overflow: hidden; }
-    .agente-shot img {
-      display: block; width: 100%; height: auto;
+    /* imagen suelta (Contador): contenida y con tope de alto para que no domine */
+    .agente-shot > img {
+      display: block; width: 100%; height: auto; max-height: 340px; object-fit: contain;
       transition: transform .6s cubic-bezier(.2,.7,.2,1);
     }
-    a.agente-card:hover .agente-shot img { transform: scale(1.02); }
+    a.agente-card:hover .agente-shot > img { transform: scale(1.02); }
+    /* card de Marketing: dos "teléfonos" (reel + placa) estilo carrusel */
+    .mkt-shot { padding: 1.6rem 1rem; }
+    .mkt-stage { display: flex; gap: 0.9rem; justify-content: center; align-items: center; }
+    .mkt-phone {
+      position: relative; flex: 0 0 auto; width: min(45%, 172px); aspect-ratio: 9 / 16;
+      border-radius: 22px; overflow: hidden; background: #000;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 22px 46px -22px rgba(0,0,0,.75), 0 0 0 1px rgba(172,95,219,.18);
+      transition: transform .4s cubic-bezier(.2,.7,.2,1);
+    }
+    .mkt-phone--video { transform: rotate(-3deg); z-index: 2; }
+    .mkt-phone:last-child { transform: rotate(3deg); }
+    .agente-card:hover .mkt-phone--video { transform: rotate(-3deg) translateY(-6px); }
+    .agente-card:hover .mkt-phone:last-child { transform: rotate(3deg) translateY(-6px); }
+    .mkt-phone video, .mkt-phone img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .mkt-tag {
+      position: absolute; top: 8px; left: 8px; z-index: 3;
+      font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.06em; text-transform: uppercase;
+      color: #fff; background: rgba(172,95,219,.9); padding: 3px 8px; border-radius: 999px;
+    }
     .agente-body { padding: 1.4rem 1.5rem 1.6rem; display: flex; flex-direction: column; gap: 0.55rem; }
     .agente-name { font-family: var(--display); font-weight: 600; font-size: 1.3rem; }
     .agente-desc { color: var(--fg-2); font-size: 1rem; line-height: 1.55; }
@@ -4082,10 +4104,11 @@ fps = <span class="num">1000</span> / latency_ms
       font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.03em;
       color: var(--fg-3); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px;
     }
-    .agente-go { margin-top: 0.7rem; font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.04em; color: #ac5fdb;
-      transition: transform .35s cubic-bezier(.2,.7,.2,1); }
-    a.agente-card:hover .agente-go { transform: translateX(4px); }
-    @media (max-width: 640px) { .agentes-inner { padding: 0 1.25rem; } }
+    @media (max-width: 640px) {
+      .agentes-inner { padding: 0 1.25rem; }
+      .agente-shot > img { max-height: 300px; }
+      .mkt-phone { width: min(44%, 158px); }
+    }
   </style>
   <section class="agentes" id="agentes" aria-label="Agentes y automatización">
     <div class="agentes-inner">
@@ -4104,13 +4127,24 @@ fps = <span class="num">1000</span> / latency_ms
         </article>
 
         <article class="agente-card">
-          <span class="agente-shot">
-            <img src="assets/media/generative-market.png" alt="Generative Market (SnapBrand): app que convierte la foto de un producto en arte publicitario con precios y branding usando IA" loading="lazy" decoding="async" width="1400" height="900">
-          </span>
+          <div class="agente-shot mkt-shot">
+            <div class="mkt-stage">
+              <figure class="mkt-phone mkt-phone--video">
+                <span class="mkt-tag">Reel</span>
+                <video src="assets/media/pieza-marketing.mp4" poster="assets/media/pieza-marketing.png"
+                       autoplay muted loop playsinline preload="metadata"
+                       aria-label="Reel generado: oferta de Leche Soprole 1L a $1.190"></video>
+              </figure>
+              <figure class="mkt-phone">
+                <span class="mkt-tag">Placa</span>
+                <img src="assets/media/pieza-marketing.png" alt="Placa generada por el bot: El Maravilloso, Leche Soprole Entera 1L, PROMO, $1.190" loading="lazy" decoding="async">
+              </figure>
+            </div>
+          </div>
           <div class="agente-body">
-            <span class="agente-name">Generative Market</span>
-            <span class="agente-desc" data-en="Turns a product photo into pro ad art with prices and branding in seconds. AI background removal runs on-device in the browser. Installable PWA.">Convierte la foto de un producto en arte publicitario con precios y branding en segundos. Quita el fondo con IA en el navegador, sin servidor. PWA instalable.</span>
-            <div class="agente-chips" aria-hidden="true"><span>React</span><span>Vite</span><span>IA on-device</span><span>PWA</span></div>
+            <span class="agente-name">Agente Marketing</span>
+            <span class="agente-desc" data-en="Send a product photo over WhatsApp and it builds the piece — a still and a reel with price and offer — then posts it to Instagram, Facebook and TikTok. Background removed, headline and best time picked on its own.">Le mandas la foto del producto por WhatsApp y arma la pieza —placa y reel con precio y oferta— y la publica en Instagram, Facebook y TikTok. Recorta el fondo, elige titular y hora óptima, solo.</span>
+            <div class="agente-chips" aria-hidden="true"><span>Python</span><span>WhatsApp</span><span>Pillow</span><span>ffmpeg</span><span>IG · FB · TikTok</span></div>
           </div>
         </article>
 
