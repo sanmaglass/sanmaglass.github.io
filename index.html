@@ -790,6 +790,22 @@
   .case:nth-of-type(3) .shots > * { width: 100%; }
   .case:nth-of-type(3) figcaption { text-align: center; max-width: 46ch; margin-left: auto; margin-right: auto; }
 
+  /* MV armonizado: la app en la MISMA banda malva que los filmstrips —
+     escritorio arriba (frame malva) + teléfonos abajo (más chicos, ver más abajo)
+     — para que su dimensión sincronice con el resto de los casos. */
+  .mv-band {
+    background: linear-gradient(180deg, rgba(172,95,219,0.07), rgba(172,95,219,0.02));
+    border-radius: 22px;
+    padding: 1.8rem 1.8rem 1.4rem;
+    margin-top: 3.2rem !important;
+    gap: 1.6rem !important;
+  }
+  .mv-band > figure > .det-box {
+    border: 1px solid rgba(172,95,219,0.30); border-radius: 14px; overflow: hidden;
+    box-shadow: 0 18px 40px -22px rgba(172,95,219,0.5); background: #0a0b10;
+  }
+  .mv-band .carrusel-fones .devices-track { margin-top: 1.4rem; }
+
   /* 06 — el material son capturas de pantalla altas. Apiladas estiraban la
      pagina sin aportar: cuatro imagenes verticales seguidas son mas scroll
      que caso. Van en fila, con desplazamiento lateral y anclaje por figura. */
@@ -2227,7 +2243,7 @@
   .carrusel-fones .devices-track::-webkit-scrollbar-thumb { background: rgba(172,95,219,0.5); border-radius: 99px; }
   .carrusel-fones .devices-track::-webkit-scrollbar-track { background: transparent; }
   .carrusel-fones .devices-track > .device {
-    flex: 0 0 auto; width: clamp(14rem, 62vw, 16.5rem);
+    flex: 0 0 auto; width: clamp(11rem, 46vw, 12.5rem);
     scroll-snap-align: center; text-align: center; min-width: 0;
   }
   /* marco iPhone */
@@ -3959,7 +3975,7 @@ fps = <span class="num">1000</span> / latency_ms
       de <b>78 ventas diarias</b>.
     </p>
 
-    <div class="shots">
+    <div class="shots mv-band">
       <figure>
         <div class="det-box">
           <span class="det-label">Resumen · agosto 2026 · datos de demostración</span>
