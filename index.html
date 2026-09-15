@@ -741,10 +741,33 @@
     margin-left: 0;
   }
   .case:nth-of-type(2) .det-box.tall img { max-height: 30rem; }
-  /* larvas: una sola imagen (no galería) — marco malva para cohesión con el resto */
-  .det-box.tall {
+  /* MEDIA-SOLO: casos con una sola foto/video. No hay galería que armar, así que
+     el medio ocupa grande y centrado, con la MISMA banda malva + marco que los
+     filmstrips → cohesión visual entre todos los casos. */
+  .media-solo {
+    grid-column: text-start / wide-end;
+    background: linear-gradient(180deg, rgba(172,95,219,0.07), rgba(172,95,219,0.02));
+    border-radius: 22px;
+    padding: 1.8rem;
+    margin-top: 3.2rem;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .media-solo figure { margin: 0; display: flex; flex-direction: column; align-items: center; }
+  .media-solo .det-box {
+    height: clamp(20rem, 58vw, 34rem); width: auto; max-width: 100%;
     border: 1px solid rgba(172,95,219,0.30); border-radius: 14px; overflow: hidden;
-    box-shadow: 0 18px 40px -22px rgba(172,95,219,0.5);
+    background: #0a0b10; box-shadow: 0 18px 40px -22px rgba(172,95,219,0.5);
+    display: block;
+  }
+  .media-solo .det-box img, .media-solo .det-box video {
+    height: 100% !important; width: auto !important;
+    max-width: 100% !important; max-height: none !important;
+    display: block; object-fit: contain;
+  }
+  .media-solo figcaption { text-align: center; max-width: 46ch; margin-top: 0.9rem; }
+  @media (max-width: 640px) {
+    .media-solo { padding: 1.1rem; }
+    .media-solo .det-box { height: clamp(16rem, 70vw, 26rem); }
   }
 
   /* 05 — las dos piezas al MISMO ancho, igual que las estaciones del 01.
@@ -3632,7 +3655,7 @@ fps = <span class="num">1000</span> / latency_ms
       cuentan las larvas que definen la siembra.
     </p>
 
-    <div class="shots">
+    <div class="media-solo">
       <figure>
         <div class="det-box tall" data-mira="696 larvas · 2,93 s">
           <span class="det-label">Larvas detectadas: 696 · Tiempo: 2,93 seg</span>
