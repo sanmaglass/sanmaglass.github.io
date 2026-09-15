@@ -2545,17 +2545,32 @@
     }
     .cf-head { max-width: 74rem; margin: 0 auto 1.6rem; }
     .cf-rot {
-      font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--fg-3);
+      display: inline-block; position: relative;
+      font-family: var(--display); font-weight: 600;
+      font-size: clamp(1.35rem, 3.4vw, 2rem); letter-spacing: -0.01em;
+      text-transform: none; color: var(--fg); padding-bottom: 0.55rem;
+    }
+    .cf-rot::after {
+      content: ""; position: absolute; left: 0; bottom: 0;
+      width: 3rem; height: 3px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--v), rgba(172,95,219,0.25));
     }
     .cf {
       position: relative;
-      --cf-card: clamp(210px, 27vw, 340px);
-      perspective: calc(var(--cf-card) * 3);
+      --cf-card: clamp(240px, 32vw, 420px);
+      perspective: calc(var(--cf-card) * 2.6);
       touch-action: pan-y; outline: none;
       max-width: 74rem; margin: 0 auto;
     }
     .cf:focus-visible { box-shadow: 0 0 0 2px var(--v); border-radius: 18px; }
+    /* glow malva detrás del escenario: da profundidad y foco al centro */
+    .cf::before {
+      content: ""; position: absolute; z-index: 0; pointer-events: none;
+      left: 50%; top: 42%; transform: translate(-50%, -50%);
+      width: min(70%, 46rem); height: 120%;
+      background: radial-gradient(50% 55% at 50% 50%, rgba(172,95,219,0.28), transparent 70%);
+      filter: blur(6px);
+    }
     .cf-stage {
       position: relative; margin: 0 auto;
       height: calc(var(--cf-card) * 0.75);
@@ -2577,7 +2592,7 @@
       display: block; pointer-events: none;
     }
     .cf-card.activa {
-      box-shadow: 0 40px 75px -25px var(--glow-v), 0 0 0 1px var(--v);
+      box-shadow: 0 55px 95px -22px var(--glow-v), 0 0 0 1.5px var(--v), 0 0 55px -8px var(--glow-v);
       cursor: pointer;
     }
     /* velo que oscurece las cards laterales, resalta la del centro */
@@ -5534,7 +5549,7 @@ fps = <span class="num">1000</span> / latency_ms
   ];
 
   // parametros del rake (mismos del componente original)
-  var ROT = 44, DEPTH = 0.6, FALL = 0.56, FADE = 0.1, GAP = 0.06;
+  var ROT = 52, DEPTH = 0.68, FALL = 0.56, FADE = 0.1, GAP = 0.05;
   var count = slides.length;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
