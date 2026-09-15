@@ -886,6 +886,7 @@
     grid-column: auto;
     flex-direction: row;
     align-items: flex-start;
+    justify-content: safe center; /* centra la fila si cabe; si hay scroll, arranca al inicio */
     gap: 1.4rem;
     margin: 0;
     padding: 0 1.7rem 0.4rem;
@@ -903,7 +904,7 @@
   .carrusel--film > .shots > figure {
     flex: 0 0 auto; min-width: 0; margin: 0;
     scroll-snap-align: start;
-    display: flex; flex-direction: column; align-items: flex-start;
+    display: flex; flex-direction: column; align-items: center; /* centra el medio dentro de su figura (video vertical no queda a la izquierda) */
   }
   .carrusel--film > .shots::-webkit-scrollbar { height: 6px; }
   .carrusel--film > .shots::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 3px; }
