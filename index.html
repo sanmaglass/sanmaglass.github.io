@@ -3533,22 +3533,12 @@ fps = <span class="num">1000</span> / latency_ms
         </span>
       </button>
 
-      <button class="proj-card" type="button" data-target="#agente-contador">
-        <span class="pc-shot"><span class="pc-cat">Agente</span><img src="assets/media/agente-contador.webp" alt="Agente Contador" loading="lazy" decoding="async"></span>
+      <button class="proj-card" type="button" data-target="#agente-wa">
+        <span class="pc-shot"><span class="pc-cat">Agente · IA</span><img src="assets/media/agente-whatsapp.webp" alt="Agente de WhatsApp: consulta la caja del día, genera y publica una pieza de marketing, y avisa el F29 — todo en un chat" loading="lazy" decoding="async"></span>
         <span class="pc-body">
-          <span class="pc-client">El Maravilloso</span>
-          <span class="pc-title" data-en="Accountant agent">Agente Contador</span>
-          <span class="pc-metric" data-en="F29 computed & sent over WhatsApp">F29 calculado y avisado por WhatsApp</span>
-          <span class="pc-go" data-en="View detail →">Ver detalle →</span>
-        </span>
-      </button>
-
-      <button class="proj-card" type="button" data-target="#agente-marketing">
-        <span class="pc-shot"><span class="pc-cat">Agente</span><img src="assets/media/pieza-marketing.webp" alt="Agente Marketing" loading="lazy" decoding="async"></span>
-        <span class="pc-body">
-          <span class="pc-client">El Maravilloso</span>
-          <span class="pc-title" data-en="Marketing agent">Agente Marketing</span>
-          <span class="pc-metric" data-en="Still + reel, fully automatic">Placa + reel automáticos</span>
+          <span class="pc-client" data-en="2 active clients">2 clientes activos</span>
+          <span class="pc-title" data-en="WhatsApp agent">Agente de WhatsApp</span>
+          <span class="pc-metric" data-en="Accounting · marketing · ops, on one number">Contador · marketing · negocio, en un número</span>
           <span class="pc-go" data-en="View detail →">Ver detalle →</span>
         </span>
       </button>
@@ -4397,6 +4387,10 @@ fps = <span class="num">1000</span> / latency_ms
     .agente-body { padding: 1.4rem 1.5rem 1.6rem; display: flex; flex-direction: column; gap: 0.55rem; }
     .agente-name { font-family: var(--display); font-weight: 600; font-size: 1.3rem; }
     .agente-desc { color: var(--fg-2); font-size: 1rem; line-height: 1.55; }
+    .agente-desc b { color: var(--fg); font-weight: 600; }
+    .agente-areas { display: flex; flex-direction: column; gap: 0.7rem; margin: 0.7rem 0 0.4rem; }
+    .agente-areas > div { font-size: 0.95rem; color: var(--fg-2); line-height: 1.5; padding-left: 0.9rem; border-left: 2px solid rgba(172,95,219,0.4); }
+    .agente-areas b { color: var(--fg); font-weight: 600; }
     .agente-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
     .agente-chips span {
       font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.03em;
@@ -4413,36 +4407,19 @@ fps = <span class="num">1000</span> / latency_ms
       <span class="section-label" data-en="Agents &amp; automation">Agentes y automatización</span>
       <div class="agentes-grid">
 
-        <article class="agente-card" id="agente-contador">
+        <article class="agente-card agente-card--wa" id="agente-wa">
           <span class="agente-shot">
-            <img src="assets/media/agente-contador.webp" alt="Agente Contador: conversación de WhatsApp con el F29 calculado y el log del pipeline SII" loading="lazy" decoding="async" width="1400" height="1045">
+            <img src="assets/media/agente-whatsapp.webp" alt="Chat de WhatsApp con el agente: consulta la caja del día, genera y publica una pieza de marketing y avisa el F29" loading="lazy" decoding="async" width="1200" height="750">
           </span>
           <div class="agente-body">
-            <span class="agente-name">Agente Contador</span>
-            <span class="agente-desc" data-en="A cron logs into Chile's tax authority (SII), downloads the purchase/sales ledger, computes the F29 return (VAT + provisional tax + carryover) and warns the due date over WhatsApp. Multi-company, business-day aware, zero manual work.">Un cron entra al SII, descarga el registro de compra/venta, calcula el F29 (IVA + PPM + remanente) y avisa el vencimiento por WhatsApp. Multi-empresa, corre el plazo a día hábil con feriados, cero intervención manual.</span>
-            <div class="agente-chips" aria-hidden="true"><span>Python</span><span>SII</span><span>WhatsApp</span><span>EC2</span><span>cron</span></div>
-          </div>
-        </article>
-
-        <article class="agente-card" id="agente-marketing">
-          <div class="agente-shot mkt-shot">
-            <div class="mkt-stage">
-              <figure class="mkt-phone mkt-phone--video">
-                <span class="mkt-tag">Reel</span>
-                <video src="assets/media/pieza-marketing.mp4" poster="assets/media/pieza-marketing.webp"
-                       muted loop playsinline preload="none" data-lazy-reel
-                       aria-label="Reel generado: oferta de Leche Soprole 1L a $1.190"></video>
-              </figure>
-              <figure class="mkt-phone">
-                <span class="mkt-tag">Placa</span>
-                <img src="assets/media/pieza-marketing.webp" alt="Placa generada por el bot: El Maravilloso, Leche Soprole Entera 1L, PROMO, $1.190" loading="lazy" decoding="async">
-              </figure>
+            <span class="agente-name" data-en="WhatsApp agent">Agente de WhatsApp</span>
+            <span class="agente-desc" data-en="An agent that lives on one WhatsApp number. It understands text, buttons and voice notes (it transcribes them). A local classifier resolves most messages with zero tokens; it only escalates to the model when needed, and then chains several tools in a single turn. Two clients today.">Un agente que vive en un número de WhatsApp. Entiende texto, botones y notas de voz (las transcribe). Un clasificador propio resuelve la mayoría de los mensajes <b>sin gastar tokens</b>; solo escala al modelo cuando hace falta, y ahí encadena varias herramientas en un mismo turno. Hoy atiende a <b>2 clientes</b>.</span>
+            <div class="agente-areas">
+              <div data-en="<b>Accounting</b> — logs into the tax authority (SII) several times a day, computes VAT, carryover and the F29 return, warns due dates and onboards clients with encrypted credentials. Multi-company."><b>Contador</b> — entra al SII varias veces al día, calcula IVA, remanente y F29, avisa los vencimientos y da de alta clientes con sus credenciales cifradas. Multi-empresa.</div>
+              <div data-en="<b>Marketing</b> — from a product photo it builds the piece (cuts out the background, adds price and offer) and posts it to Instagram, Facebook and TikTok. It proposes what to publish and sends a weekly report."><b>Marketing</b> — de una foto arma la pieza (recorta el fondo, pone precio y oferta) y la publica en Instagram, Facebook y TikTok. Propone qué publicar y entrega un reporte semanal.</div>
+              <div data-en="<b>Ops</b> — answers about the till, the bank, sales and results, and warns about stock that's about to expire."><b>Negocio</b> — responde por la caja, el banco, las ventas y los resultados, y avisa el stock que está por vencer.</div>
             </div>
-          </div>
-          <div class="agente-body">
-            <span class="agente-name">Agente Marketing</span>
-            <span class="agente-desc" data-en="Send a product photo over WhatsApp and it builds the piece — a still and a reel with price and offer — then posts it to Instagram, Facebook and TikTok. Background removed, headline and best time picked on its own.">Le mandas la foto del producto por WhatsApp y arma la pieza —placa y reel con precio y oferta— y la publica en Instagram, Facebook y TikTok. Recorta el fondo, elige titular y hora óptima, solo.</span>
-            <div class="agente-chips" aria-hidden="true"><span>Python</span><span>WhatsApp</span><span>Pillow</span><span>ffmpeg</span><span>IG · FB · TikTok</span></div>
+            <div class="agente-chips" aria-hidden="true"><span>Python</span><span>WhatsApp Cloud API</span><span>Whisper</span><span>Claude</span><span>SII</span><span>rembg</span><span>IG · FB · TikTok</span><span>Supabase</span></div>
           </div>
         </article>
 
