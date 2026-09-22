@@ -1523,28 +1523,6 @@
   /* ===== CIERRE: CTA de contacto =====
      Un solo boton manda (agendar). WhatsApp es el atajo para quien quiere
      hablar ya. La nota baja la ansiedad: dice que cuesta poco y no compromete. */
-  .end-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    font-family: var(--mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.04em;
-    color: var(--fg-2);
-    margin-top: 2rem;
-  }
-  .end-status .dot {
-    width: 9px; height: 9px; border-radius: 50%;
-    background: #4ade80;
-    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55);
-    animation: dotPulse 2.4s ease-out infinite;
-  }
-  @keyframes dotPulse {
-    0%   { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5); }
-    70%  { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
-  }
-
   .cta-wa {
     gap: 0.6rem;
   }
@@ -1570,7 +1548,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .end-status .dot { animation: none; }
     .cta-wa .wa-ico, .cta-agendar .cal-arrow { transition: none; }
   }
 
@@ -4668,8 +4645,6 @@ fps = <span class="num">1000</span> / latency_ms
       Son sistemas en operación de clientes, así que el código no es mío para publicarlo. Lo muestro
       entero en una reunión, con los paneles y los datos en vivo, bajo acuerdo de confidencialidad.
     </p>
-    <p class="end-status"><span class="dot" aria-hidden="true"></span><span data-en="Available for new projects">Disponible para nuevos proyectos</span></p>
-
     <div class="end-cta">
       <a class="btn primario cta-agendar"
          href="https://cal.com/luis-san-martin-novoa-0teh3d/conversacion-30-min"
