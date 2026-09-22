@@ -4686,7 +4686,7 @@ fps = <span class="num">1000</span> / latency_ms
       </a>
     </div>
 
-    <p class="cta-nota" data-en="I reply within 24 h · first 20-min call, no commitment · I walk you through the live panels and real data."><b>Respondo en menos de 24 h</b> · primera llamada de 20 min, sin compromiso · te muestro los paneles y los datos en vivo.</p>
+    <p class="cta-nota" data-en="I reply within 24 h · first 30-min call, no commitment · I walk you through the live panels and real data."><b>Respondo en menos de 24 h</b> · primera llamada de 30 min, sin compromiso · te muestro los paneles y los datos en vivo.</p>
     <div class="links">
       <a href="mailto:sanmaglass@gmail.com">sanmaglass@gmail.com</a>
       <a href="https://wa.me/56975878696" target="_blank" rel="noopener">WhatsApp +56 9 7587 8696</a>
@@ -4886,6 +4886,40 @@ fps = <span class="num">1000</span> / latency_ms
       io.observe(fin);
     }
   }
+})();
+</script>
+
+<script>
+/* Cal.com — embed popup en el CTA "Agendar una reunion".
+   LAZY: el script de Cal recien se baja cuando el cierre se acerca al viewport
+   (o al primer hover/focus/tap del boton), para no frenar la carga del sitio.
+   FALLBACK: si Cal no alcanza a cargar, el boton conserva su href mailto. */
+(function () {
+  var CAL_LINK = 'luis-san-martin-novoa-0teh3d';   // cal.com/<esto>
+  var btn = document.querySelector('.cta-agendar');
+  if (!btn || !CAL_LINK) return;
+
+  btn.setAttribute('data-cal-link', CAL_LINK);
+  btn.setAttribute('data-cal-config', '{"theme":"dark"}');
+
+  var loaded = false;
+  function loadCal() {
+    if (loaded) return; loaded = true;
+    (function (C, A, L) { var p = function (a, ar) { a.q.push(ar); }; var d = C.document; C.Cal = C.Cal || function () { var cal = C.Cal, ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement('script')).src = A; cal.loaded = true; } if (ar[0] === L) { var api = function () { p(api, arguments); }; var namespace = ar[1]; api.q = api.q || []; if (typeof namespace === 'string') { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ['initNamespace', namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, 'https://app.cal.com/embed/embed.js', 'init');
+    window.Cal('init', { origin: 'https://cal.com' });
+    window.Cal('ui', { theme: 'dark', layout: 'month_view' });
+  }
+
+  /* precarga cuando el cierre asoma, para que el popup este listo al clic */
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (e) {
+      if (e[0].isIntersecting) { loadCal(); io.disconnect(); }
+    }, { rootMargin: '600px' });
+    io.observe(btn);
+  } else { loadCal(); }
+  btn.addEventListener('pointerenter', loadCal, { once: true });
+  btn.addEventListener('focus', loadCal, { once: true });
+  btn.addEventListener('touchstart', loadCal, { once: true, passive: true });
 })();
 </script>
 
