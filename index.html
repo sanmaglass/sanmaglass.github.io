@@ -6260,7 +6260,11 @@ fps = <span class="num">1000</span> / latency_ms
   .pmodal-close:hover { border-color: var(--v); background: rgba(172,95,219,0.15); }
   /* dentro del modal el caso ya no se oculta y ocupa el ancho */
   .pmodal-body .case { display: block !important; padding: 0; }
-  .pmodal-body .case-head { margin-bottom: 1.2rem; }
+  /* En el modal el header NO debe ser sticky: fuera de la grilla de columnas
+     el sticky+flex-wrap reservaba mal el alto y el logo del cliente se
+     montaba sobre el <h2> del caso (visible en celular). En flujo normal
+     el titulo queda debajo del chip. */
+  .pmodal-body .case-head { margin-bottom: 1.2rem; position: static; }
   .pmodal-body video { width: 100%; height: auto; border-radius: 10px; }
   .pmodal-body details { margin-top: 1.4rem; }
   html.modal-open { overflow: hidden; }
