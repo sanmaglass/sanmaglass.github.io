@@ -1562,15 +1562,12 @@
   }
   .cta-agendar:hover .cal-arrow { transform: translateX(3px); }
 
-  .cta-nota {
-    font-family: var(--mono);
-    font-size: 0.82rem;
-    line-height: 1.6;
-    color: var(--fg-3);
-    max-width: 44ch !important;
-    margin-top: 1.25rem;
+  /* logo de Google Meet dentro del boton primario: senala reunion por video
+     de forma profesional, sin texto extra */
+  .cta-agendar .gmeet-logo {
+    width: 20px; height: 20px; flex: none;
+    margin-right: 0.15rem;
   }
-  .cta-nota b { color: var(--fg-2); font-weight: 500; }
 
   @media (prefers-reduced-motion: reduce) {
     .end-status .dot { animation: none; }
@@ -4677,6 +4674,7 @@ fps = <span class="num">1000</span> / latency_ms
       <a class="btn primario cta-agendar"
          href="mailto:sanmaglass@gmail.com?subject=Reuni%C3%B3n%20desde%20el%20portafolio"
          data-en="Book a meeting">
+        <svg class="gmeet-logo" viewBox="0 0 87 72" aria-hidden="true"><path fill="#00832d" d="M49.5 36l8.53 9.75 11.47 7.33 2-17.02-2-16.64-11.69 6.44z"/><path fill="#0066da" d="M0 51.5V66c0 3.315 2.685 6 6 6h14.5l3-10.96-3-9.54-9.95-3z"/><path fill="#e94235" d="M20.5 0L0 20.5l10.55 3 9.95-3 2.95-9.41z"/><path fill="#2684fc" d="M20.5 20.5H0v31h20.5z"/><path fill="#00ac47" d="M82.6 8.68L69.5 19.42v33.66l13.16 10.79c1.97 1.54 4.85.135 4.85-2.37V11c0-2.535-2.945-3.925-4.91-2.32zM49.5 36v15.5h-29V72h43c3.315 0 6-2.685 6-6V53.08z"/><path fill="#ffba00" d="M63.5 0h-43v20.5h29V36l20-16.57V6c0-3.315-2.685-6-6-6z"/></svg>
         <span data-en="Book a meeting">Agendar una reunión</span>
         <svg class="cal-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
@@ -4685,8 +4683,6 @@ fps = <span class="num">1000</span> / latency_ms
         <span>WhatsApp</span>
       </a>
     </div>
-
-    <p class="cta-nota" data-en="I reply within 24 h · first 30-min call, no commitment · I walk you through the live panels and real data."><b>Respondo en menos de 24 h</b> · primera llamada de 30 min, sin compromiso · te muestro los paneles y los datos en vivo.</p>
     <div class="links">
       <a href="mailto:sanmaglass@gmail.com">sanmaglass@gmail.com</a>
       <a href="https://wa.me/56975878696" target="_blank" rel="noopener">WhatsApp +56 9 7587 8696</a>
