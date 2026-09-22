@@ -4514,7 +4514,10 @@ fps = <span class="num">1000</span> / latency_ms
         <span class="gh-sub" data-en="commits on GitHub, last 12 months">commits en GitHub, últimos 12 meses</span>
       </div>
       <div class="gh-card" id="gh-card">
-        <div class="gh-cal" id="gh-cal" aria-hidden="true"></div>
+        <div class="gh-scroll">
+          <div class="gh-months" id="gh-months" aria-hidden="true"></div>
+          <div class="gh-cal" id="gh-cal" aria-hidden="true"></div>
+        </div>
         <div class="gh-foot">
           <span class="gh-total" id="gh-total"></span>
           <span class="gh-legend"><span data-en="less">menos</span><i data-l="0"></i><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i><span data-en="more">más</span></span>
@@ -6205,13 +6208,16 @@ fps = <span class="num">1000</span> / latency_ms
   .gh-head .gh-sub { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.05em; color: var(--fg-3); }
   .gh-head a { color: #ac5fdb; text-decoration: none; font-family: var(--mono); font-size: 0.8rem; }
   .gh-head a:hover { text-decoration: underline; }
-  .gh-card { border: 1px solid var(--line); border-radius: 16px; background: rgba(172,95,219,0.04); padding: 1.5rem 1.6rem; width: max-content; max-width: 100%; margin: 0 auto; }
-  .gh-cal { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 11px); grid-auto-columns: 11px; justify-content: start; gap: 3px; overflow-x: auto; padding-bottom: 0.4rem; }
-  .gh-day { width: 11px; height: 11px; border-radius: 2.5px; background: rgba(172,95,219,0.10); }
-  .gh-day[data-l="1"] { background: rgba(172,95,219,0.28); }
-  .gh-day[data-l="2"] { background: rgba(172,95,219,0.5); }
-  .gh-day[data-l="3"] { background: rgba(172,95,219,0.74); }
-  .gh-day[data-l="4"] { background: #c78fe2; }
+  .gh-card { --gh-cell: 14px; --gh-gap: 3px; border: 1px solid var(--line); border-radius: 16px; background: rgba(172,95,219,0.04); padding: 1.5rem 1.6rem; width: max-content; max-width: 100%; margin: 0 auto; }
+  .gh-scroll { overflow-x: auto; padding-bottom: 0.4rem; }
+  .gh-months { display: grid; grid-auto-flow: column; grid-auto-columns: var(--gh-cell); gap: var(--gh-gap); justify-content: start; min-width: max-content; margin-bottom: 6px; }
+  .gh-months span { grid-row: 1; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.04em; color: var(--fg-3); white-space: nowrap; overflow: visible; text-transform: capitalize; }
+  .gh-cal { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, var(--gh-cell)); grid-auto-columns: var(--gh-cell); justify-content: start; gap: var(--gh-gap); min-width: max-content; }
+  .gh-day { width: var(--gh-cell); height: var(--gh-cell); border-radius: 3px; background: rgba(172,95,219,0.09); box-shadow: inset 0 0 0 1px rgba(172,95,219,0.16); }
+  .gh-day[data-l="1"] { background: rgba(172,95,219,0.30); box-shadow: inset 0 0 0 1px rgba(172,95,219,0.34); }
+  .gh-day[data-l="2"] { background: rgba(172,95,219,0.52); box-shadow: inset 0 0 0 1px rgba(172,95,219,0.55); }
+  .gh-day[data-l="3"] { background: rgba(172,95,219,0.76); box-shadow: inset 0 0 0 1px rgba(199,143,226,0.6); }
+  .gh-day[data-l="4"] { background: #c78fe2; box-shadow: inset 0 0 0 1px rgba(230,200,246,0.75); }
   .gh-foot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
   .gh-total { font-family: var(--mono); font-size: 0.78rem; color: var(--fg-2); }
   .gh-total b { color: var(--fg); }
@@ -6220,7 +6226,11 @@ fps = <span class="num">1000</span> / latency_ms
   .gh-legend i[data-l="0"]{background:rgba(172,95,219,0.07)} .gh-legend i[data-l="1"]{background:rgba(172,95,219,0.28)}
   .gh-legend i[data-l="2"]{background:rgba(172,95,219,0.5)} .gh-legend i[data-l="3"]{background:rgba(172,95,219,0.74)} .gh-legend i[data-l="4"]{background:#c78fe2}
   .gh-note { font-family: var(--mono); font-size: 0.68rem; color: var(--fg-3); margin-top: 0.9rem; }
-  @media (max-width: 640px) { .gh { padding: 3.5rem 1.25rem 0.5rem; } }
+  @media (max-width: 640px) {
+    .gh { padding: 3.5rem 1.25rem 0.5rem; }
+    .gh-card { --gh-cell: 12px; --gh-gap: 2.5px; padding: 1.2rem 1.2rem; border-radius: 14px; }
+    .gh-months span { font-size: 0.58rem; }
+  }
 
   /* --- MODAL de detalle: clona el caso completo --- */
   .pmodal[hidden] { display: none; }
@@ -6322,10 +6332,27 @@ fps = <span class="num">1000</span> / latency_ms
   if (!cal) return;
   var user = 'sanmaglass';
 
+  var monthsEl = document.getElementById('gh-months');
+  var MESES_ES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var MESES_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
   function render(days, total) {
     if (!days || !days.length) throw 0;
+    var en = document.documentElement.lang === 'en';
+
+    // total = el año completo, ANTES de recortar los meses vacíos del inicio
+    if (total == null) total = days.reduce(function (s, d) { return s + (d.count || 0); }, 0);
+
+    // Recorta los meses muertos: parte en la semana donde arranca la actividad.
+    var firstIdx = -1;
+    for (var i = 0; i < days.length; i++) { if ((days[i].count || 0) > 0) { firstIdx = i; break; } }
+    if (firstIdx < 0) firstIdx = 0;
+    var start = firstIdx - (firstIdx % 7);            // alinea al inicio de la semana (columna)
+    var slice = days.slice(start);
+
+    // Celdas (fluyen por columna: 7 días por semana).
     var frag = document.createDocumentFragment();
-    days.forEach(function (d) {
+    slice.forEach(function (d) {
       var cell = document.createElement('span');
       cell.className = 'gh-day';
       cell.setAttribute('data-l', d.level != null ? d.level : (d.count > 0 ? 1 : 0));
@@ -6334,9 +6361,26 @@ fps = <span class="num">1000</span> / latency_ms
     });
     cal.innerHTML = '';
     cal.appendChild(frag);
-    if (total == null) total = days.reduce(function (s, d) { return s + (d.count || 0); }, 0);
+
+    // Etiquetas de mes: una celda por semana; solo la 1ª semana de cada mes lleva texto.
+    if (monthsEl) {
+      var mFrag = document.createDocumentFragment();
+      var names = en ? MESES_EN : MESES_ES;
+      var lastMonth = -1;
+      for (var w = 0; w * 7 < slice.length; w++) {
+        var d0 = slice[w * 7];
+        var lbl = document.createElement('span');
+        if (d0) {
+          var m = parseInt(d0.date.slice(5, 7), 10) - 1;
+          if (m !== lastMonth) { lbl.textContent = names[m]; lastMonth = m; }
+        }
+        mFrag.appendChild(lbl);
+      }
+      monthsEl.innerHTML = '';
+      monthsEl.appendChild(mFrag);
+    }
+
     if (totalEl) {
-      var en = document.documentElement.lang === 'en';
       totalEl.innerHTML = '<b>' + total + '</b> ' + (en ? 'contributions in the last year' : 'contribuciones en el último año');
     }
   }
