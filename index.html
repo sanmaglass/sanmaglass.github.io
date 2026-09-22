@@ -1520,6 +1520,63 @@
     max-width: none;
   }
 
+  /* ===== CIERRE: CTA de contacto =====
+     Un solo boton manda (agendar). WhatsApp es el atajo para quien quiere
+     hablar ya. La nota baja la ansiedad: dice que cuesta poco y no compromete. */
+  .end-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--fg-2);
+    margin-top: 2rem;
+  }
+  .end-status .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55);
+    animation: dotPulse 2.4s ease-out infinite;
+  }
+  @keyframes dotPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5); }
+    70%  { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+  }
+
+  .cta-wa {
+    gap: 0.6rem;
+  }
+  .cta-wa .wa-ico {
+    width: 17px; height: 17px; flex: none;
+    fill: currentColor;
+    transition: fill 0.2s ease, transform 0.25s cubic-bezier(.2,.9,.3,1);
+  }
+  .cta-wa:hover .wa-ico { fill: #25d366; transform: scale(1.08); }
+
+  /* la flecha del CTA de agendar: sugiere "esto abre algo", sin decirlo */
+  .cta-agendar .cal-arrow {
+    width: 14px; height: 14px; flex: none;
+    transition: transform 0.25s cubic-bezier(.2,.9,.3,1);
+  }
+  .cta-agendar:hover .cal-arrow { transform: translateX(3px); }
+
+  .cta-nota {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--fg-3);
+    max-width: 44ch !important;
+    margin-top: 1.25rem;
+  }
+  .cta-nota b { color: var(--fg-2); font-weight: 500; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .end-status .dot { animation: none; }
+    .cta-wa .wa-ico, .cta-agendar .cal-arrow { transition: none; }
+  }
+
   /* ===== LINEA DE CONTEO =====
      Sus sistemas cuentan asi: una linea cruza el cuadro y cada objeto que
      la atraviesa suma. La pagina hace lo mismo con quien la lee. El
@@ -4603,9 +4660,22 @@ fps = <span class="num">1000</span> / latency_ms
       Son sistemas en operación de clientes, así que el código no es mío para publicarlo. Lo muestro
       entero en una reunión, con los paneles y los datos en vivo, bajo acuerdo de confidencialidad.
     </p>
+    <p class="end-status"><span class="dot" aria-hidden="true"></span><span data-en="Available for new projects">Disponible para nuevos proyectos</span></p>
+
     <div class="end-cta">
-      <a class="btn primario" href="mailto:sanmaglass@gmail.com?subject=Reuni%C3%B3n%20desde%20el%20portafolio" data-en="Schedule a meeting">Agendar una reunión</a>
+      <a class="btn primario cta-agendar"
+         href="mailto:sanmaglass@gmail.com?subject=Reuni%C3%B3n%20desde%20el%20portafolio"
+         data-en="Book a meeting">
+        <span data-en="Book a meeting">Agendar una reunión</span>
+        <svg class="cal-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn cta-wa" href="https://wa.me/56975878696?text=Hola%20Luis%2C%20te%20escribo%20desde%20tu%20portafolio" target="_blank" rel="noopener" data-en="Chat on WhatsApp">
+        <svg class="wa-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span>WhatsApp</span>
+      </a>
     </div>
+
+    <p class="cta-nota" data-en="I reply within 24 h · first 20-min call, no commitment · I walk you through the live panels and real data."><b>Respondo en menos de 24 h</b> · primera llamada de 20 min, sin compromiso · te muestro los paneles y los datos en vivo.</p>
     <div class="links">
       <a href="mailto:sanmaglass@gmail.com">sanmaglass@gmail.com</a>
       <a href="https://wa.me/56975878696" target="_blank" rel="noopener">WhatsApp +56 9 7587 8696</a>
@@ -4729,6 +4799,59 @@ fps = <span class="num">1000</span> / latency_ms
     a.addEventListener('click', function () {
       marcar('cv-' + (/-EN/.test(a.getAttribute('href')) ? 'ingles' : 'espanol'), 'Descarga de CV');
     });
+  });
+
+  /* CTAs del cierre: agendar y WhatsApp son la conversion real del sitio */
+  var ctaAg = document.querySelector('.cta-agendar');
+  if (ctaAg) ctaAg.addEventListener('click', function () { marcar('agendo-reunion', 'Clic en Agendar reunion'); });
+  var ctaWa = document.querySelector('.cta-wa');
+  if (ctaWa) ctaWa.addEventListener('click', function () { marcar('clic-whatsapp', 'Clic en WhatsApp'); });
+
+  /* clics de SALIDA: a que canal de contacto se van. Delegado para cubrir
+     el footer y cualquier link. Excluye los CTA ya medidos arriba. */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a');
+    if (!a || a.classList.contains('cta-agendar') || a.classList.contains('cta-wa')) return;
+    var href = a.getAttribute('href') || '';
+    if (/linkedin\.com/.test(href))       marcar('salida-linkedin', 'Abrio LinkedIn');
+    else if (/github\.com/.test(href))    marcar('salida-github',   'Abrio GitHub');
+    else if (/^mailto:/.test(href))       marcar('salida-correo',   'Clic en correo');
+    else if (/wa\.me|whatsapp/.test(href)) marcar('salida-whatsapp', 'Clic WhatsApp (footer)');
+  });
+
+  /* que proyecto abren desde el cover flow: dice que trabajo les interesa */
+  document.querySelectorAll('.proj-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var t = (card.getAttribute('data-target') || '?').replace('#', '').replace(/[^a-z0-9-]/gi, '');
+      marcar('abrio-' + t, 'Abrio proyecto ' + t);
+    });
+  });
+
+  /* uso del toggle ES/EN: cuanta audiencia es en ingles (empresas/afuera) */
+  document.querySelectorAll('.lang-btn').forEach(function (b) {
+    b.addEventListener('click', function () { marcar('cambio-idioma', 'Cambio de idioma'); });
+  });
+
+  /* profundidad de lectura: donde se quedan / donde abandonan */
+  var hitm = {}, tick = false;
+  function depth() {
+    var d = document.documentElement, b = document.body;
+    var sh = Math.max(d.scrollHeight, b.scrollHeight);
+    if (sh <= window.innerHeight) return;
+    var pos = (window.pageYOffset + window.innerHeight) / sh * 100;
+    [25, 50, 75, 90].forEach(function (m) {
+      if (pos >= m && !hitm[m]) { hitm[m] = 1; marcar('scroll-' + m, 'Leyo ' + m + '%'); }
+    });
+    if (hitm[90]) window.removeEventListener('scroll', onScroll);
+  }
+  function onScroll() { if (tick) return; tick = true; requestAnimationFrame(function () { depth(); tick = false; }); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  depth();
+
+  /* reproduccion de los videos que el usuario controla (no los autoplay) */
+  ['vid-empaque', 'vid-saferide'].forEach(function (id) {
+    var v = document.getElementById(id);
+    if (v) v.addEventListener('play', function () { marcar('video-' + id, 'Reprodujo un video'); }, { once: true });
   });
 
   /* si abrieron "Como se hizo" de algun caso: leyeron en serio */
