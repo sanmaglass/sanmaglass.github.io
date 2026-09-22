@@ -2912,7 +2912,7 @@
        portada ya paso, pero anunciarlo dos veces no. -->
   <div class="mark" aria-hidden="true">LUIS SAN MARTÍN</div>
   <div class="links">
-    <a href="#casos" data-en="PROJECTS">PROYECTOS</a>
+    <a href="#proyectos" data-en="PROJECTS">PROYECTOS</a>
     <a href="#sobremi" data-en="ABOUT">SOBRE MÍ</a>
     <!-- El CV vive tambien aca porque el de la portada se medía bajo el
          pliegue en 7 de 8 pantallas reales (todos los telefonos, 1366x768
@@ -3382,7 +3382,12 @@ fps = <span class="num">1000</span> / latency_ms
         <a class="btn" href="#contacto" data-en="Contact">Contacto</a>
         <a class="otro-idioma" href="CV-Luis-San-Martin-EN.pdf" download data-en="CV en español">CV in English</a>
       </div>
-      <a class="scroll-cue" href="#casos" aria-label="Bajar a los casos">
+      <ul class="hero-stats" aria-label="Resumen">
+        <li><b>+3</b><span data-en="years shipping">años entregando</span></li>
+        <li><b>5</b><span data-en="production clients">clientes en producción</span></li>
+        <li><b>9</b><span data-en="real projects">proyectos reales</span></li>
+      </ul>
+      <a class="scroll-cue" href="#proyectos" aria-label="Bajar a los proyectos">
         <span>scroll</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-down"/></svg>
       </a>
@@ -3402,21 +3407,24 @@ fps = <span class="num">1000</span> / latency_ms
      Vitrina 3D de capturas. Efecto portado a vanilla desde un componente
      React (coverflow-carousel): cards en perspectiva con giro y profundidad,
      arrastrables, sin dependencias. Las cards las inyecta el JS del final. -->
-<section class="cf-band" id="casos" aria-label="Pantallas del trabajo">
-  <div class="cf-head">
-    <span class="cf-rot" data-en="Selected screens">Pantallas del trabajo</span>
+<!-- ============ BANDA DE DETECCION (v2) ============
+     Reemplaza el cover flow. Un video real detectando en la linea de empaque:
+     prueba de capacidad, no una galeria (esa es la rejilla de Proyectos). -->
+<section class="detband" id="deteccion" aria-label="Detección en vivo">
+  <div class="detband-inner">
+  <span class="section-label" data-en="In action">En acción</span>
+  <div class="detband-media">
+    <video class="detband-video" src="assets/media/linea-chiloe.mp4" poster="assets/media/linea-chiloe.webp"
+           muted loop playsinline autoplay preload="metadata"
+           aria-label="Detección y conteo automático en la línea de empaque de choritos en Chiloé"></video>
+    <div class="detband-overlay">
+      <span class="detband-tag" data-en="Live detection">Detección en vivo</span>
+      <h2 class="detband-title" data-en="Running on the plant floor">Corriendo en planta</h2>
+      <p class="detband-sub" data-en="Counting and classifying on the packing line · 13,000 pieces a day">Contando y clasificando en la línea de empaque · 13.000 piezas al día</p>
+      <a class="detband-cta" href="#proyectos" data-en="See the projects →">Ver los proyectos →</a>
+    </div>
   </div>
-  <div class="cf" id="cf" role="region" aria-roledescription="carrusel" aria-label="Capturas de proyectos" tabindex="0">
-    <div class="cf-stage" id="cf-stage"></div>
-    <button type="button" class="cf-nav cf-prev" aria-label="Anterior">&#8249;</button>
-    <button type="button" class="cf-nav cf-next" aria-label="Siguiente">&#8250;</button>
   </div>
-  <div class="cf-cap">
-    <p class="cf-title" id="cf-title"></p>
-    <p class="cf-sub" id="cf-sub"></p>
-    <a class="cf-ver" id="cf-ver" href="#casos"></a>
-  </div>
-  <div class="cf-dots" id="cf-dots" role="tablist" aria-label="Ir a una captura"></div>
 </section>
 
 <!-- ============ MARCAS: FORMACION | CLIENTES ============
@@ -3450,6 +3458,111 @@ fps = <span class="num">1000</span> / latency_ms
           <img src="assets/logos/exwood.webp" alt="Exwood" loading="lazy" decoding="async">
         </li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROYECTOS: rejilla unificada (v2) ============
+     Cada card abre el caso completo en un modal; el detalle sigue en el
+     markup (oculto) como fuente de verdad y para SEO. -->
+<section class="proyectos" id="proyectos" aria-label="Proyectos">
+  <div class="proyectos-inner">
+    <div class="proj-head">
+      <span class="section-label" data-en="Selected work">Proyectos</span>
+      <span class="nota" data-en="click any card for the full case">toca una card para ver el caso completo</span>
+    </div>
+    <div class="proj-grid">
+
+      <button class="proj-card" type="button" data-target="#caso-01">
+        <span class="pc-shot"><span class="pc-cat">Visión</span><img src="assets/media/linea-chiloe.webp" alt="Conteo en línea de empaque de choritos en Chiloé" loading="lazy" decoding="async"></span>
+        <span class="pc-body">
+          <span class="pc-client">St. Andrews · Chiloé</span>
+          <span class="pc-title" data-en="Counting on the packing line">Conteo en línea de empaque</span>
+          <span class="pc-metric" data-en="13,000 pieces/day · 3 stations">13.000 piezas/día · 3 estaciones</span>
+          <span class="pc-go" data-en="View detail →">Ver detalle →</span>
+        </span>
+      </button>
+
+      <button class="proj-card" type="button" data-target="#caso-02">
+        <span class="pc-shot"><span class="pc-cat">Visión</span><img src="assets/media/conteo-larvas.webp" alt="Conteo de larvas de mejillón" loading="lazy" decoding="async"></span>
+        <span class="pc-body">
+          <span class="pc-client">St. Andrews · Lab</span>
+          <span class="pc-title" data-en="Mussel larvae counting">Conteo de larvas de mejillón</span>
+          <span class="pc-metric" data-en="696 larvae in 2.93 s">696 larvas en 2,93 s</span>
+          <span class="pc-go" data-en="View detail →">Ver detalle →</span>
+        </span>
+      </button>
+
+      <button class="proj-card" type="button" data-target="#caso-05">
+        <span class="pc-shot"><span class="pc-cat">Visión · Edge</span><img src="assets/media/saferide-poster.webp" alt="Detección de casco en cámara embebida" loading="lazy" decoding="async"></span>
+        <span class="pc-body">
+          <span class="pc-client">Exwood</span>
+          <span class="pc-title" data-en="Helmet detection on an embedded camera">Detección de casco embebida</span>
+          <span class="pc-metric" data-en="9.6 fps on ESP32-S3">9,6 fps en ESP32-S3</span>
+          <span class="pc-go" data-en="View detail →">Ver detalle →</span>
+        </span>
+      </button>
+
+      <button class="proj-card" type="button" data-target="#caso-06">
+        <span class="pc-shot"><span class="pc-cat">Visión</span><img src="assets/media/retail-panel.webp" alt="Conteo de personas sobre CCTV existente" loading="lazy" decoding="async"></span>
+        <span class="pc-body">
+          <span class="pc-client">El Maravilloso</span>
+          <span class="pc-title" data-en="People counting over existing CCTV">Conteo de personas sobre CCTV</span>
+          <span class="pc-metric" data-en="On the store's existing cameras">Sobre las cámaras que ya existían</span>
+          <span class="pc-go" data-en="View detail →">Ver detalle →</span>
+        </span>
+      </button>
+
+      <button class="proj-card" type="button" data-target="#caso-03">
+        <span class="pc-shot"><span class="pc-cat">Software · Datos</span><img src="assets/media/mv-resumen-demo.webp" alt="Integración de punto de venta y reportería SII" loading="lazy" decoding="async"></span>
+        <span class="pc-body">
+          <span class="pc-client">El Maravilloso</span>
+          <span class="pc-title" data-en="POS integration + tax reporting">Punto de venta + reportería SII</span>
+          <span class="pc-metric" data-en="~78 sales/day · ETL to the tax service">~78 ventas/día · ETL al SII</span>
+          <span class="pc-go" data-en="View detail →">Ver detalle →</span>
+        </span>
+      </button>
+
+      <button class="proj-card" type="button" data-target="#caso-04">
+        <span class="pc-shot"><span class="pc-cat">Software</span><img src="assets/media/letsfit-agenda-demo.webp" alt="Gestión de gimnasio multi-sede" loading="lazy" decoding="async"></span>
+        <span class="pc-body">
+          <span class="pc-client">LetsFit</span>
+          <span class="pc-title" data-en="Multi-site gym management">Gestión de gimnasio multi-sede</span>
+          <span class="pc-metric" data-en="2 sites · bookings · RLS">2 sedes · reservas · RLS</span>
+          <span class="pc-go" data-en="View detail →">Ver detalle →</span>
+        </span>
+      </button>
+
+      <button class="proj-card" type="button" data-target="#agente-contador">
+        <span class="pc-shot"><span class="pc-cat">Agente</span><img src="assets/media/agente-contador.webp" alt="Agente Contador" loading="lazy" decoding="async"></span>
+        <span class="pc-body">
+          <span class="pc-client">El Maravilloso</span>
+          <span class="pc-title" data-en="Accountant agent">Agente Contador</span>
+          <span class="pc-metric" data-en="F29 computed & sent over WhatsApp">F29 calculado y avisado por WhatsApp</span>
+          <span class="pc-go" data-en="View detail →">Ver detalle →</span>
+        </span>
+      </button>
+
+      <button class="proj-card" type="button" data-target="#agente-marketing">
+        <span class="pc-shot"><span class="pc-cat">Agente</span><img src="assets/media/pieza-marketing.webp" alt="Agente Marketing" loading="lazy" decoding="async"></span>
+        <span class="pc-body">
+          <span class="pc-client">El Maravilloso</span>
+          <span class="pc-title" data-en="Marketing agent">Agente Marketing</span>
+          <span class="pc-metric" data-en="Still + reel, fully automatic">Placa + reel automáticos</span>
+          <span class="pc-go" data-en="View detail →">Ver detalle →</span>
+        </span>
+      </button>
+
+      <button class="proj-card" type="button" data-target="https://petifly.cl">
+        <span class="pc-shot"><span class="pc-cat">Web</span><img src="assets/media/web-petifly.webp" alt="Petifly" loading="lazy" decoding="async"></span>
+        <span class="pc-body">
+          <span class="pc-client">Petifly</span>
+          <span class="pc-title" data-en="Pet delivery, Greater Concepción">Delivery de mascotas</span>
+          <span class="pc-metric" data-en="petifly.cl · live site">petifly.cl · sitio en vivo</span>
+          <span class="pc-go" data-en="Visit site →">Visitar sitio →</span>
+        </span>
+      </button>
+
     </div>
   </div>
 </section>
@@ -3624,6 +3737,22 @@ fps = <span class="num">1000</span> / latency_ms
         </figcaption>
       </figure>
 
+      <figure>
+        <div class="serie"><span class="n">DASHBOARD</span><span class="de">Quemchi</span>
+          <span class="que">el sistema completo</span></div>
+        <div class="det-box" data-mira="kg acumulados · registro por hora">
+          <span class="det-label">Quemchi Entero 2 · panel en vivo</span>
+          <video src="assets/media/dashboard-quemchi.mp4" poster="assets/media/dashboard-quemchi.webp"
+                 loop muted playsinline preload="none" data-lazy-video
+                 aria-label="Dashboard Quemchi Entero 2: kg acumulados del día, producción por hora, tabla por formato y la cámara de detección en vivo"></video>
+        </div>
+        <figcaption>
+          El mismo sistema en la planta de <b>Quemchi</b>: el conteo por cámara alimenta un panel con
+          los <b>kg acumulados del día</b>, la producción por hora, el desglose por formato y el
+          registro detallado — todo en vivo, sobre la línea corriendo.
+        </figcaption>
+      </figure>
+
     </div>
     </div>
 
@@ -3695,6 +3824,20 @@ fps = <span class="num">1000</span> / latency_ms
         </div>
         <figcaption>
           Salida real del sistema: cada larva detectada, numerada y contabilizada en una sola pasada.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <div class="det-box" data-mira="del código al conteo">
+          <span class="det-label" data-en="From code to result · 696 larvae">Del código al resultado · 696 larvas</span>
+          <video src="assets/media/larvas-proceso.mp4" poster="assets/media/larvas-proceso.webp"
+                 loop muted playsinline preload="none" data-lazy-video
+                 aria-label="El script analizando la muestra y devolviendo 696 larvas; el código va difuminado por privacidad"></video>
+        </div>
+        <figcaption data-en="From code to count: the script runs — <b>blurred for privacy</b> — and the result appears with the <b>696 larvae</b> detected and numbered in a single pass. Proof of concept, <b>fully validated</b>.">
+          Del código al conteo: el script corre —<b>difuminado por privacidad</b>— y aparece el
+          resultado con las <b>696 larvas</b> detectadas y numeradas en una sola pasada. Prueba de
+          concepto <b>validada completamente</b>.
         </figcaption>
       </figure>
     </div>
@@ -4256,7 +4399,7 @@ fps = <span class="num">1000</span> / latency_ms
       <span class="section-label" data-en="Agents &amp; automation">Agentes y automatización</span>
       <div class="agentes-grid">
 
-        <article class="agente-card">
+        <article class="agente-card" id="agente-contador">
           <span class="agente-shot">
             <img src="assets/media/agente-contador.webp" alt="Agente Contador: conversación de WhatsApp con el F29 calculado y el log del pipeline SII" loading="lazy" decoding="async" width="1400" height="1045">
           </span>
@@ -4267,7 +4410,7 @@ fps = <span class="num">1000</span> / latency_ms
           </div>
         </article>
 
-        <article class="agente-card">
+        <article class="agente-card" id="agente-marketing">
           <div class="agente-shot mkt-shot">
             <div class="mkt-stage">
               <figure class="mkt-phone mkt-phone--video">
@@ -4323,6 +4466,25 @@ fps = <span class="num">1000</span> / latency_ms
         <span class="tech-pill" style="--logo:url(assets/tech/jupyter.svg);--c:#F58A4B"><span class="tech-logo"></span><span class="tech-name">Jupyter</span></span>
         <span class="tech-pill" style="--logo:url(assets/tech/githubactions.svg);--c:#6FB0FF"><span class="tech-logo"></span><span class="tech-name">GitHub Actions</span></span>
         <span class="tech-pill" style="--logo:url(assets/tech/cplusplus.svg);--c:#6BA6E0"><span class="tech-logo"></span><span class="tech-name">C++</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ACTIVIDAD GITHUB (v2) ============
+       Heatmap real via proxy publico (sin token). Fallback a enlace. -->
+  <section class="gh" id="actividad" aria-label="Actividad en GitHub">
+    <div class="gh-inner">
+      <div class="gh-head">
+        <span class="section-label" data-en="Activity">Actividad</span>
+        <span class="gh-sub" data-en="commits on GitHub, last 12 months">commits en GitHub, últimos 12 meses</span>
+      </div>
+      <div class="gh-card" id="gh-card">
+        <div class="gh-cal" id="gh-cal" aria-hidden="true"></div>
+        <div class="gh-foot">
+          <span class="gh-total" id="gh-total"></span>
+          <span class="gh-legend"><span data-en="less">menos</span><i data-l="0"></i><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i><span data-en="more">más</span></span>
+        </div>
+        <p class="gh-note" data-en="Public repos only; a large share of the work lives in private client repos.">Solo repos públicos; buena parte del trabajo vive en repos privados de clientes.</p>
       </div>
     </div>
   </section>
@@ -5799,6 +5961,265 @@ fps = <span class="num">1000</span> / latency_ms
     });
   }, { rootMargin: '200px 0px' });
   vids.forEach(function (v) { io.observe(v); });
+})();
+</script>
+
+<!-- ================= REDISEÑO v2 (sep-2026): estilo limpio/corto ================= -->
+<style>
+  /* --- fila de stats bajo el hero --- */
+  .hero-stats {
+    list-style: none; margin: 2.4rem 0 0; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 2.2rem 2.8rem;
+  }
+  .hero-stats li { display: flex; flex-direction: column; gap: 0.15rem; }
+  .hero-stats b {
+    font-family: var(--display); font-weight: 500;
+    font-size: clamp(1.7rem, 4.6vw, 2.5rem); line-height: 1;
+    color: var(--fg); font-variant-numeric: tabular-nums;
+  }
+  .hero-stats span {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--fg-3);
+  }
+  @media (max-width: 56rem) { .hero-stats { gap: 1.4rem 2rem; } }
+
+  /* --- BANDA DE DETECCION: pieza contenida y cinematografica (no full-bleed) --- */
+  .detband { padding: 3.2rem 2rem 0.5rem; }
+  .detband-inner { max-width: 74rem; margin: 0 auto; }
+  .detband-inner .section-label { display: block; margin-bottom: 1.1rem; }
+  .detband-media {
+    position: relative; width: 100%; aspect-ratio: 16 / 7; max-height: 440px;
+    border-radius: 18px; overflow: hidden; background: #05070b;
+    border: 1px solid var(--line);
+    box-shadow: 0 30px 80px -40px rgba(172,95,219,0.4);
+  }
+  @media (max-width: 56rem) { .detband { padding: 2.4rem 1.25rem 0.5rem; } .detband-media { aspect-ratio: 16 / 10; } }
+  .detband-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .detband-overlay {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; flex-direction: column; justify-content: flex-end; gap: 0.45rem;
+    padding: clamp(1.1rem, 2.8vw, 2.1rem);
+    background:
+      linear-gradient(90deg, rgba(4,3,8,0.82) 0%, rgba(4,3,8,0.34) 46%, transparent 78%),
+      linear-gradient(0deg, rgba(4,3,8,0.9) 0%, transparent 55%);
+  }
+  .detband-tag { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: #c78fe2; }
+  .detband-tag::before {
+    content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+    background: #c78fe2; margin-right: 0.5rem; vertical-align: middle;
+    box-shadow: 0 0 0 0 rgba(199,143,226,0.55); animation: det-pulse 1.9s infinite;
+  }
+  @keyframes det-pulse { 70% { box-shadow: 0 0 0 9px rgba(199,143,226,0); } 100% { box-shadow: 0 0 0 0 rgba(199,143,226,0); } }
+  .detband-title { font-family: var(--display); font-weight: 500; font-size: clamp(1.4rem, 3.4vw, 2.4rem); line-height: 1.04; color: var(--fg); text-transform: uppercase; letter-spacing: 0.005em; margin: 0; }
+  .detband-sub { font-family: var(--mono); font-size: clamp(0.74rem, 1.4vw, 0.9rem); color: var(--fg-2); max-width: 44ch; }
+  .detband-cta { margin-top: 0.4rem; font-family: var(--mono); font-size: 0.82rem; color: #ac5fdb; text-decoration: none; align-self: flex-start; }
+  .detband-cta:hover { text-decoration: underline; }
+  @media (prefers-reduced-motion: reduce) { .detband-tag::before { animation: none; } }
+
+  /* --- oculta el detalle largo: queda como fuente para el modal + SEO --- */
+  .webs, .agentes, .grupo-cabecera, article.case { display: none !important; }
+
+  /* --- seccion PROYECTOS: rejilla uniforme --- */
+  .proyectos { padding: 5rem 2rem 1rem; }
+  .proyectos-inner { max-width: 74rem; margin: 0 auto; }
+  .proyectos .proj-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 1rem; flex-wrap: wrap; margin-bottom: 2.2rem;
+  }
+  .proyectos .proj-head .nota {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.05em; color: var(--fg-3);
+  }
+  .proj-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
+    gap: 1.5rem;
+  }
+  .proj-card {
+    display: flex; flex-direction: column; text-align: left;
+    border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+    background: rgba(172, 95, 219, 0.04); color: inherit; cursor: pointer;
+    padding: 0; font: inherit;
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s, box-shadow .35s;
+  }
+  .proj-card:hover, .proj-card:focus-visible {
+    transform: translateY(-6px); border-color: rgba(172, 95, 219, 0.55);
+    box-shadow: 0 26px 60px -30px rgba(172,95,219,0.5), 0 0 0 1px rgba(172,95,219,0.25);
+    outline: none;
+  }
+  .pc-shot { position: relative; display: block; background: #0b0e12; aspect-ratio: 16 / 10; overflow: hidden; }
+  .pc-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform .5s cubic-bezier(.2,.7,.2,1); display: block; }
+  .proj-card:hover .pc-shot img { transform: scale(1.04); }
+  .pc-cat {
+    position: absolute; top: 0.7rem; left: 0.7rem; z-index: 2;
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--fg); background: rgba(8,4,14,0.72); backdrop-filter: blur(6px);
+    padding: 0.28rem 0.55rem; border-radius: 999px; border: 1px solid rgba(172,95,219,0.4);
+  }
+  .pc-body { padding: 1.1rem 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; flex: 1; }
+  .pc-client { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-3); }
+  .pc-title { font-family: var(--display); font-weight: 600; font-size: 1.08rem; line-height: 1.2; color: var(--fg); }
+  .pc-metric {
+    margin-top: 0.25rem; align-self: flex-start;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.02em; color: var(--fg-2);
+    border-top: 1px solid var(--line); padding-top: 0.6rem; width: 100%;
+  }
+  .pc-go {
+    margin-top: 0.7rem; font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.04em; color: #ac5fdb;
+    transition: transform .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .proj-card:hover .pc-go { transform: translateX(4px); }
+  @media (max-width: 640px) { .proyectos { padding: 3.5rem 1.25rem 0.5rem; } }
+
+  /* --- ACTIVIDAD GITHUB: heatmap propio en la paleta --- */
+  .gh { padding: 4.5rem 2rem 1rem; }
+  .gh-inner { max-width: 74rem; margin: 0 auto; }
+  .gh-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+  .gh-head .gh-sub { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.05em; color: var(--fg-3); }
+  .gh-head a { color: #ac5fdb; text-decoration: none; font-family: var(--mono); font-size: 0.8rem; }
+  .gh-head a:hover { text-decoration: underline; }
+  .gh-card { border: 1px solid var(--line); border-radius: 16px; background: rgba(172,95,219,0.04); padding: 1.4rem 1.5rem; }
+  .gh-cal { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 1fr); gap: 3px; overflow-x: auto; padding-bottom: 0.4rem; }
+  .gh-day { width: 11px; height: 11px; border-radius: 2px; background: rgba(172,95,219,0.07); }
+  .gh-day[data-l="1"] { background: rgba(172,95,219,0.28); }
+  .gh-day[data-l="2"] { background: rgba(172,95,219,0.5); }
+  .gh-day[data-l="3"] { background: rgba(172,95,219,0.74); }
+  .gh-day[data-l="4"] { background: #c78fe2; }
+  .gh-foot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+  .gh-total { font-family: var(--mono); font-size: 0.78rem; color: var(--fg-2); }
+  .gh-total b { color: var(--fg); }
+  .gh-legend { display: flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 0.66rem; color: var(--fg-3); }
+  .gh-legend i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
+  .gh-legend i[data-l="0"]{background:rgba(172,95,219,0.07)} .gh-legend i[data-l="1"]{background:rgba(172,95,219,0.28)}
+  .gh-legend i[data-l="2"]{background:rgba(172,95,219,0.5)} .gh-legend i[data-l="3"]{background:rgba(172,95,219,0.74)} .gh-legend i[data-l="4"]{background:#c78fe2}
+  .gh-note { font-family: var(--mono); font-size: 0.68rem; color: var(--fg-3); margin-top: 0.9rem; }
+  @media (max-width: 640px) { .gh { padding: 3.5rem 1.25rem 0.5rem; } }
+
+  /* --- MODAL de detalle: clona el caso completo --- */
+  .pmodal[hidden] { display: none; }
+  .pmodal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: flex-start; justify-content: center; }
+  .pmodal-backdrop { position: absolute; inset: 0; background: rgba(4,2,8,0.82); backdrop-filter: blur(4px); animation: pm-fade .3s ease; }
+  @keyframes pm-fade { from { opacity: 0; } }
+  .pmodal-panel {
+    position: relative; z-index: 1; margin: 4vh auto; width: min(56rem, 92vw);
+    max-height: 92vh; overflow-y: auto; background: var(--bg);
+    border: 1px solid rgba(172,95,219,0.35); border-radius: 18px;
+    box-shadow: 0 40px 120px -40px rgba(172,95,219,0.5);
+    padding: 2.2rem clamp(1.1rem, 3.5vw, 2.6rem) 3rem;
+    animation: pm-in .34s cubic-bezier(.2,.8,.25,1);
+  }
+  @keyframes pm-in { from { opacity: 0; transform: translateY(18px) scale(.985); } }
+  .pmodal-close {
+    position: sticky; top: 0; float: right; margin: -0.6rem -0.4rem 0 0;
+    width: 40px; height: 40px; border-radius: 999px; border: 1px solid var(--line);
+    background: rgba(8,4,14,0.7); color: var(--fg); font-size: 1.2rem; line-height: 1; cursor: pointer;
+    display: grid; place-items: center; transition: border-color .25s, background .25s;
+  }
+  .pmodal-close:hover { border-color: var(--v); background: rgba(172,95,219,0.15); }
+  /* dentro del modal el caso ya no se oculta y ocupa el ancho */
+  .pmodal-body .case { display: block !important; padding: 0; }
+  .pmodal-body .case-head { margin-bottom: 1.2rem; }
+  .pmodal-body video { width: 100%; height: auto; border-radius: 10px; }
+  .pmodal-body details { margin-top: 1.4rem; }
+  html.modal-open { overflow: hidden; }
+</style>
+
+<div class="pmodal" id="pmodal" hidden role="dialog" aria-modal="true" aria-label="Detalle del proyecto">
+  <div class="pmodal-backdrop" data-pm-close></div>
+  <div class="pmodal-panel">
+    <button type="button" class="pmodal-close" data-pm-close aria-label="Cerrar">&#10005;</button>
+    <div class="pmodal-body" id="pmodal-body"></div>
+  </div>
+</div>
+
+<script>
+/* Rejilla de proyectos -> modal que clona el caso completo (ya existente y oculto). */
+(function () {
+  var modal = document.getElementById('pmodal');
+  var body = document.getElementById('pmodal-body');
+  if (!modal || !body) return;
+
+  function close() {
+    modal.hidden = true;
+    document.documentElement.classList.remove('modal-open');
+    body.innerHTML = '';
+  }
+  function open(sel) {
+    var src = document.querySelector(sel);
+    if (!src) return;
+    body.innerHTML = '';
+    var clone = src.cloneNode(true);
+    clone.removeAttribute('id');
+    body.appendChild(clone);
+    // los videos clonados no los observa el lazy-loader: hazlos reproducibles
+    [].forEach.call(body.querySelectorAll('video'), function (v) {
+      v.setAttribute('controls', '');
+      v.removeAttribute('data-lazy-reel'); v.removeAttribute('data-lazy-video');
+      v.muted = true; v.preload = 'metadata';
+      // los clips silenciados en loop corren solos dentro del modal
+      try { v.load(); var p = v.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {}
+    });
+    // los <details> del caso abiertos para que el detalle tecnico se vea entero
+    [].forEach.call(body.querySelectorAll('details'), function (d) { d.open = true; });
+    modal.hidden = false;
+    document.documentElement.classList.add('modal-open');
+    modal.querySelector('.pmodal-close').focus();
+  }
+
+  document.querySelectorAll('.proj-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var t = card.getAttribute('data-target');
+      if (!t) return;
+      if (/^https?:/.test(t)) { window.open(t, '_blank', 'noopener'); return; }
+      open(t);
+    });
+  });
+  modal.addEventListener('click', function (e) {
+    if (e.target.hasAttribute('data-pm-close')) close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !modal.hidden) close();
+  });
+})();
+
+/* Actividad de GitHub: heatmap real via proxy publico (sin token). Fallback silencioso. */
+(function () {
+  var cal = document.getElementById('gh-cal');
+  var totalEl = document.getElementById('gh-total');
+  if (!cal) return;
+  var user = 'sanmaglass';
+  var url = 'https://github-contributions-api.jogruber.de/v4/' + user + '?y=last';
+  var ctrl = ('AbortController' in window) ? new AbortController() : null;
+  var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 6000);
+  fetch(url, ctrl ? { signal: ctrl.signal } : undefined)
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (data) {
+    clearTimeout(timer);
+    var days = (data && data.contributions) || [];
+    if (!days.length) throw 0;
+    var frag = document.createDocumentFragment();
+    days.forEach(function (d) {
+      var cell = document.createElement('span');
+      cell.className = 'gh-day';
+      cell.setAttribute('data-l', d.level != null ? d.level : (d.count > 0 ? 1 : 0));
+      cell.title = d.count + ' el ' + d.date;
+      frag.appendChild(cell);
+    });
+    cal.innerHTML = '';
+    cal.appendChild(frag);
+    var total = (data.total && (data.total.lastYear != null ? data.total.lastYear : data.total['lastYear'])) ||
+                days.reduce(function (s, d) { return s + d.count; }, 0);
+    if (totalEl) {
+      var en = document.documentElement.lang === 'en';
+      totalEl.innerHTML = '<b>' + total + '</b> ' + (en ? 'contributions in the last year' : 'contribuciones en el último año');
+    }
+  }).catch(function () {
+    clearTimeout(timer);
+    var wrap = document.getElementById('gh-card');
+    if (wrap) {
+      var en = document.documentElement.lang === 'en';
+      wrap.innerHTML = '<p class="gh-total">' + (en
+        ? 'See live activity on <a href="https://github.com/' + user + '" target="_blank" rel="noopener" style="color:#ac5fdb">github.com/' + user + '</a>'
+        : 'Ve la actividad en vivo en <a href="https://github.com/' + user + '" target="_blank" rel="noopener" style="color:#ac5fdb">github.com/' + user + '</a>') + '</p>';
+    }
+  });
 })();
 </script>
 </body>
