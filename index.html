@@ -4484,7 +4484,7 @@ fps = <span class="num">1000</span> / latency_ms
           <span class="gh-total" id="gh-total"></span>
           <span class="gh-legend"><span data-en="less">menos</span><i data-l="0"></i><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i><span data-en="more">más</span></span>
         </div>
-        <p class="gh-note" data-en="Public repos only; a large share of the work lives in private client repos.">Solo repos públicos; buena parte del trabajo vive en repos privados de clientes.</p>
+        <p class="gh-note" data-en="Private contributions included. Some client work also lives in private repos or outside GitHub.">Incluye contribuciones privadas. Parte del trabajo de clientes vive en repos privados o fuera de GitHub.</p>
       </div>
     </div>
   </section>
@@ -6180,46 +6180,60 @@ fps = <span class="num">1000</span> / latency_ms
   });
 })();
 
-/* Actividad de GitHub: heatmap real via proxy publico (sin token). Fallback silencioso. */
+/* Actividad de GitHub: primero contrib.json (lo mantiene el Action de este repo,
+   incluye privados, siempre fresco); si no, la API publica jogruber; si no, un link.
+   Sin token en el cliente. */
 (function () {
   var cal = document.getElementById('gh-cal');
   var totalEl = document.getElementById('gh-total');
   if (!cal) return;
   var user = 'sanmaglass';
-  var url = 'https://github-contributions-api.jogruber.de/v4/' + user + '?y=last';
-  var ctrl = ('AbortController' in window) ? new AbortController() : null;
-  var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 6000);
-  fetch(url, ctrl ? { signal: ctrl.signal } : undefined)
-    .then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (data) {
-    clearTimeout(timer);
-    var days = (data && data.contributions) || [];
-    if (!days.length) throw 0;
+
+  function render(days, total) {
+    if (!days || !days.length) throw 0;
     var frag = document.createDocumentFragment();
     days.forEach(function (d) {
       var cell = document.createElement('span');
       cell.className = 'gh-day';
       cell.setAttribute('data-l', d.level != null ? d.level : (d.count > 0 ? 1 : 0));
-      cell.title = d.count + ' el ' + d.date;
+      cell.title = (d.count || 0) + ' el ' + d.date;
       frag.appendChild(cell);
     });
     cal.innerHTML = '';
     cal.appendChild(frag);
-    var total = (data.total && (data.total.lastYear != null ? data.total.lastYear : data.total['lastYear'])) ||
-                days.reduce(function (s, d) { return s + d.count; }, 0);
+    if (total == null) total = days.reduce(function (s, d) { return s + (d.count || 0); }, 0);
     if (totalEl) {
       var en = document.documentElement.lang === 'en';
       totalEl.innerHTML = '<b>' + total + '</b> ' + (en ? 'contributions in the last year' : 'contribuciones en el último año');
     }
-  }).catch(function () {
-    clearTimeout(timer);
+  }
+
+  function link() {
     var wrap = document.getElementById('gh-card');
-    if (wrap) {
-      var en = document.documentElement.lang === 'en';
-      wrap.innerHTML = '<p class="gh-total">' + (en
-        ? 'See live activity on <a href="https://github.com/' + user + '" target="_blank" rel="noopener" style="color:#ac5fdb">github.com/' + user + '</a>'
-        : 'Ve la actividad en vivo en <a href="https://github.com/' + user + '" target="_blank" rel="noopener" style="color:#ac5fdb">github.com/' + user + '</a>') + '</p>';
-    }
-  });
+    if (!wrap) return;
+    var en = document.documentElement.lang === 'en';
+    wrap.innerHTML = '<p class="gh-total">' + (en
+      ? 'See live activity on ' : 'Ve la actividad en vivo en ')
+      + '<a href="https://github.com/' + user + '" target="_blank" rel="noopener" style="color:#ac5fdb">github.com/' + user + '</a></p>';
+  }
+
+  function withTimeout(url, opts, ms) {
+    var ctrl = ('AbortController' in window) ? new AbortController() : null;
+    var t = setTimeout(function () { if (ctrl) ctrl.abort(); }, ms);
+    var o = ctrl ? Object.assign({ signal: ctrl.signal }, opts || {}) : (opts || {});
+    return fetch(url, o).then(function (r) { clearTimeout(t); return r.ok ? r.json() : Promise.reject(); },
+      function (e) { clearTimeout(t); return Promise.reject(e); });
+  }
+
+  // 1) fuente propia (same-origin, siempre fresca)
+  withTimeout('assets/contrib.json?t=' + Date.now(), { cache: 'no-store' }, 6000)
+    .then(function (d) { render(d.days, d.total); })
+    .catch(function () {
+      // 2) fallback API publica
+      return withTimeout('https://github-contributions-api.jogruber.de/v4/' + user + '?y=last', null, 6000)
+        .then(function (d) { render(d.contributions, d.total && d.total.lastYear); });
+    })
+    .catch(link); // 3) fallback link
 })();
 </script>
 </body>

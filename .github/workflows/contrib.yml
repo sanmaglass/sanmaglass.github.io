@@ -1,0 +1,69 @@
+name: Actualizar actividad GitHub
+
+# Regenera assets/contrib.json desde el grafico PUBLICO de contribuciones
+# (incluye privados porque el toggle "Include private contributions" esta activo).
+# No usa PAT: solo lee el HTML publico y commitea con el GITHUB_TOKEN por defecto.
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # diario 06:00 UTC
+  workflow_dispatch: {}     # correr a mano desde la pestana Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: contrib
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Descargar y parsear contribuciones
+        env:
+          USER_LOGIN: sanmaglass
+        run: |
+          curl -s -m 30 "https://github.com/users/${USER_LOGIN}/contributions?cb=$(date +%s)" \
+            -H "User-Agent: Mozilla/5.0" -o contrib.html
+          python3 - <<'PY'
+          import re, json, datetime
+          h = open('contrib.html', encoding='utf-8', errors='ignore').read()
+          cells = re.findall(r'data-date="(\d{4}-\d{2}-\d{2})"[^>]*data-level="(\d)"', h)
+          if not cells:
+              tmp = re.findall(r'data-level="(\d)"[^>]*data-date="(\d{4}-\d{2}-\d{2})"', h)
+              cells = [(d, l) for l, d in tmp]
+          tips = re.findall(r'>\s*(No|[\d,]+)\s+contributions?\s+on', h)
+          counts = [0 if t == 'No' else int(t.replace(',', '')) for t in tips]
+          by = {}
+          for i, (d, l) in enumerate(cells):
+              by[d] = {"date": d, "level": int(l), "count": counts[i] if i < len(counts) else 0}
+          days = [by[d] for d in sorted(by)]
+          if not days:
+              raise SystemExit("no se parsearon dias; markup cambio?")
+          data = {
+              "total": sum(x["count"] for x in days),
+              "days": days,
+              "updated": datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat(),
+              "source": "github-public",
+          }
+          import os
+          os.makedirs('assets', exist_ok=True)
+          json.dump(data, open('assets/contrib.json', 'w'), separators=(',', ':'))
+          print("dias:", len(days), "activos:", sum(1 for x in days if x['count'] > 0), "total:", data["total"])
+          PY
+          rm -f contrib.html
+
+      - name: Commit si cambio
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- assets/contrib.json; then
+            echo "sin cambios"
+          else
+            git add assets/contrib.json
+            git commit -m "chore: actualizar actividad GitHub [skip ci]"
+            git push
+          fi
