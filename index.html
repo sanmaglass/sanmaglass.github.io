@@ -4672,7 +4672,8 @@ fps = <span class="num">1000</span> / latency_ms
 
     <div class="end-cta">
       <a class="btn primario cta-agendar"
-         href="mailto:sanmaglass@gmail.com?subject=Reuni%C3%B3n%20desde%20el%20portafolio"
+         href="https://cal.com/luis-san-martin-novoa-0teh3d/conversacion-30-min"
+         rel="noopener"
          data-en="Book a meeting">
         <svg class="gmeet-logo" viewBox="0 0 87 72" aria-hidden="true"><path fill="#00832d" d="M49.5 36l8.53 9.75 11.47 7.33 2-17.02-2-16.64-11.69 6.44z"/><path fill="#0066da" d="M0 51.5V66c0 3.315 2.685 6 6 6h14.5l3-10.96-3-9.54-9.95-3z"/><path fill="#e94235" d="M20.5 0L0 20.5l10.55 3 9.95-3 2.95-9.41z"/><path fill="#2684fc" d="M20.5 20.5H0v31h20.5z"/><path fill="#00ac47" d="M82.6 8.68L69.5 19.42v33.66l13.16 10.79c1.97 1.54 4.85.135 4.85-2.37V11c0-2.535-2.945-3.925-4.91-2.32zM49.5 36v15.5h-29V72h43c3.315 0 6-2.685 6-6V53.08z"/><path fill="#ffba00" d="M63.5 0h-43v20.5h29V36l20-16.57V6c0-3.315-2.685-6-6-6z"/></svg>
         <span data-en="Book a meeting">Agendar una reunión</span>
@@ -4887,16 +4888,18 @@ fps = <span class="num">1000</span> / latency_ms
 
 <script>
 /* Cal.com — embed popup en el CTA "Agendar una reunion".
-   LAZY: el script de Cal recien se baja cuando el cierre se acerca al viewport
-   (o al primer hover/focus/tap del boton), para no frenar la carga del sitio.
-   FALLBACK: si Cal no alcanza a cargar, el boton conserva su href mailto. */
+   El script de Cal se baja apenas el usuario interactua con la pagina (scroll,
+   toque, tecla), asi el popup ya esta listo cuando llega al cierre y SIEMPRE
+   intercepta el clic (evita que se dispare el href).
+   FALLBACK: si aun asi no cargara, el href abre el calendario REAL de Cal.com
+   en una pestana (nunca mailto/Gmail). */
 (function () {
-  var CAL_LINK = 'luis-san-martin-novoa-0teh3d';   // cal.com/<esto>
+  var CAL_LINK = 'luis-san-martin-novoa-0teh3d/conversacion-30-min';
   var btn = document.querySelector('.cta-agendar');
   if (!btn || !CAL_LINK) return;
 
   btn.setAttribute('data-cal-link', CAL_LINK);
-  btn.setAttribute('data-cal-config', '{"theme":"dark"}');
+  btn.setAttribute('data-cal-config', '{"theme":"dark","layout":"month_view"}');
 
   var loaded = false;
   function loadCal() {
@@ -4906,16 +4909,19 @@ fps = <span class="num">1000</span> / latency_ms
     window.Cal('ui', { theme: 'dark', layout: 'month_view' });
   }
 
-  /* precarga cuando el cierre asoma, para que el popup este listo al clic */
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (e) {
-      if (e[0].isIntersecting) { loadCal(); io.disconnect(); }
-    }, { rootMargin: '600px' });
-    io.observe(btn);
-  } else { loadCal(); }
-  btn.addEventListener('pointerenter', loadCal, { once: true });
-  btn.addEventListener('focus', loadCal, { once: true });
-  btn.addEventListener('touchstart', loadCal, { once: true, passive: true });
+  /* cargar en cuanto el usuario haga CUALQUIER cosa: para cuando llegue al
+     cierre, el popup ya esta armado y gana el clic */
+  ['scroll', 'pointerdown', 'touchstart', 'keydown', 'mousemove'].forEach(function (ev) {
+    window.addEventListener(ev, loadCal, { once: true, passive: true });
+  });
+
+  /* Si Cal ya cargo, su delegacion interna (data-cal-link) abre el popup;
+     aqui solo bloqueamos el href para que NO navegue. Si Cal aun no existe,
+     dejamos que el href abra el calendario real de Cal.com en una pestana. */
+  btn.addEventListener('click', function (e) {
+    loadCal();
+    if (window.Cal) e.preventDefault();
+  });
 })();
 </script>
 
