@@ -1890,10 +1890,10 @@
   /* Unbounded es ancha/redondeada: pide MENOS tamaño y tracking negativo para
      no desbordar. Peso alto = impacto. */
   .hero h1 {
-    font-weight: 700;
-    letter-spacing: -0.045em;
-    font-size: clamp(2.6rem, 12.5vw, 138px);
-    line-height: 0.9;
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    font-size: clamp(2.8rem, 13.5vw, 152px);
+    line-height: 0.86;
   }
   .case h2, .about h2, .end h2, .ongoing h2, .indice h2 {
     font-weight: 700;
@@ -3424,11 +3424,6 @@ fps = <span class="num">1000</span> / latency_ms
         <a class="btn" href="#contacto" data-en="Contact">Contacto</a>
         <a class="otro-idioma" href="CV-Luis-San-Martin-EN.pdf" download data-en="CV en español">CV in English</a>
       </div>
-      <ul class="hero-stats" aria-label="Resumen">
-        <li><b>+3</b><span data-en="years shipping">años entregando</span></li>
-        <li><b>5</b><span data-en="production clients">clientes en producción</span></li>
-        <li><b>8</b><span data-en="real projects">proyectos reales</span></li>
-      </ul>
       <a class="scroll-cue" href="#proyectos" aria-label="Bajar a los proyectos">
         <span>scroll</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-down"/></svg>
@@ -4640,11 +4635,7 @@ fps = <span class="num">1000</span> / latency_ms
 
   <!-- ============ CIERRE ============ -->
   <footer class="end" id="contacto" aria-labelledby="contacto-titulo">
-    <h2 id="contacto-titulo" data-en="The repositories are private">Los repositorios son privados</h2>
-    <p data-en="These are clients' systems in operation, so the code isn't mine to publish. I show it in full in a meeting, with the panels and live data, under a confidentiality agreement.">
-      Son sistemas en operación de clientes, así que el código no es mío para publicarlo. Lo muestro
-      entero en una reunión, con los paneles y los datos en vivo, bajo acuerdo de confidencialidad.
-    </p>
+    <h2 id="contacto-titulo" data-en="Let's talk">Conversemos</h2>
     <div class="end-cta">
       <a class="btn primario cta-agendar"
          href="https://cal.com/luis-san-martin-novoa-0teh3d/conversacion-30-min"
@@ -6109,23 +6100,6 @@ fps = <span class="num">1000</span> / latency_ms
 
 <!-- ================= REDISEÑO v2 (sep-2026): estilo limpio/corto ================= -->
 <style>
-  /* --- fila de stats bajo el hero --- */
-  .hero-stats {
-    list-style: none; margin: 2.4rem 0 0; padding: 0;
-    display: flex; flex-wrap: wrap; gap: 2.2rem 2.8rem;
-  }
-  .hero-stats li { display: flex; flex-direction: column; gap: 0.15rem; }
-  .hero-stats b {
-    font-family: var(--display); font-weight: 500;
-    font-size: clamp(1.7rem, 4.6vw, 2.5rem); line-height: 1;
-    color: var(--fg); font-variant-numeric: tabular-nums;
-  }
-  .hero-stats span {
-    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
-    text-transform: uppercase; color: var(--fg-3);
-  }
-  @media (max-width: 56rem) { .hero-stats { gap: 1.4rem 2rem; } }
-
   /* --- BANDA DE DETECCION: pieza contenida y cinematografica (no full-bleed) --- */
   .detband { padding: 3.2rem 2rem 0.5rem; }
   .detband-inner { max-width: 74rem; margin: 0 auto; }
