@@ -1755,6 +1755,16 @@
     .nav .links a.nav-cta { padding: 0.3rem 0.6rem; font-size: 0.62rem; }
   }
 
+  /* Telefonos (<=34rem / ~544px): la marca "LUIS SAN MARTIN" reservaba ~130px
+     y, con el nav en nowrap, empujaba el toggle de idioma (EN) FUERA de la
+     pantalla — en celular no se podia cambiar a ingles, y ~23% del trafico
+     viene de afuera. En el telefono el nombre ya esta gigante en el hero, asi
+     que la marca de la barra sobra: se oculta y los enlaces van a la derecha. */
+  @media (max-width: 34rem) {
+    .nav { justify-content: flex-end; }
+    .nav .mark { display: none; }
+  }
+
   /* impreso: sin esto sale texto casi blanco sobre papel blanco,
      porque el navegador desactiva los fondos pero no el color del texto */
   @media print {
@@ -2037,6 +2047,7 @@
     background: transparent; color: var(--fg-2); cursor: pointer;
     border: 1px solid var(--line-2); border-radius: 6px;
     padding: 0.3rem 0.55rem; text-transform: uppercase;
+    display: inline-flex; align-items: center; min-height: 40px;
     transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
   }
   .lang-btn:hover { color: var(--fg); border-color: var(--v); background: rgba(172, 95, 219, 0.12); }
