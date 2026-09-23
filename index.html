@@ -3738,8 +3738,8 @@ fps = <span class="num">1000</span> / latency_ms
         </div>
         <figcaption>
           Segunda estación, junio 2025. Cada paquete lleva su identificador —<b>ID 276, 277, 280 y
-          281</b>— que el sistema le mantiene mientras cruza el cuadro. Eso es lo que impide contar
-          dos veces el mismo bulto cuando la cinta se frena o el operario mete la mano.
+          281</b>— que el sistema le mantiene mientras cruza el cuadro. Eso evita contar
+          dos veces el mismo paquete cuando la cinta se detiene o el operario interviene la línea.
         </figcaption>
       </figure>
 
@@ -3792,7 +3792,7 @@ fps = <span class="num">1000</span> / latency_ms
       <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
       <div class="movement">
-        <h3>Un operario contando a ojo, 13.000 kg al día</h3>
+        <h3>Conteo manual sobre 13.000 kg diarios</h3>
         <div class="body">
           <p>
             St. Andrews necesitaba saber cuántos paquetes de cada formato salían de sus estaciones de
@@ -3816,7 +3816,7 @@ fps = <span class="num">1000</span> / latency_ms
       </div>
 
       <div class="movement">
-        <h3>Una temporada completa sin que nadie anotara nada</h3>
+        <h3>Temporada completa en producción sin intervención manual</h3>
         <div class="body">
           <p>
             Las 3 estaciones operaron en producción toda la temporada, sin intervención manual.
@@ -3878,7 +3878,7 @@ fps = <span class="num">1000</span> / latency_ms
       <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
       <div class="movement">
-        <h3>45 minutos bajo lupa por cada muestra</h3>
+        <h3>Conteo manual bajo lupa: 45 minutos por muestra</h3>
         <div class="body">
           <p>
             Contar las larvas de una muestra bajo lupa tomaba <b>45 minutos</b>. De ese número dependen
@@ -3900,7 +3900,7 @@ fps = <span class="num">1000</span> / latency_ms
       </div>
 
       <div class="movement">
-        <h3>Unos 3 segundos, 85% de acierto, nunca se desplegó</h3>
+        <h3>Prueba de concepto: ~3 segundos, 85% de acierto</h3>
         <div class="body">
           <p>
             <b>Prueba de concepto validada.</b> Quedó demostrado que el conteo se puede automatizar
@@ -3961,7 +3961,7 @@ fps = <span class="num">1000</span> / latency_ms
           <span class="que">del tamaño de una moneda</span></div>
         <div class="det-box" data-mira="XIAO ESP32-S3 Sense">
           <span class="det-label">XIAO ESP32-S3 Sense + OV2640</span>
-          <img src="assets/media/saferide-camara.webp" alt="La cámara embebida sostenida en la mano, con el registro del sistema corriendo detrás en el monitor" width="1200" height="900" loading="lazy" decoding="async">
+          <img src="assets/media/saferide-camara.webp" alt="La cámara embebida conectada por su cable, con el registro del sistema corriendo detrás en el monitor" width="870" height="652" loading="lazy" decoding="async">
         </div>
         <figcaption>
           Esa es toda la cámara: <b>captura</b> y manda el video. Detrás, el registro del sistema
@@ -3976,7 +3976,7 @@ fps = <span class="num">1000</span> / latency_ms
       <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
       <div class="movement">
-        <h3>Tres clases, no dos</h3>
+        <h3>Tres clases: scooter, con casco, sin casco</h3>
         <div class="body">
           <p>
             El modelo distingue <b>scooter</b>, <b>casco</b> y <b>sin casco</b>. Separar el vehículo
@@ -3997,25 +3997,25 @@ fps = <span class="num">1000</span> / latency_ms
       </div>
 
       <div class="movement">
-        <h3>La clase que peor anda es la que más importa</h3>
+        <h3>Rendimiento por clase</h3>
         <div class="body">
           <p>
-            En la matriz de confusión, <b>scooter</b> acierta 0,99 y <b>casco</b> 0,86, pero
-            <b>sin casco</b> se queda en 0,65: se confunde con el fondo. Es justo la clase que
-            justifica el sistema, así que el trabajo pendiente no es subir el promedio sino esa
-            clase, con más ejemplos reales de cabezas descubiertas en movimiento.
+            En la matriz de confusión, <b>scooter</b> acierta 0,99 y <b>casco</b> 0,86, mientras que
+            <b>sin casco</b> se queda en 0,65: se confunde con el fondo. Es la clase central para el
+            objetivo del sistema, así que el trabajo pendiente se concentra en ella, con más ejemplos
+            reales de cabezas descubiertas en movimiento.
           </p>
         </div>
       </div>
 
       <div class="movement">
-        <h3>Entrenado en la nube, corriendo en el borde</h3>
+        <h3>Entrenamiento en la nube, inferencia en GPU local</h3>
         <div class="body">
           <p>
             El entrenamiento se hizo en la nube y la inferencia corre <b>en una GPU local</b> sobre el
-            video que entrega la placa. La placa es barata y va montada en el scooter; el cómputo
-            queda en tierra. Es el mismo criterio de los otros casos: <b>el modelo termina donde está
-            el problema</b>, no en un servidor remoto.
+            video que entrega la placa. La placa es de bajo costo y va montada en el scooter; el
+            cómputo queda en tierra. Igual que en los otros casos, la inferencia corre en un equipo
+            local y no depende de un servidor remoto.
           </p>
         </div>
       </div>
@@ -4093,7 +4093,7 @@ fps = <span class="num">1000</span> / latency_ms
       <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
       <div class="movement">
-        <h3>Contar por cruce, no por presencia</h3>
+        <h3>Conteo por cruce de línea</h3>
         <div class="body">
           <p>
             Sobre cada escena va dibujada <b>su propia línea</b>, calibrada a mano sobre la imagen
@@ -4105,7 +4105,7 @@ fps = <span class="num">1000</span> / latency_ms
       </div>
 
       <div class="movement">
-        <h3>El sub-stream, no el de máxima calidad</h3>
+        <h3>Sobre el sub-stream de cada cámara</h3>
         <div class="body">
           <p>
             El sistema toma el <b>sub-stream H.264</b> de cada cámara en vez del principal en H.265
@@ -4117,7 +4117,7 @@ fps = <span class="num">1000</span> / latency_ms
       </div>
 
       <div class="movement">
-        <h3>Un seguidor por cámara, no uno solo para todas</h3>
+        <h3>Seguimiento independiente por cámara</h3>
         <div class="body">
           <p>
             Cada canal tiene su propio seguimiento multiobjeto, con una <b>tolerancia de 45 cuadros</b>
@@ -4139,14 +4139,14 @@ fps = <span class="num">1000</span> / latency_ms
       </div>
 
       <div class="movement">
-        <h3>Pensado para quedarse prendido</h3>
+        <h3>Diseñado para operación continua</h3>
         <div class="body">
           <p>
             En cada ciclo se descartan las etiquetas de las personas que ya salieron de escena: sin
             eso la memoria crece indefinidamente y el sistema se cae a los días. Aparte, un hilo
             liviano consulta el grabador cada 30 segundos para marcar cámaras caídas <b>sin frenar
-            el video</b>. La diferencia entre una demo y algo que queda corriendo está en esos dos
-            detalles, no en el modelo.
+            el video</b>. Esos dos detalles —limpieza de memoria y monitoreo del grabador— son los que
+            sostienen la operación continua.
           </p>
         </div>
       </div>
@@ -4226,7 +4226,7 @@ fps = <span class="num">1000</span> / latency_ms
       <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
       <div class="movement">
-        <h3>Los datos existían pero no salían del mesón</h3>
+        <h3>Los datos no salían del punto de venta local</h3>
         <div class="body">
           <p>
             La distribuidora operaba sobre un punto de venta cerrado, con base de datos local y <b>sin
@@ -4238,7 +4238,7 @@ fps = <span class="num">1000</span> / latency_ms
       </div>
 
       <div class="movement">
-        <h3>Sincronizar el punto de venta y leerle el SII</h3>
+        <h3>Sincronizar el punto de venta y leer el SII</h3>
         <div class="body">
           <p>
             Mapeé el esquema del punto de venta y construí la sincronización hacia PostgreSQL en la
@@ -4256,7 +4256,7 @@ fps = <span class="num">1000</span> / latency_ms
       </div>
 
       <div class="movement">
-        <h3>283 alertas emitidas, cero datos corregidos</h3>
+        <h3>Reportería y operación en producción</h3>
         <div class="body">
           <p>
             Dashboard en tiempo real, informe mensual y Excel de gastos categorizado, generados sin
@@ -4302,7 +4302,7 @@ fps = <span class="num">1000</span> / latency_ms
           <span class="det-label" data-en="Access screen · the app's own identity">Pantalla de acceso · identidad propia de la app</span>
           <img src="assets/media/letsfit-login.webp" alt="Pantalla de acceso de LetsFit con su identidad de marca propia" width="1600" height="1005" loading="lazy" decoding="async">
         </div>
-        <figcaption data-en="The app's own visual identity — not a generic template.">Identidad visual propia de la app, no una plantilla genérica.</figcaption>
+        <figcaption data-en="The app's own visual identity.">Identidad visual propia de la app.</figcaption>
       </figure>
 
       <figure>
@@ -4333,7 +4333,7 @@ fps = <span class="num">1000</span> / latency_ms
       <summary><span class="et" data-en="How it was built">Cómo se hizo</span><span class="mas"></span></summary>
       <div class="movements">
       <div class="movement">
-        <h3>170 alumnos encerrados en un sistema arrendado</h3>
+        <h3>170 alumnos en una plataforma de terceros, sin acceso a la base</h3>
         <div class="body">
           <p>
             El centro operaba sobre una plataforma comercial de pago mensual que no daba acceso a su
@@ -4345,7 +4345,7 @@ fps = <span class="num">1000</span> / latency_ms
       </div>
 
       <div class="movement">
-        <h3>Sacar la base por scraping y reemplazar la plataforma</h3>
+        <h3>Migrar la base por scraping y reemplazar la plataforma</h3>
         <div class="body">
           <p>
             Extraje la base completa por <b>web scraping</b>, la normalicé y trasladé clientes e
@@ -4361,7 +4361,7 @@ fps = <span class="num">1000</span> / latency_ms
       </div>
 
       <div class="movement">
-        <h3>14 profesionales liquidados solos, sin licencia mensual</h3>
+        <h3>Liquidación automática de 14 profesionales, sin licencia mensual</h3>
         <div class="body">
           <p>
             Sistema propio sin licencia mensual a terceros, con la liquidación de
