@@ -1511,6 +1511,11 @@
     min-height: 44px;
   }
   .end .links a:hover { color: var(--fg); }
+  .end .links a .link-ico {
+    width: 1rem; height: 1rem; margin-right: 0.5rem; flex: none;
+    color: var(--fg-3); transition: color 0.2s ease;
+  }
+  .end .links a:hover .link-ico { color: var(--fg); }
 
   .end .avail {
     font-family: var(--mono);
@@ -4510,7 +4515,7 @@ fps = <span class="num">1000</span> / latency_ms
   <section class="gh" id="actividad" aria-label="Actividad en GitHub">
     <div class="gh-inner">
       <div class="gh-head">
-        <span class="section-label" data-en="Activity">Actividad</span>
+        <span class="gh-title"><svg class="gh-logo" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-gh"/></svg><span class="section-label" data-en="Activity">Actividad</span></span>
         <span class="gh-sub" data-en="commits on GitHub, last 12 months">commits en GitHub, últimos 12 meses</span>
       </div>
       <div class="gh-card" id="gh-card">
@@ -4654,12 +4659,12 @@ fps = <span class="num">1000</span> / latency_ms
       </a>
     </div>
     <div class="links">
-      <a href="mailto:sanmaglass@gmail.com">sanmaglass@gmail.com</a>
-      <a href="https://wa.me/56975878696" target="_blank" rel="noopener">WhatsApp +56 9 7587 8696</a>
-      <a href="https://www.linkedin.com/in/sanmartinluis/" target="_blank" rel="noopener">linkedin.com/in/sanmartinluis</a>
-      <a href="https://github.com/sanmaglass" target="_blank" rel="noopener">github.com/sanmaglass</a>
-      <a href="CV-Luis-San-Martin.pdf" download data-en="Download CV (PDF)">Descargar CV (PDF)</a>
-      <a href="CV-Luis-San-Martin-EN.pdf" download>Download CV (English)</a>
+      <a href="mailto:sanmaglass@gmail.com"><svg class="link-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mail"/></svg>sanmaglass@gmail.com</a>
+      <a href="https://wa.me/56975878696" target="_blank" rel="noopener"><svg class="link-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp +56 9 7587 8696</a>
+      <a href="https://www.linkedin.com/in/sanmartinluis/" target="_blank" rel="noopener"><svg class="link-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-in"/></svg>linkedin.com/in/sanmartinluis</a>
+      <a href="https://github.com/sanmaglass" target="_blank" rel="noopener"><svg class="link-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-gh"/></svg>github.com/sanmaglass</a>
+      <a href="CV-Luis-San-Martin.pdf" download><svg class="link-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-down"/></svg><span data-en="Download CV (PDF)">Descargar CV (PDF)</span></a>
+      <a href="CV-Luis-San-Martin-EN.pdf" download><svg class="link-ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-down"/></svg>Download CV (English)</a>
     </div>
   </footer>
 
@@ -6205,6 +6210,10 @@ fps = <span class="num">1000</span> / latency_ms
   .gh { padding: 3.2rem 2rem 1rem; }
   .gh-inner { max-width: 74rem; margin: 0 auto; }
   .gh-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+  .gh-title { display: inline-flex; align-items: center; gap: 0.55rem; }
+  .gh-title .section-label { margin-bottom: 0; }
+  .gh-title .section-label::before { display: none; }
+  .gh-logo { width: 1.4rem; height: 1.4rem; color: var(--fg-2); flex: none; }
   .gh-head .gh-sub { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.05em; color: var(--fg-3); }
   .gh-head a { color: #ac5fdb; text-decoration: none; font-family: var(--mono); font-size: 0.8rem; }
   .gh-head a:hover { text-decoration: underline; }
