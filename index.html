@@ -3373,25 +3373,24 @@ model.<span class="fn">export</span>(format=<span class="str">"onnx"</span>, img
     <pre class="fondo-code active"><span class="kw">for</span> frame <span class="kw">in</span> stream:
     dets = model.<span class="fn">track</span>(frame, persist=<span class="kw">True</span>)
     <span class="kw">for</span> box <span class="kw">in</span> dets[<span class="num">0</span>].boxes:
-        cls  = <span class="fn">int</span>(box.cls)
-        conf = <span class="fn">float</span>(box.conf)
-        x1,y1,x2,y2 = box.xyxy[<span class="num">0</span>]
-        <span class="kw">if</span> conf > <span class="num">0.5</span>:
-            count[cls] += <span class="num">1</span>
-            <span class="fn">draw</span>(x1,y1,x2,y2, LABELS[cls])</pre>
-    <pre class="fondo-code"><span class="cmt"># ESP32-S3 + ONNX Runtime (edge)</span>
-<span class="kw">import</span> onnxruntime <span class="kw">as</span> ort
+        tid = <span class="fn">int</span>(box.id)          <span class="cmt"># ID del tracker</span>
+        cls = <span class="fn">int</span>(box.cls)
+        <span class="kw">if</span> tid <span class="kw">not in</span> seen[cls]:   <span class="cmt"># una vez por objeto</span>
+            seen[cls].<span class="fn">add</span>(tid)
+            count[cls] = <span class="fn">len</span>(seen[cls])
+        <span class="fn">draw</span>(box.xyxy[<span class="num">0</span>], LABELS[cls])</pre>
+    <pre class="fondo-code"><span class="cmt"># ESP32-S3 captura · inferencia en GPU local</span>
+<span class="kw">import</span> torch
+<span class="kw">from</span> ultralytics <span class="kw">import</span> <span class="cls">YOLO</span>
 
-sess = ort.<span class="fn">InferenceSession</span>(<span class="str">"yolov8n.onnx"</span>, providers=[<span class="str">"CPUExecutionProvider"</span>])
+model = <span class="cls">YOLO</span>(<span class="str">"best.pt"</span>).<span class="fn">to</span>(<span class="str">"cuda"</span>)
 
-<span class="kw">def</span> <span class="fn">infer</span>(frame):
-    inp = preprocess(frame, size=<span class="num">320</span>)
-    out = sess.<span class="fn">run</span>(<span class="kw">None</span>, {<span class="str">"images"</span>: inp})
-    boxes = decode(out, conf_thres=<span class="num">0.45</span>)
-    <span class="kw">return</span> nms(boxes, iou_thres=<span class="num">0.5</span>)
+<span class="kw">def</span> <span class="fn">infer</span>(frame):            <span class="cmt"># el ESP32-S3 solo captura</span>
+    r = <span class="fn">model</span>(frame, conf=<span class="num">0.45</span>, iou=<span class="num">0.5</span>)
+    <span class="kw">return</span> r[<span class="num">0</span>].boxes
 
 fps = <span class="num">1000</span> / latency_ms
-<span class="fn">print</span>(<span class="str">f"edge fps: {fps:.1f}"</span>)</pre>
+<span class="fn">print</span>(<span class="str">f"fps: {fps:.1f}"</span>)</pre>
     <pre class="fondo-code">best_map = <span class="num">0.0</span>
 <span class="kw">for</span> epoch <span class="kw">in</span> <span class="fn">range</span>(epochs):
     train_one_epoch(model, loader_train)
@@ -3900,12 +3899,12 @@ fps = <span class="num">1000</span> / latency_ms
       </div>
 
       <div class="movement">
-        <h3>Prueba de concepto: ~3 segundos, 85% de acierto</h3>
+        <h3>Prueba de concepto: ~3 segundos por muestra</h3>
         <div class="body">
           <p>
             <b>Prueba de concepto validada.</b> Quedó demostrado que el conteo se puede automatizar
-            —696 individuos en unos 3 segundos con 85% de acierto— pero no llegó a desplegarse como
-            sistema de operación diaria, a diferencia del caso anterior.
+            —696 individuos en unos 3 segundos, contra los 45 minutos del conteo manual— pero no
+            llegó a desplegarse como sistema de operación diaria, a diferencia del caso anterior.
           </p>
         </div>
       </div>
@@ -4147,6 +4146,19 @@ fps = <span class="num">1000</span> / latency_ms
             liviano consulta el grabador cada 30 segundos para marcar cámaras caídas <b>sin frenar
             el video</b>. Esos dos detalles —limpieza de memoria y monitoreo del grabador— son los que
             sostienen la operación continua.
+          </p>
+        </div>
+      </div>
+
+      <div class="movement">
+        <h3>Una segunda versión sobre GPU</h3>
+        <div class="body">
+          <p>
+            De ese mismo motor armé una variante acelerada en <b>GPU con DeepStream</b>
+            (pyservicemaker): decodificación en <b>NVDEC</b>, YOLO batcheado sobre <b>TensorRT</b>
+            y seguimiento con <b>nvtracker</b>, para sostener las cinco cámaras en paralelo sin
+            saturar la CPU. El sistema en operación corre sobre la versión en OpenCV; esta es la
+            ruta para escalar a más canales.
           </p>
         </div>
       </div>
