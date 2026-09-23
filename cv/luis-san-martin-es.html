@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CV — Luis San Martín</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --sub:#333; --meta:#777; --rule:#111; --hair:#d8d8d8; --stack:#666;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:Georgia,"Times New Roman",serif;
+    color:var(--ink);
+    font-size:11px;
+    line-height:1.46;
+    background:#fff;
+  }
+  .page{
+    width:210mm;
+    min-height:297mm;
+    padding:16mm 18mm;
+    margin:0 auto;
+    background:#fff;
+  }
+
+  /* ---- Header ---- */
+  .name{font-size:30px;font-weight:700;letter-spacing:.2px;margin:0 0 2px;}
+  .role{font-style:italic;color:var(--sub);font-size:12.5px;margin:0 0 8px;}
+  .contact{font-size:10px;color:#444;line-height:1.6;}
+  .contact a{color:#444;text-decoration:none;}
+  .sep{color:#bbb;padding:0 6px;}
+  .head-rule{border:0;border-top:2px solid var(--rule);margin:8px 0 0;}
+
+  /* ---- Sections ---- */
+  .sec-label{
+    font-size:9.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;
+    color:#333;margin:16px 0 0;
+  }
+  .sec-hair{border:0;border-top:1px solid var(--hair);margin:5px 0 9px;}
+
+  /* ---- Entries ---- */
+  .entry{margin-bottom:12px;page-break-inside:avoid;}
+  .entry-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:3px;}
+  .entry-title{font-size:12.5px;font-weight:700;line-height:1.3;}
+  .entry-title em{font-style:italic;font-weight:400;}
+  .entry-meta{font-size:9.5px;color:var(--meta);white-space:nowrap;text-align:right;flex:0 0 auto;}
+  ul.bul{list-style:none;margin:2px 0 0;padding:0;}
+  ul.bul li{position:relative;padding-left:15px;margin:0 0 3px;}
+  ul.bul li::before{content:"—";position:absolute;left:0;color:#555;}
+  .stack{font-size:9.5px;color:var(--stack);margin-top:4px;padding-left:0;}
+  .stack b{color:#444;}
+  b{font-weight:700;}
+
+  /* ---- Skills / label rows ---- */
+  .skills{display:grid;grid-template-columns:150px 1fr;gap:7px 14px;margin-top:2px;}
+  .sk-k{font-weight:700;font-size:11px;}
+  .sk-v{font-size:10.5px;color:#333;}
+
+  .edu-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+  .edu-title{font-size:12.5px;font-weight:700;}
+  .edu-title em{font-style:italic;font-weight:400;}
+  .edu-meta{font-size:9.5px;color:var(--meta);text-align:right;}
+  .minirow{display:grid;grid-template-columns:150px 1fr;gap:5px 14px;margin-top:7px;}
+  .minirow .sk-k{font-size:11px;}
+
+  .footnote{font-size:9px;color:#888;margin-top:18px;line-height:1.5;}
+  .footnote b{color:#666;}
+
+  @page{size:A4;margin:0;}
+  @media print{
+    body{font-size:11px;}
+    .page{width:auto;min-height:auto;padding:15mm 18mm;margin:0;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <h1 class="name">Luis San Martín</h1>
+  <div class="role">Ingeniero de Visión Computacional · Desarrollador de Software</div>
+  <div class="contact">
+    Concepción, Chile <span class="sep">|</span> +56 9 7587 8696 <span class="sep">|</span> sanmaglass@gmail.com<br>
+    <a href="https://sanmaglass.github.io">sanmaglass.github.io</a> <span class="sep">|</span>
+    <a href="https://linkedin.com/in/sanmartinluis">linkedin.com/in/sanmartinluis</a> <span class="sep">|</span>
+    <a href="https://github.com/sanmaglass">github.com/sanmaglass</a>
+  </div>
+  <hr class="head-rule">
+
+  <!-- PERFIL -->
+  <div class="sec-label">Perfil</div>
+  <hr class="sec-hair">
+  <p style="margin:0;">
+    Entreno y despliego <b>modelos de visión computacional</b> sobre cámaras en operación real, y construyo
+    los sistemas de datos y los <b>agentes</b> que reportan sin intervención. Más de tres años con software
+    en producción, trabajando directo con el dueño de cada operación.
+  </p>
+
+  <!-- EXPERIENCIA -->
+  <div class="sec-label">Experiencia</div>
+  <hr class="sec-hair">
+
+  <div class="entry">
+    <div class="entry-head">
+      <div class="entry-title">Desarrollador de Software — <em>Distribuidora El Maravilloso</em></div>
+      <div class="entry-meta">Nov 2025 – Presente · Concepción</div>
+    </div>
+    <ul class="bul">
+      <li>Integré el punto de venta —Firebird, <b>sin API</b>— con PostgreSQL en la nube: hoy <b>11.900 ventas y 40.000 líneas de producto</b> consolidadas, ≈78 diarias.</li>
+      <li><b>ETL desatendido</b> que extrae los documentos tributarios desde el portal del SII y calcula los indicadores mensuales de impuestos: <b>305 facturas de compra</b> importadas y clasificadas sobre 87 proveedores.</li>
+      <li><b>Control de calidad de datos:</b> cruce de tres fuentes —documentos tributarios, pagos electrónicos y ventas del punto de venta— para detectar ingresos duplicados y descuadres de caja: <b>283 alertas</b> emitidas sin alterar las cifras del cliente.</li>
+      <li><b>Agentes en operación</b> sobre WhatsApp y Telegram: cierre de ventas, indicadores tributarios y alertas por umbral, con un <b>clasificador de intención propio</b> que evita depender de una API externa.</li>
+      <li>Reportería en tiempo real e informe ejecutivo mensual. Diagnostiqué y corregí <b>incidentes de integridad en producción</b> —pérdida de registros, desfase de relojes— recuperando los datos.</li>
+    </ul>
+    <div class="stack"><b>Stack:</b> Python · SQL · PostgreSQL · Firebird · JavaScript · Linux · procesos programados · Langfuse / OpenTelemetry sobre las rutas de IA</div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head">
+      <div class="entry-title">Desarrollador de Software — <em>LetsFit Company</em> · proyecto independiente</div>
+      <div class="entry-meta">Feb 2023 – Presente · Remoto</div>
+    </div>
+    <ul class="bul">
+      <li>Migré la operación desde su plataforma comercial —<b>~170 alumnos activos</b>—: extraje la base completa por <b>web scraping</b> y trasladé clientes e historial sin pérdida.</li>
+      <li>Diseñé el esquema en <b>PostgreSQL</b>: multi-sede con control de acceso por fila y migraciones versionadas, para <b>2 sedes</b>.</li>
+      <li>Construí el panel de administración y su reportería: asistencia, ocupación por sede y horario, ingresos y liquidación de comisiones de <b>14 profesionales</b> sobre una agenda de 768 sesiones.</li>
+    </ul>
+    <div class="stack"><b>Stack:</b> PostgreSQL · SQL · Python · TypeScript</div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head">
+      <div class="entry-title">Ingeniero de Visión Computacional — <em>St. Andrews · Mussels Chiloé</em></div>
+      <div class="entry-meta">Jun 2024 – Jul 2025 · Chiloé</div>
+    </div>
+    <ul class="bul">
+      <li>Sistema multicámara de <b>detección, clasificación y conteo</b> en 3 estaciones de empaque sobre una línea de <b>13.000 kg diarios</b>, en el mayor productor de mejillones del mundo.</li>
+      <li><b>Seguimiento multiobjeto (SORT)</b> para mantener el identificador de cada paquete entre cuadros y evitar el doble conteo cuando la cinta se detiene o el operario interviene.</li>
+      <li>Modelo de <b>conteo de larvas</b> que bajó el análisis manual de <b>45 minutos a segundos</b>: 696 individuos en 2,93 s, entrenado sobre un <b>dataset propio etiquetado en la planta</b>.</li>
+      <li>Robusto ante iluminación cambiante y superficies mojadas. <b>Operó una temporada completa sin intervención manual</b>, con la inferencia en los equipos de la planta.</li>
+    </ul>
+    <div class="stack"><b>Stack:</b> Python · PyTorch · YOLOv8 · OpenCV · SORT · RTSP sobre cámaras IP</div>
+  </div>
+
+  <!-- PROYECTOS CV/IA -->
+  <div class="sec-label">Proyectos de Visión Computacional e IA</div>
+  <hr class="sec-hair">
+
+  <div class="entry">
+    <div class="entry-head">
+      <div class="entry-title">Detección de casco sobre cámara embebida — <em>Exwood · movilidad eléctrica</em></div>
+      <div class="entry-meta">2026</div>
+    </div>
+    <ul class="bul">
+      <li><b>Fine-tuning</b> de YOLOv8 a 3 clases (scooter, con casco, sin casco) sobre <b>12.321 imágenes</b> y 80 épocas: <b>mAP@50 de 85,5%</b>, precisión 85,0% y recall 80,9%.</li>
+      <li>Captura sobre una <b>cámara embebida XIAO ESP32-S3 Sense</b> —no una de circuito cerrado— con la <b>inferencia en GPU local</b> a 9,6 cuadros por segundo: la restricción era que el hardware fuera montable en el scooter.</li>
+    </ul>
+    <div class="stack"><b>Stack:</b> PyTorch · YOLOv8 · OpenCV · Python · ESP32-S3</div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head">
+      <div class="entry-title">Analítica de flujo de personas en retail — <em>con cliente, en producción</em></div>
+      <div class="entry-meta">Feb 2026 – Presente</div>
+    </div>
+    <ul class="bul">
+      <li>Conteo de entrada y salida sobre las cámaras de circuito cerrado que el local ya tenía, mapas de calor de tráfico acumulado y alertas por cruce de línea configurable, sin hardware adicional.</li>
+      <li>Además, una variante del motor acelerada en <b>GPU con DeepStream</b> (pyservicemaker): decodificación NVDEC, YOLO batcheado en <b>TensorRT</b> y nvtracker, para escalar a varias cámaras en paralelo.</li>
+    </ul>
+    <div class="stack"><b>Stack:</b> Python · YOLOv8 · OpenCV · DeepStream · TensorRT</div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head">
+      <div class="entry-title">Detección de elementos de protección personal (EPP) — <em>proyecto de título</em></div>
+      <div class="entry-meta">2026 – en curso</div>
+    </div>
+    <ul class="bul">
+      <li>Detección de casco, chaleco y demás EPP en faena industrial. El aporte central es el <b>dataset propio, etiquetado en faena real</b>, no bancos públicos que no representan las condiciones de trabajo.</li>
+    </ul>
+    <div class="stack"><b>Stack:</b> PyTorch · YOLOv8</div>
+  </div>
+
+  <!-- HABILIDADES -->
+  <div class="sec-label">Habilidades Técnicas</div>
+  <hr class="sec-hair">
+  <div class="skills">
+    <div class="sk-k">Visión computacional</div>
+    <div class="sk-v">PyTorch · YOLOv8 · OpenCV · detección y clasificación de objetos · seguimiento multiobjeto (SORT) · fine-tuning · datasets propios etiquetados en terreno · inferencia en tiempo real</div>
+
+    <div class="sk-k">Entrenamiento y despliegue</div>
+    <div class="sk-v">Entrenamiento en la nube (Colab) · inferencia on-premise sobre GPU del cliente (DeepStream · TensorRT · NVDEC) · borde (ESP32-S3) · RTSP · evaluación por mAP y recall</div>
+
+    <div class="sk-k">Agentes e IA generativa</div>
+    <div class="sk-v">Agentes conversacionales en WhatsApp y Telegram · APIs de LLM (Groq, Anthropic) · clasificación de intención · clasificador propio de n-gramas sin API · observabilidad con Langfuse y OpenTelemetry</div>
+
+    <div class="sk-k">Lenguajes</div>
+    <div class="sk-v">Python · SQL · TypeScript / JavaScript · C++ (firmware ESP32)</div>
+
+    <div class="sk-k">Datos y reportería</div>
+    <div class="sk-v">PostgreSQL (modelado, migraciones versionadas, acceso por fila) · Firebird · SQLite · ETL sin API · web scraping · dashboards · alertas por umbral</div>
+
+    <div class="sk-k">Infraestructura</div>
+    <div class="sk-v">Linux · Docker · Git · GitHub Actions · servidores en la nube · procesos programados y monitoreo</div>
+  </div>
+
+  <!-- FORMACION -->
+  <div class="sec-label">Formación</div>
+  <hr class="sec-hair">
+  <div class="edu-head">
+    <div class="edu-title">Ingeniería Civil en Automatización — <em>Universidad del Bío-Bío</em></div>
+    <div class="edu-meta">Egresado 2024 · Titulación 2026</div>
+  </div>
+  <div class="minirow">
+    <div class="sk-k">Idiomas</div><div class="sk-v">Español (nativo) · Inglés (lectura técnica)</div>
+    <div class="sk-k">Disponibilidad</div><div class="sk-v">Inmediata · Gran Concepción, remoto o híbrido</div>
+  </div>
+
+  <div class="footnote">
+    Casos con imágenes y métricas en <b>sanmaglass.github.io</b>. Los repositorios son privados por tratarse
+    de código en operación de clientes; disponibles a revisión bajo acuerdo.
+  </div>
+
+</div>
+</body>
+</html>

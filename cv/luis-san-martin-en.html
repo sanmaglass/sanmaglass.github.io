@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CV — Luis San Martin</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --sub:#333; --meta:#777; --rule:#111; --hair:#d8d8d8; --stack:#666;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:Georgia,"Times New Roman",serif;
+    color:var(--ink);
+    font-size:11px;
+    line-height:1.46;
+    background:#fff;
+  }
+  .page{
+    width:210mm;
+    min-height:297mm;
+    padding:16mm 18mm;
+    margin:0 auto;
+    background:#fff;
+  }
+  .name{font-size:30px;font-weight:700;letter-spacing:.2px;margin:0 0 2px;}
+  .role{font-style:italic;color:var(--sub);font-size:12.5px;margin:0 0 8px;}
+  .contact{font-size:10px;color:#444;line-height:1.6;}
+  .contact a{color:#444;text-decoration:none;}
+  .sep{color:#bbb;padding:0 6px;}
+  .head-rule{border:0;border-top:2px solid var(--rule);margin:8px 0 0;}
+  .sec-label{font-size:9.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#333;margin:16px 0 0;}
+  .sec-hair{border:0;border-top:1px solid var(--hair);margin:5px 0 9px;}
+  .entry{margin-bottom:12px;page-break-inside:avoid;}
+  .entry-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:3px;}
+  .entry-title{font-size:12.5px;font-weight:700;line-height:1.3;}
+  .entry-title em{font-style:italic;font-weight:400;}
+  .entry-meta{font-size:9.5px;color:var(--meta);white-space:nowrap;text-align:right;flex:0 0 auto;}
+  ul.bul{list-style:none;margin:2px 0 0;padding:0;}
+  ul.bul li{position:relative;padding-left:15px;margin:0 0 3px;}
+  ul.bul li::before{content:"—";position:absolute;left:0;color:#555;}
+  .stack{font-size:9.5px;color:var(--stack);margin-top:4px;}
+  .stack b{color:#444;}
+  b{font-weight:700;}
+  .skills{display:grid;grid-template-columns:150px 1fr;gap:7px 14px;margin-top:2px;}
+  .sk-k{font-weight:700;font-size:11px;}
+  .sk-v{font-size:10.5px;color:#333;}
+  .edu-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+  .edu-title{font-size:12.5px;font-weight:700;}
+  .edu-title em{font-style:italic;font-weight:400;}
+  .edu-meta{font-size:9.5px;color:var(--meta);text-align:right;}
+  .minirow{display:grid;grid-template-columns:150px 1fr;gap:5px 14px;margin-top:7px;}
+  .minirow .sk-k{font-size:11px;}
+  .footnote{font-size:9px;color:#888;margin-top:18px;line-height:1.5;}
+  .footnote b{color:#666;}
+  @page{size:A4;margin:0;}
+  @media print{
+    body{font-size:11px;}
+    .page{width:auto;min-height:auto;padding:15mm 18mm;margin:0;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1 class="name">Luis San Martin</h1>
+  <div class="role">Computer Vision Engineer · Software Developer</div>
+  <div class="contact">
+    Concepcion, Chile <span class="sep">|</span> +56 9 7587 8696 <span class="sep">|</span> sanmaglass@gmail.com<br>
+    <a href="https://sanmaglass.github.io">sanmaglass.github.io</a> <span class="sep">|</span>
+    <a href="https://linkedin.com/in/sanmartinluis">linkedin.com/in/sanmartinluis</a> <span class="sep">|</span>
+    <a href="https://github.com/sanmaglass">github.com/sanmaglass</a>
+  </div>
+  <hr class="head-rule">
+
+  <div class="sec-label">Profile</div>
+  <hr class="sec-hair">
+  <p style="margin:0;">
+    I train and deploy <b>computer vision models</b> on cameras in real operation, and build the data systems
+    and <b>agents</b> that report unattended. Over three years with software in production, working directly
+    with the owner of each operation.
+  </p>
+
+  <div class="sec-label">Experience</div>
+  <hr class="sec-hair">
+
+  <div class="entry">
+    <div class="entry-head">
+      <div class="entry-title">Software Developer — <em>Distribuidora El Maravilloso</em></div>
+      <div class="entry-meta">Nov 2025 – Present · Concepcion, Chile</div>
+    </div>
+    <ul class="bul">
+      <li>Integrated the point-of-sale system — Firebird, <b>no API</b> — into cloud PostgreSQL: today <b>11,900 sales and 40,000 product lines</b>, ~78 per day.</li>
+      <li><b>Unattended ETL</b> that pulls tax documents from the national tax authority portal and computes the monthly tax indicators: <b>305 purchase invoices</b> imported and classified across 87 suppliers.</li>
+      <li><b>Data quality control:</b> cross-checking three sources — tax documents, electronic payments and point-of-sale records — to detect duplicated income and till mismatches: <b>283 alerts</b> raised without altering the client's figures.</li>
+      <li><b>Agents in operation</b> over WhatsApp and Telegram: sales close, tax indicators and threshold alerts, with a <b>custom intent classifier</b> that avoids depending on an external API.</li>
+      <li>Real-time reporting and monthly executive report. Diagnosed and fixed <b>data integrity incidents in production</b> — record loss, clock drift — recovering the data.</li>
+    </ul>
+    <div class="stack"><b>Stack:</b> Python · SQL · PostgreSQL · Firebird · JavaScript · Linux · scheduled jobs · Langfuse / OpenTelemetry on the AI routes</div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head">
+      <div class="entry-title">Software Developer — <em>LetsFit Company</em> · independent engagement</div>
+      <div class="entry-meta">Feb 2023 – Present · Remote</div>
+    </div>
+    <ul class="bul">
+      <li>Migrated the business off their commercial platform — <b>~170 active members</b> —: extracted the full database by <b>web scraping</b> and moved clients and history with no loss.</li>
+      <li>Designed the <b>PostgreSQL</b> schema: multi-site with row-level security and versioned migrations, for <b>2 locations</b>.</li>
+      <li>Built the admin panel and its reporting: attendance, occupancy by site and time slot, revenue, and commission settlement for <b>14 professionals</b> across a 768-session schedule.</li>
+    </ul>
+    <div class="stack"><b>Stack:</b> PostgreSQL · SQL · Python · TypeScript</div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head">
+      <div class="entry-title">Computer Vision Engineer — <em>St. Andrews · Mussels Chiloé</em></div>
+      <div class="entry-meta">Jun 2024 – Jul 2025 · Chiloé, Chile</div>
+    </div>
+    <ul class="bul">
+      <li>Multi-camera <b>detection, classification and counting</b> system across 3 packing stations on a line handling <b>13,000 kg per day</b>, at the world's largest mussel producer.</li>
+      <li><b>Multi-object tracking (SORT)</b> to hold each package's identifier across frames and prevent double counting when the belt stops or an operator reaches in.</li>
+      <li><b>Larvae counting model</b> that cut manual analysis from <b>45 minutes to seconds</b>: 696 individuals in 2.93 s, trained on a <b>custom dataset annotated inside the plant</b>.</li>
+      <li>Robust to changing lighting and wet surfaces. <b>Ran a full season with no manual intervention</b>, with inference on the plant's own machines.</li>
+    </ul>
+    <div class="stack"><b>Stack:</b> Python · PyTorch · YOLOv8 · OpenCV · SORT · RTSP over IP cameras</div>
+  </div>
+
+  <div class="sec-label">Computer Vision &amp; AI Projects</div>
+  <hr class="sec-hair">
+
+  <div class="entry">
+    <div class="entry-head">
+      <div class="entry-title">Helmet detection on an embedded camera — <em>Exwood · electric mobility</em></div>
+      <div class="entry-meta">2026</div>
+    </div>
+    <ul class="bul">
+      <li><b>Fine-tuned</b> YOLOv8 to 3 classes (scooter, helmet, no-helmet) over <b>12,321 images</b> and 80 epochs: <b>mAP@50 of 85.5%</b>, precision 85.0% and recall 80.9%.</li>
+      <li>Capture on an <b>embedded XIAO ESP32-S3 Sense camera</b> —not a CCTV camera— with <b>inference on a local GPU</b> at 9.6 frames per second: the constraint was that the hardware had to be mountable on the scooter itself.</li>
+    </ul>
+    <div class="stack"><b>Stack:</b> PyTorch · YOLOv8 · OpenCV · Python · ESP32-S3</div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head">
+      <div class="entry-title">Retail footfall analytics — <em>with client, in production</em></div>
+      <div class="entry-meta">Feb 2026 – Present</div>
+    </div>
+    <ul class="bul">
+      <li>Entry and exit counting on the CCTV cameras the store already had, cumulative traffic heatmaps and configurable line-crossing alerts, with no additional hardware.</li>
+      <li>Also a GPU-accelerated variant of the engine on <b>DeepStream</b> (pyservicemaker): NVDEC decode, YOLO batched on <b>TensorRT</b> and nvtracker, to scale across several cameras in parallel.</li>
+    </ul>
+    <div class="stack"><b>Stack:</b> Python · YOLOv8 · OpenCV · DeepStream · TensorRT</div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head">
+      <div class="entry-title">Personal protective equipment (PPE) detection — <em>final-year project</em></div>
+      <div class="entry-meta">2026 – ongoing</div>
+    </div>
+    <ul class="bul">
+      <li>Detection of helmets, vests and other PPE on industrial sites. The core contribution is the <b>custom dataset annotated on a real work site</b>, rather than public banks that do not represent actual working conditions.</li>
+    </ul>
+    <div class="stack"><b>Stack:</b> PyTorch · YOLOv8</div>
+  </div>
+
+  <div class="sec-label">Technical Skills</div>
+  <hr class="sec-hair">
+  <div class="skills">
+    <div class="sk-k">Computer vision</div>
+    <div class="sk-v">PyTorch · YOLOv8 · OpenCV · object detection and classification · multi-object tracking (SORT) · fine-tuning · custom datasets annotated in the field · real-time inference</div>
+
+    <div class="sk-k">Training &amp; deployment</div>
+    <div class="sk-v">Cloud training (Colab) · on-premise inference on the client's GPU (DeepStream · TensorRT · NVDEC) · edge (ESP32-S3) · RTSP · evaluation by mAP, precision and recall</div>
+
+    <div class="sk-k">Agents &amp; generative AI</div>
+    <div class="sk-v">Conversational agents on WhatsApp and Telegram · LLM APIs (Groq, Anthropic) · intent classification · custom n-gram classifier with no API · LLM observability with Langfuse and OpenTelemetry</div>
+
+    <div class="sk-k">Languages</div>
+    <div class="sk-v">Python · SQL · TypeScript / JavaScript · C++ (ESP32 firmware)</div>
+
+    <div class="sk-k">Data &amp; reporting</div>
+    <div class="sk-v">PostgreSQL (modelling, versioned migrations, row-level security) · Firebird · SQLite · ETL with no API · web scraping · dashboards · threshold alerts</div>
+
+    <div class="sk-k">Infrastructure</div>
+    <div class="sk-v">Linux · Docker · Git · GitHub Actions · cloud servers · scheduled jobs and monitoring</div>
+  </div>
+
+  <div class="sec-label">Education</div>
+  <hr class="sec-hair">
+  <div class="edu-head">
+    <div class="edu-title">Automation Engineering — <em>Universidad del Bío-Bío</em></div>
+    <div class="edu-meta">Graduated 2024 · Degree completion 2026</div>
+  </div>
+  <div class="minirow">
+    <div class="sk-k">Languages</div><div class="sk-v">Spanish (native) · English (technical reading)</div>
+    <div class="sk-k">Availability</div><div class="sk-v">Immediate · Concepcion, Chile — remote or hybrid</div>
+  </div>
+
+  <div class="footnote">
+    Case studies with images and metrics at <b>sanmaglass.github.io</b>. Repositories are private as they hold
+    client production code; available for review under agreement.
+  </div>
+
+</div>
+</body>
+</html>
